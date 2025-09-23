@@ -1,0 +1,35 @@
+<?php
+
+{{nameSpace}};
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use View;
+use App\Traits\BaseTrait;
+//vpx_place
+class {{model}}GetController extends Controller
+{
+    use BaseTrait;
+    public function __construct()
+    {
+        $this->middleware(['auth:{{authName}}','HasSet{{$model}}Password','Has{{$model}}Auth']);
+    }
+
+    /**
+     * View login page
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function {{method}}(Request $request) : View
+    {   $data = [];
+        if(isset($_GET['pass_changed']) && $_GET['pass_changed']) {
+            $data = [
+                "success" => [ "Your password changed succesfully, please login to continue"]
+            ];
+        }
+        return view({{pageRoute}})->withErrors($data);
+    }
+
+    //vpx_attach
+}

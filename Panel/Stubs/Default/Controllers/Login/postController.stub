@@ -1,0 +1,46 @@
+<?php
+
+{{nameSpace}}
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Login\Validate{{model}};
+use App\Repositories\IBaseRepository;
+use App\Traits\BaseTrait;
+use Auth;
+use Illuminate\Http\JsonResponse;
+class {{model}}PostController extends Controller
+{
+    use BaseTrait;
+    public function __construct(private IBaseRepository $IBaseRepo)
+    {
+        $this->middleware(['guest:{{authName}}']);
+    }
+
+    /**
+     * {{model}} Login
+     *
+     * @param ValidateAdminLogin $request
+     * @return JsonResponse
+     */
+    public function post{{model}}Login(Validate{{model}} $request) : JsonResponse
+    {
+        $u = $request->get('u');
+        $attempt_to = $request->get('attempt_to');
+        if (empty($u)) {
+            return $this->response([ 'type' => "noUpdate", "title" => "User not found, try again"]);
+        }
+        $remember = false;
+        if(isset($request->remember) && $request->remember == "yes") {
+            $remember = true;
+        }
+        if (Auth::guard('globuser')->attempt([$attempt_to => $request->safe()->mobile_number, 'password' => $request->safe()->password], $remember)) {
+            $data['extraData'] = [
+                "inflate" => "Successfully logged in, redirecting shortly",
+                "redirect" => '{{name}}/dashboard'
+            ];
+            return $this->response(['type' => "success",'data'=> $data]);
+        } else {
+            return $this->response([ 'type' => "noUpdate", "title" => '<span class="text-danger fs-16">Incorrect username or password combination</span>']);
+        }
+    }
+}

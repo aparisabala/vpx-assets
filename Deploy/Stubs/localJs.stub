@@ -1,0 +1,4 @@
+local = true;
+domain="http://localhost";
+baseurl = domain+":8000/";
+{{socket}}
