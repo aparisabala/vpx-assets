@@ -1,4 +1,4 @@
-/*if($("#frm{{frmName}}Login").length > 0) {
+if($("#frm{{frmName}}Login").length > 0) {
     let rules = {
         email: {
             required: true,
@@ -20,4 +20,4 @@
         }
     });
     //vpx_attach
-}*/
+}

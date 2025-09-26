@@ -9,7 +9,7 @@
                         <img src="{{ config('i.logo') }}" style="width: 150px;">
                     </a>
                 </div>
-                <h4 class="mb-4 text-center fs-30  text-white">  User Login  </h4>
+                <h4 class="mb-4 text-center fs-30  text-white">  {{name}} Login  </h4>
                 @include('errors.fragments.error-view-bs5')
                 <form id="frm{{nameUp}}Login" class="mb-3" autocomplete="off" method="POST">
                     <div class="form-group text-left mb-3">

@@ -2,7 +2,9 @@
 <input type="hidden" id="digits" value="{{ json_encode(Lang::get('digits')) }}" />
 <input type="hidden" id="attributes" value="{{ json_encode(Lang::get('validation.attributes')) }}" />
 <input type="hidden" id="locale" value="{{ app()->getLocale() }}" />
-<input type="hidden" id="auth_uuid" value="{{ Auth::user()->uuid }}" />
+@if(Auth::check()) 
+    <input type="hidden" value="{{ Auth::user()->uuid }}" id="auth_uuid">
+@endif
 <div id="inflate" style="position: fixed;bottom: 50px;z-index: 500000;right: 10px;width: 300px;min-height: 0;background: transparent;">
 </div>
 <div  id="theGlobalLoader" class="theGlobalLoader">
@@ -34,28 +36,3 @@
     </div>
 </div>
 {!! $appScripts ?? '' !!}
-<script src="/../../lvtwelve/vpx-assets/Js/Lib/px-ajax/dist/px.js"></script>
-<script>
-    if($("#frmAdminLogin").length > 0) {
-        let rules = {
-            email: {
-                required: true,
-                email: true,
-            },
-            password:{
-                required: true,
-                minlength: 8,
-            },
-        };
-        PX.ajaxRequest({
-            element: "frmAdminLogin",
-            validation: true,
-            script: "admin/login",
-            confirm: true,
-            rules,
-            afterSuccess: {
-                type: "inflate_redirect_response_data",
-            }
-        });
-    }
-</script>
