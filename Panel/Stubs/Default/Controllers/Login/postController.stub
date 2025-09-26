@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\{{nameSpace}};
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Login\Validate{{model}};
+use App\Http\Requests\Admin\Login\Validate{{name}}Login;
 use App\Repositories\IBaseRepository;
 use App\Traits\BaseTrait;
 use Auth;
@@ -18,12 +18,12 @@ class {{controller}} extends Controller
     }
 
     /**
-     * {{model}} Login
+     * {{name}} Login
      *
-     * @param Validate{{model}}Login $request
+     * @param Validate{{name}}Login $request
      * @return JsonResponse
      */
-    public function login(Validate{{model}} $request) : JsonResponse
+    public function login(Validate{{name}}Login $request) : JsonResponse
     {
         $u = $request->get('u');
         $attempt_to = $request->get('attempt_to');

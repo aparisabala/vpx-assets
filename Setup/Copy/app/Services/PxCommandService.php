@@ -88,20 +88,18 @@ class PxCommandService
             if(isset($panels[$getFrom]['conditional'])) {
                 $r = explode("/",Route::getFacadeRoot()->current()->uri());
                 if(isset($r[1]) && in_array($r[1],$panels[$getFrom]['conditional'])) {
-                    $dir = "$from/$panel/$r[1]";
-                    if(is_dir($dir)) {
-                        $files = collect(File::files(public_path($dir)))
-                        ->filter(fn($file) => $file->getExtension() === $from)
-                        ->map(fn($file) => $file->getFilename())
-                        ->values();
-                        foreach ($files as $key => $file) {
-                            $data[] = ($from == "js") ? '<script src="'.url("$dir/$file").'?v='.V.'"></script>' : '<link rel="stylesheet" href="'.url("$dir/$file").'?v='.V.'"></link>';
-                            if($from == 'js') {
-                                $data[] = '<script src="'.url("$dir/$file/calls").'?v='.V.'"></script>';
+                    $dirs = ["$from/$panel/$r[1]","$from/$panel/$r[1]/calls"];
+                    foreach ($dirs as $key => $dir) {
+                         if(is_dir($dir)) {
+                            $files = collect(File::files(public_path($dir)))
+                            ->filter(fn($file) => $file->getExtension() === $from)
+                            ->map(fn($file) => $file->getFilename())
+                            ->values();
+                            foreach ($files as $key => $file) {
+                                $data[] = ($from == "js") ? '<script src="'.url("$dir/$file").'?v='.V.'"></script>' : '<link rel="stylesheet" href="'.url("$dir/$file").'?v='.V.'"></link>';
                             }
                         }
                     }
-
                 }
             }
         }

@@ -19,6 +19,11 @@ function imagePaths()
     ];
 }
 
+function imageExists($row,$ext='80X80'){
+    $path = imagePaths()['dyn_image'].'/'.$row?->image.'_'.$ext.'.'.$row?->extension;
+    return ($row?->image == null || !file_exists($path)) ? false : true;
+}
+
 function getRowImage($row,$ext='80X80'){
     $path = imagePaths()['dyn_image'].'/'.$row?->image.'_'.$ext.'.'.$row?->extension;
     $img = ($row?->image == "" || !file_exists($path)) ? url('images/system/img.jpg') : url($path);

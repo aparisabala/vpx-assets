@@ -12,7 +12,7 @@
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
             <div class="nav-item d-flex align-items-center">
-                <h1 class="m-0 menu-link {{ (lang() == "bn") ? 'fs-28' : 'fs-20'}}"> ADMIN PANEL  </h1>
+                <h1 class="m-0 menu-link fs-20"> ADMIN PANEL  </h1>
             </div>
         </div>
         <ul class="navbar-nav flex-row align-items-center ms-auto">

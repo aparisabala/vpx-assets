@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{{nameSpace}}\{{model}}LoginGetController;
-use App\Http\Controllers\{{nameSpace}}\{{model}}LoginPostController;
+use App\Http\Controllers\{{nameSpace}}\{{name}}LoginGetController;
+use App\Http\Controllers\{{nameSpace}}\{{name}}LoginPostController;
 
 //vpx_imports
 
-Route::get('{{getRoute}}', [{{model}}LoginGetController::class,'index'])->name('{{auth}}.login.index');
-Route::post('{{postRoute}}', [{{model}}LoginPostController::class,'login'])->name('{{auth}}.login');
+Route::get('{{getRoute}}', [{{name}}LoginGetController::class,'index'])->name('{{auth}}.login.index');
+Route::post('{{postRoute}}', [{{name}}LoginPostController::class,'login'])->name('{{auth}}.login');
 
 //vpx_attach

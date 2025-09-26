@@ -1,4 +1,4 @@
-if($("#frm{{frmName}}Login").length > 0) {
+/*if($("#frm{{frmName}}Login").length > 0) {
     let rules = {
         email: {
             required: true,
@@ -9,13 +9,15 @@ if($("#frm{{frmName}}Login").length > 0) {
             minlength: 8,
         },
     };
-    ajaxRequest({
+    PX.ajaxRequest({
         element: "frm{{frmName}}Login",
         validation: true,
         script: "{{name}}/login",
+        confirm:
         rules,
         afterSuccess: {
             type: "inflate_redirect_response_data",
         }
     });
-}
+    //vpx_attach
+}*/
