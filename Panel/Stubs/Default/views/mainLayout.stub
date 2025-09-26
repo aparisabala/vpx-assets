@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark-style layout-menu-fixed" dir="ltr">
 
 <head>
     @include('{{name}}.includes.header-resource', ['tabTitle' => $tabTitle ?? 'Site Title'])
-    @include('{{name}}.includes.theme')
 </head>
 
 <body>
@@ -20,9 +19,35 @@
             </div>
         </div>
     </div>
-    @include('{{name}}.includes.header')
-    @yield('page')
-    @include('{{name}}.includes.footer')
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            @include('admin.includes.main-nav')
+            <div class="layout-page">
+                @include('{{name}}.includes.header')
+                <div class="px-4 bg-secondary text-white breadCum">
+                    @yield('breadCum')
+                </div>
+                @yield('page_menu')
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="page">
+                            <div class="x_panel tile">
+                                <div class="x_content">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @yield('page')
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @include('{{name}}.includes.footer')
+                </div>
+            </div>
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
     @include('{{name}}.includes.footer-resource', ['react' => $react ?? []])
 </body>
 </html>

@@ -96,6 +96,9 @@ class PxCommandService
                         ->values();
                         foreach ($files as $key => $file) {
                             $data[] = ($from == "js") ? '<script src="'.url("$dir/$file").'?v='.V.'"></script>' : '<link rel="stylesheet" href="'.url("$dir/$file").'?v='.V.'"></link>';
+                            if($from == 'js') {
+                                $data[] = '<script src="'.url("$dir/$file/calls").'?v='.V.'"></script>';
+                            }
                         }
                     }
 

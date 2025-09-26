@@ -1,6 +1,6 @@
 <?php
 
-{{nameSpace}}
+namespace App\Http\Controllers\{{nameSpace}};
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Login\Validate{{model}};
@@ -8,7 +8,8 @@ use App\Repositories\IBaseRepository;
 use App\Traits\BaseTrait;
 use Auth;
 use Illuminate\Http\JsonResponse;
-class {{model}}PostController extends Controller
+//vpx_imports
+class {{controller}} extends Controller
 {
     use BaseTrait;
     public function __construct(private IBaseRepository $IBaseRepo)
@@ -19,10 +20,10 @@ class {{model}}PostController extends Controller
     /**
      * {{model}} Login
      *
-     * @param ValidateAdminLogin $request
+     * @param Validate{{model}}Login $request
      * @return JsonResponse
      */
-    public function post{{model}}Login(Validate{{model}} $request) : JsonResponse
+    public function login(Validate{{model}} $request) : JsonResponse
     {
         $u = $request->get('u');
         $attempt_to = $request->get('attempt_to');
@@ -33,10 +34,10 @@ class {{model}}PostController extends Controller
         if(isset($request->remember) && $request->remember == "yes") {
             $remember = true;
         }
-        if (Auth::guard('globuser')->attempt([$attempt_to => $request->safe()->mobile_number, 'password' => $request->safe()->password], $remember)) {
+        if (Auth::guard('{{authName}}')->attempt([$attempt_to => $request->safe()->email, 'password' => $request->safe()->password], $remember)) {
             $data['extraData'] = [
                 "inflate" => "Successfully logged in, redirecting shortly",
-                "redirect" => '{{name}}/dashboard'
+                "redirect" => '{{redirect}}'
             ];
             return $this->response(['type' => "success",'data'=> $data]);
         } else {

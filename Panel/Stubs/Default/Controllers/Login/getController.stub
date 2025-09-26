@@ -1,18 +1,19 @@
 <?php
 
-{{nameSpace}};
+namespace App\Http\Controllers\{{nameSpace}};
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use View;
+use Illuminate\Contracts\View\View;
 use App\Traits\BaseTrait;
-//vpx_place
-class {{model}}GetController extends Controller
+
+//vpx_imports
+class {{controller}} extends Controller
 {
     use BaseTrait;
     public function __construct()
     {
-        $this->middleware(['auth:{{authName}}','HasSet{{$model}}Password','Has{{$model}}Auth']);
+        $this->middleware(['guest:{{authName}}']);
     }
 
     /**
@@ -21,14 +22,14 @@ class {{model}}GetController extends Controller
      * @param Request $request
      * @return View
      */
-    public function {{method}}(Request $request) : View
+    public function index(Request $request) : View
     {   $data = [];
         if(isset($_GET['pass_changed']) && $_GET['pass_changed']) {
             $data = [
                 "success" => [ "Your password changed succesfully, please login to continue"]
             ];
         }
-        return view({{pageRoute}})->withErrors($data);
+        return view('{{pageRoute}}')->withErrors($data);
     }
 
     //vpx_attach

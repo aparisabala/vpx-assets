@@ -56,16 +56,16 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof MethodNotAllowedHttpException) {
-            return Response::json(['route_error' => 'No direct access'],$exception->getCode());
+            return Response::json(['route_error' => 'No direct access'],405);
         }
 
-        if ($request->expectsJson()) {
+        if ($request->expectsJson() || $exception->getCode() < 500 ) {
             return parent::render($request, $exception);
         }
 
         return response()->view('errors.exception', [
             'exception' => $exception
-        ], $exception->getCode());
+        ], 500);
     }
 
     protected function unauthenticated($request, AuthenticationException $exception)
@@ -82,7 +82,7 @@ class Handler extends ExceptionHandler
 
             $login = 'site.home';
             switch ($guard) {
-                //vpx_bp
+                //vpx_guard_logins
                 default:
                     break;
             }

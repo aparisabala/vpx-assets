@@ -1,22 +1,22 @@
 <?php
 
-{{nameSpace}};
+namespace App\Http\Controllers\{{nameSpace}};
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
-use View;
+use Illuminate\Contracts\View\View;
 use App\Traits\BaseTrait;
-//vpx_place
-class {{$controller}} extends Controller
+//vpx_imports
+class {{controller}} extends Controller
 {
     use BaseTrait;
     public function __construct()
     {
-        $this->middleware(['auth:{{authName}}','HasSet{{$model}}Password','Has{{$model}}Auth']);
+        $this->middleware(['auth:{{authName}}','HasSet{{name}}Password','Has{{name}}Auth']);
     }
 
-    public function {{method}}(Request $request)
+    public function index(Request $request) : View
     {
         return view('{{pageRoute}}');
     }

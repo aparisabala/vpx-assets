@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Http\Middleware\{{nameSpace}};
+
+use Closure;
+use App\Models\{{model}};
+use App\Traits\BaseTrait;
+class {{middleware}}
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    use BaseTrait;
+    public function handle($request, Closure $next)
+    {   
+        if($request->has('auth_uuid')){
+            $user = {{model}}::select(['id','name'])->where([['uuid','=',$request->auth_uuid]])->first();
+            if($user == null) {
+                return $this->response(['type' => 'noUpdate', 'title' => 'No authenticated user found']);
+            }
+            $request->merge(['auth' => $user]);
+        }
+        return $next($request);
+    }
+}

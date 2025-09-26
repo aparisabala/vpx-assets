@@ -1,7 +1,0 @@
-<?php
-
-use Illuminate\Support\Facades\Route;
-use {{nameSpace}};
-//vpx_imports
-Route::get('{{route}}',[{{controller}}::class,'{{method}}'])->name('{{routeName}}');
-//vpx_codes

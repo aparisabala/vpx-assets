@@ -1,0 +1,56 @@
+@extends('{{name}}.layouts.full-page-layout',["tabTitle" => "{{nameUp}} Login | ".config('i.service_name') ])
+@section('page')
+<div class="authentication-wrapper authentication-basic container-p-y">
+    <div class="authentication-inner">
+        <div class="card login_base">
+            <div class="card-body">
+                <div class="app-brand justify-content-center">
+                    <a href="{{ url('{{name}}/login') }}" class="app-brand-link gap-2">
+                        <img src="{{ config('i.logo') }}" style="width: 150px;">
+                    </a>
+                </div>
+                <h4 class="mb-4 text-center fs-30  text-white">  User Login  </h4>
+                @include('errors.fragments.error-view-bs5')
+                <form id="frm{{nameUp}}Login" class="mb-3" autocomplete="off" method="POST">
+                    <div class="form-group text-left mb-3">
+                        <label class="form-label text-white"> <b> Email </b> <em class="required">*</em> <span id="email_error"> </span></label>
+                        <div class="input-group">
+                            <input type='text' class="form-control" name="email" id="email" />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label text-white" for="password"><b> Password </b> <em class="required">*</em> <span id="password_error"> </span> </label>
+                                <a href="{{ url('{{name}}/reset') }}">
+                                    <small>Forgot Password</small>
+                                </a>
+                            </div>
+                            <div class="input-group">
+                                <input type='password' class="form-control" name="password" id="password" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="remember" id="remember" />
+                            <label class="form-check-label text-white" for="remember-me"> <b> Remember me </b> </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-primary d-grid w-100 disBtn" disabled type="submit"> Log In </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        @if(env('IS_DEMO') == 'YES')
+            <div class="card login_base p-2 mt-3 text-white">
+                <h6> Admin User:  admin@admin.com</h6>
+                <h6> Password: asdfghjk</h6>
+                <a href="{{url('/hrm/login')}}"> Explore Employee Panel </a>
+            </div>
+        @endif
+    </div>
+</div>
+@endsection
+
