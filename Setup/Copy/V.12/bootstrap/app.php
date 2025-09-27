@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\ParseJsonRequestMiddleware;
 use App\Http\Middleware\SetBootConfig;
+//vpx_imports
 $middlewareAliases = [
     'auth' =>  App\Http\Middleware\Authenticate::class,
     'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
@@ -16,9 +17,9 @@ $middlewareAliases = [
     'signed' => \App\Http\Middleware\ValidateSignature::class,
     'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+    //vpx_register_middlewares
 ];
 $exceptions = require __DIR__ . '/exceptions.php';
-//vpx_imports
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -28,7 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) use($middlewareAliases) : void {
 
         $middleware->append([
-             \App\Http\Middleware\TrustProxies::class,
+            \App\Http\Middleware\TrustProxies::class,
             \Illuminate\Http\Middleware\HandleCors::class,
             \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
             \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,

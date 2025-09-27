@@ -13,7 +13,6 @@ if($("#frm{{frmName}}Login").length > 0) {
         element: "frm{{frmName}}Login",
         validation: true,
         script: "{{name}}/login",
-        confirm:
         rules,
         afterSuccess: {
             type: "inflate_redirect_response_data",
