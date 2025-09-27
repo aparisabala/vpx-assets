@@ -1,0 +1,98 @@
+@extends('{{name}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | Update Profile " ])
+@section('page')
+@section('breadCum')
+    <h4 class="mb-0">Setup Profile </h4>
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="{{url('/')}}">Dashbaord </a></li>
+            <li class="breadcrumb-item active">Update Profile </li>
+        </ol>
+    </div>
+@endsection
+<div class="thepage">
+	<div id="defaultPage" class="pages">
+		<div class="data-summary">
+			<div class="card p-2">
+				<form id="frmUpdate{{nameUp}}SetupProfile" autocomplete="off">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-8 offset-md-2">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group text-left mb-3">
+                                                <label class="form-label"> <b> User Name  </b> <em class="required">*</em> <span id="name_error"> </span></label>
+                                                <div class="input-group">
+                                                    <input type="text"  class="form-control" name="name" id="name" value="{{$data['item']->name}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group text-left mb-3">
+                                                <label class="form-label"> <b> Mobile Number </b> <em class="required">*</em> <span id="mobile_number_error"> </span></label>
+                                                <div class="input-group">
+                                                    <input type="text" readonly class="form-control" name="mobile_number" id="mobile_number"  value="{{$data['item']->mobile_number}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group text-left mb-3">
+                                                <div class="d-flex flex-row justify-content-between">
+                                                    <label class="form-label" > <b> User Image  </b> <em class="required">*</em> <span id="image_error"></span></label>
+                                                </div>
+                                                <div class="input-group">
+                                                    <input type="file" class="form-control" name="image" id="image"/>
+                                                </div>
+                                                @if(imageExists(Auth::user(),'300X300'))
+                                                    <input type="hidden"  id="img_uploaded" name="img_uploaded" value="yes"/>
+                                                    <p class=""> Uploaded Image <a href="{{ getRowImage(Auth::user(),'300X300') }}" download> Image </a></p>
+                                                @else 
+                                                    <input type="hidden"  id="img_uploaded" name="img_uploaded" value="no"/>
+                                                @endif
+                                            
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group text-left mb-3">
+                                                <label class="form-label"> <b> Email </b> <em class="required">*</em> <span id="email_error"> </span></label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="email" id="email" value="{{$data['item']->email}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group text-left mb-3">
+                                                <label class="form-label"> <b>  Password  </b> <em class="required">*</em> <span id="new_password_error"> </span></label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" name="new_password" id="new_password">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group text-left mb-3">
+                                                <label class="form-label"> <b> Confirm Password  </b> <em class="required">*</em> <span id="confim_password_error"> </span></label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" name="confim_password" id="confim_password">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 mt-3 text-end">
+                                        <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i>  Update  </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+			</div>
+		</div>
+	</div>
+</div>
+@endsection

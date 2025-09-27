@@ -21,7 +21,7 @@
     </div>
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
-            @include('admin.includes.main-nav')
+            @include('{{name}}.includes.main-nav')
             <div class="layout-page">
                 @include('{{name}}.includes.header')
                 <div class="px-4 bg-secondary text-white breadCum">
