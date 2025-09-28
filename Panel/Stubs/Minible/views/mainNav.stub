@@ -25,7 +25,7 @@
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Menu</li>
                 <li>
-                    <a href="{{url('/')}}">
+                    <a href="{{url('{{$name}}/dashboard')}}">
                         <span>Dashboard</span>
                     </a>
                 </li>

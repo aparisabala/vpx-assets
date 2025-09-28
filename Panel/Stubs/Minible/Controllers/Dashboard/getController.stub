@@ -16,6 +16,12 @@ class {{controller}} extends Controller
         $this->middleware(['auth:{{authName}}','HasSet{{name}}Password','Has{{name}}Auth']);
     }
 
+    /**
+     * View Admin dashboard page
+     *
+     * @param Request $request
+     * @return View
+     */
     public function index(Request $request) : View
     {
         return view('{{pageRoute}}');
