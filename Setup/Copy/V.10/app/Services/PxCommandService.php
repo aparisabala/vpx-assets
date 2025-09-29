@@ -18,7 +18,8 @@ class PxCommandService
         $data = [];
         if($from == "scripts") {
             $data = [
-                '<script src="'.url('js/config/config.js').'"></script>'
+                '<script src="'.url('js/config/config.js').'"></script>',
+                '<script src="'.url('js/config/defaultConfig.js').'"></script>'
             ];
         }
         $data =  [
