@@ -2,6 +2,7 @@ import { PxValidations } from '@app/Classes/Helpers/PxValidations';
 import './src/Css/App.css';
 import { PxFactory } from './src/Classes/PxFactory';
 import { DataTable } from './src/Classes/DataTable/DataTable';
+import { BulkAction } from './src/Classes/Helpers/BulkAction';
 class PX extends PxFactory {
     constructor(props){
         super(props);
@@ -9,7 +10,9 @@ class PX extends PxFactory {
             throw new Error("This library required JQuery library, please use cdn or local JQuery File");
         }
         this.validation = new PxValidations();
+        this.bulk = new BulkAction;
         this.init();
+        
     }
 
     /**
@@ -22,8 +25,24 @@ class PX extends PxFactory {
         if (op == {}) {
             return 0;
         }
-        const {validation = false } = op;
-        (validation) ? this?.validation?.validate(op,(op)=>{this?.send(op,callBack)},callBack) : this?.chekRequest(op);
+        const {validation = undefined } = op;
+        if(validation) {
+            this?.validation?.validate(op,(op)=>{this?.send(op,callBack)},callBack)
+        } else {
+            if(op?.context) {
+                op?.context?.requestGate(op);
+            } else {
+                this?.requestGate(op);
+            }
+        }
+    }
+
+    deleteAll(op){
+        this?.bulk?.deleteAll({...op,context: this},this.ajaxRequest);
+    }
+
+    updateAll(op){
+        this?.bulk?.updateAll({...op,context: this},this.ajaxRequest);
     }
 
     /**

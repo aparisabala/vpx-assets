@@ -6,7 +6,6 @@ import { PxConfig } from "./PxConfig";
 import $ from 'jquery';
 export class PxFactory extends PxConfig {
 
-    #pxConfig;
     #pxErrors;
     #pxDataSetup;
     #pxConfirm;
@@ -14,7 +13,6 @@ export class PxFactory extends PxConfig {
 
     constructor(props) {
         super(props);
-        this.#pxConfig = new PxConfig();
         this.#pxErrors = new PxErrors();
         this.#pxDataSetup = new PxDataSetup();
         this.#pxConfirm = new PxConfirm();
@@ -27,7 +25,7 @@ export class PxFactory extends PxConfig {
      *
      * @returns {number} - Returns 0 if no options are provided
      * */
-    chekRequest(op) {
+    requestGate(op) {
         const { type = "n/a", element = "n/a",callBack=undefined} = op;
         switch (type) {
             case "submit":
