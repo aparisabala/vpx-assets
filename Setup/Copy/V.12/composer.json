@@ -32,12 +32,15 @@
         "phpunit/phpunit": "^11.5.3",
         "spatie/laravel-ignition": "^2.0",
         "theanik/laravel-more-command": "^1.3",
-        "vpx/pxcommands": "*"
+        "vpx/pxcommands": "1.0"
     },
     "repositories": [
         {
             "type": "path",
-            "url": "./../vpx/pxcommands"
+            "url": "./../vpx/pxcommands",
+            "options": {
+                "symlink": true
+            }
         }
     ],
     "autoload": {
