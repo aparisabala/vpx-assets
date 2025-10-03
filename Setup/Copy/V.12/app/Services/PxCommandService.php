@@ -25,6 +25,15 @@ class PxCommandService
         $data =  [
             ...$data,
             ...$this?->getCdn(panels: $panels, getFrom: $from),
+        ];
+         if(env('PX_DEBUG')) {
+            $data = [
+                ...$data,
+                ($from == 'styles') ?  '<link rel="stylesheet" href="/../../vpx-assets/Js/Lib/px-ajax/dist/px.css"/>' : '<script src="/../../vpx-assets/Js/Lib/px-ajax/dist/px.js"></script>'
+            ];
+        }
+        $data = [
+            ...$data,
             ...$this?->getLocal(panels: $panels, panel: $panel, getFrom: $from),
             ...$this?->getLocal(panels: $panels, panel: $panel,  getFrom: $from, conditinal: 'yes'),
         ];
@@ -73,6 +82,9 @@ class PxCommandService
                 foreach ($panels[$getFrom]['local'] as $key => $folder) {
                     $dir = "$from/$folder";
                     if(is_dir($dir)) {
+                        if(env('PX_DEBUG') && $folder == 'px') {
+                            continue;
+                        }
                         $files = collect(File::files(public_path($dir)))
                         ->filter(fn($file) => $file->getExtension() === $from)
                         ->map(fn($file) => $file->getFilename())
@@ -116,7 +128,7 @@ class PxCommandService
     {
         if (count($rect) > 0) {
             foreach ($rect as $key => $value) {
-                print '<script src="' . url('components/' . $value) . '?ver=' .V. '"></script>' . PHP_EOL;
+                print '<script src="' . url('resources/js/' . $value) . '?ver=' .V. '"></script>' . PHP_EOL;
             }
         }
     }
@@ -148,11 +160,11 @@ class PxCommandService
     * @param string $dir
     * @return array
     */
-    public function appendRoutes($dir) : void
+    public function appendRoutes($dir,$group='web') : void
     {
         $routeFiles = $this->getFilesRecursively(base_path($dir),$dir);
         foreach ($routeFiles as $value) {
-            Route::middleware('web')->group(base_path((string)$value));
+            Route::middleware($group)->group(base_path((string)$value));
         }
     }
 }

@@ -37,7 +37,10 @@
     "repositories": [
         {
             "type": "path",
-            "url": "./../vpx/pxcommands"
+            "url": "./../vpx/pxcommands",
+            "options": {
+                "symlink": true
+            }
         }
     ],
     "autoload": {

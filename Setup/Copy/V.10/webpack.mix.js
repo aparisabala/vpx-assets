@@ -77,6 +77,4 @@ for (let index = 0; index < jsFilesArray.length; index++) {
 	const element = jsFilesArray[index];
 	mix.js(element, element);
 }
-mix.postCss("resources/css/app.css", "public/components", [
-    require("@tailwindcss/postcss"),
-])
+mix.postCss("resources/css/app.css", "public/components", [])

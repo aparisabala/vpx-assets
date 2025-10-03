@@ -2,18 +2,18 @@
     <div class="navbar-brand-box">
         <a href="{{url('/')}}" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{config('i.logo')}}" alt="" height="22">
+                <img src="{{config('i.favicon')}}" alt="" class="admin-logo-sm">
             </span>
             <span class="logo-lg">
-                <img src="{{config('i.logo')}}" alt="" height="20">
+                <img src="{{config('i.logo')}}" alt=""  class="admin-logo-lg">
             </span>
         </a>
         <a href="{{url('/')}}" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{config('i.logo')}}" alt="" height="22">
+                <img src="{{config('i.favicon')}}" alt=""  class="admin-logo-sm">
             </span>
             <span class="logo-lg">
-                <img src="{{config('i.logo')}}" alt="" height="20">
+                <img src="{{config('i.logo')}}" alt=""  class="admin-logo-lg">
             </span>
         </a>
     </div>
@@ -24,8 +24,9 @@
         <div id="sidebar-menu">
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Menu</li>
-                <li>
-                    <a href="{{url('{{$name}}/dashboard')}}">
+                <li class="mm-active">
+                    <a href="{{url('admin/dashboard')}}" class="active">
+                        <i class="uil-home-alt"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
