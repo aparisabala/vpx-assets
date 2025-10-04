@@ -18,7 +18,7 @@ class BaseRepository implements IBaseRepository
      * @param integer|string|null $id
      * @return void
      */
-    public function getPageDefault($model,$id) : array
+   public function getPageDefault($model,$id) : array
     {
         $data =  ['item' => null,'type' => 'add', 'items' => []];
         return ($id == null) ? [...$data, 'items' => $model::take(1)->select(['id'])->get()] :  [...$data, 'type' => 'edit', 'item' => $model::find($id)];

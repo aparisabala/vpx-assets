@@ -19,6 +19,7 @@ yarn-error.log
 /.vscode
 storage/app/public/uploads
 public/js/config/config.js
+public/uploads
 public/.htaccess
 composer.lock
 yarn.lock

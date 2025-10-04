@@ -1,0 +1,9 @@
+ @section('breadCum')
+    <h4 class="mb-0">{{modelUp}}</h4>
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">{{modelUp}}  </a></li>
+            <li class="breadcrumb-item active"> Feature Name </li>
+        </ol>
+    </div>
+@endsection

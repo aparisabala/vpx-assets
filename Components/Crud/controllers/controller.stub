@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Http\Controllers\{{importNameSpace}}\Crud;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\{{importNameSpace}}\Crud\ValidateStore{{crudUp}};
+use App\Repositories\{{importNameSpace}}\Crud\I{{crudUp}}CrudRepository;
+use App\Traits\BaseTrait;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+class {{crudUp}}CrudController  extends Controller {
+
+    use BaseTrait;
+    public function __construct(private I{{crudUp}}CrudRepository $i{{crudUp}}CrudRepo) {
+        $this->middleware(['auth:{{prefixDown}}','HasSetAdminPassword','HasAdminAuth']);
+    }
+
+    /**
+     * Index page for {{crudDown}} crud
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function index(Request $request) : View
+    {
+        $data = $this->i{{crudUp}}CrudRepo->index($request);
+        return view('{{prefixDown}}.pages.{{pageRoute}}.crud.index',compact('data'));
+    }
+
+    /**
+     * List items for yajra datatable for {{crudDown}} crud
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function list(Request $request) : JsonResponse
+    {
+        return  $this->i{{crudUp}}CrudRepo->list($request);
+    }
+
+    /**
+     * Store proccedure for comapany crud
+     *
+     * @param ValidateStore{{crudUp}} $request
+     * @return JsonResponse
+     */
+    public function store(ValidateStore{{crudUp}} $request): JsonResponse
+    {
+        return $this->i{{crudUp}}CrudRepo->store($request);
+    }
+
+    /**
+     * Index page for view
+     *
+     * @param integer|string $id
+     * @param Request $request
+     * @return view
+     */
+    public function edit($id,Request $request) : view
+    {
+        $data = $this->i{{crudUp}}CrudRepo->index($request,$id);
+        return view('{{prefixDown}}.pages.{{pageRoute}}.crud.index', compact('data'));
+    }
+
+    /**
+     * Update proccedure for {{crudDown}}
+     *
+     * @param Request $request
+     * @param integer|string $id
+     * @return JsonResponse
+     */
+    public function update(Request $request, $id) : JsonResponse
+    {
+        return $this->i{{crudUp}}CrudRepo->update($request,$id);
+    }
+
+}

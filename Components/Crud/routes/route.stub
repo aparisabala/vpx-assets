@@ -4,9 +4,9 @@ use App\Http\Controllers\{{importNameSpace}}\Crud\{{controller}};
 use Illuminate\Support\Facades\Route;
 //vpx_imports
 Route::prefix('{{prefix}}')->group(function(){
-    Route::resource('{{nameSpace}}',{{controller}}::class)->except(['destroy', 'show']);
-    Route::post('{{nameSpace}}/list',[{{controller}}::class,'list']);
-    Route::post('{{nameSpace}}/delete-list',[{{controller}}::class,'deleteList']);
-    Route::post('{{nameSpace}}/update-list',[{{controller}}::class,'updateList']);
+    Route::resource('{{nameSpaceDown}}',{{controller}}::class)->except(['destroy', 'show']);
+    Route::post('{{nameSpaceDown}}/list',[{{controller}}::class,'list']);
+    Route::post('{{nameSpaceDown}}/delete-list',[{{controller}}::class,'deleteList']);
+    Route::post('{{nameSpaceDown}}/update-list',[{{controller}}::class,'updateList']);
     //vpx_attach
 });

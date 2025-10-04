@@ -1,0 +1,121 @@
+$(document).ready(function(){
+
+    if ($('#frmStore{{modelUp}}').length > 0) {
+        let rules = {
+            name: {
+                required: true,
+                maxlength: 253
+            }
+        };
+        PX.ajaxRequest({
+            element: 'frmStore{{modelUp}}',
+            validation: true,
+            script: '{{nameSpaceDown}}',
+            rules,
+            afterSuccess: {
+                type: 'inflate_reset_response_data',
+            }
+        });
+    }
+
+    if ($('#frmUpdate{{modelUp}}').length > 0) {
+        let rules = {
+            name: {
+                required: true,
+                maxlength: 253
+            }
+        };
+        PX.ajaxRequest({
+            element: 'frmUpdate{{modelUp}}',
+            validation: true,
+            script: '{{nameSpaceDown}}/'+$("#patch_id").val(),
+            rules,
+            afterSuccess: {
+                type: 'inflate_response_data',
+            }
+        });
+    }
+
+    if ($("#dt{{modelUp}}Name").length > 0) {
+        let col_draft = [
+            {
+                data: 'id',
+                title: 'ID'
+            },
+            /*{
+                data: null,
+                title: 'Serial',
+                class: 'text-center',
+                width: '200px',
+                render: function (data, type, row) {
+                    return `<input type="number" value="` + data.serial + `" class="form-control serial"><input type="hidden" value="` + data.id + `" class="form-control ids">`;
+                }
+            },*/
+            {
+                data: 'name',
+                title: 'Name'
+            },
+
+            {
+                data: 'created_at',
+                title: 'Created At'
+            },
+
+            {
+                data: null,
+                title: 'Actions',
+                class: 'text-end',
+                render: function (data, type, row) {
+                    return `<a href="${baseurl}{{nameSpaceDown}}/${data.id}/edit"
+                        <span class="badge rounded-pill bg-info cursor-pointer me-2">
+                            <span class="bx bxs-edit text-white fw-bold fs-14"></span>
+                        </span>
+                    </a>`;
+                }
+            },
+        ];
+        PX.renderDataTable('dt{{modelUp}}Name', {
+            select: true,
+            url: '{{nameSpaceDown}}/list',
+            columns: col_draft,
+            pdf: [1, 2]
+        });
+    }
+})
+
+function dt{{modelUp}}(table, api, op) {
+    PX.deleteAll({
+        element: "deleteAll{{modelUp}}",
+        script: "{{nameSpaceDown}}/delete-list",
+        confirm: true,
+        api,
+    });
+    PX.updateAll({
+        element: "updateAll{{modelUp}}",
+        script: "{{nameSpaceDown}}/update-list",
+        confirm: true,
+        dataCols: {
+            key: "ids",
+            items: [
+                {
+                    index: 1,
+                    name: "ids",
+                    type: "input",
+                    data: [],
+                },
+                {
+                    index: 1,
+                    name: "serial",
+                    type: "input",
+                    data: []
+                }
+            ]
+        },
+        api,
+        afterSuccess: {
+            type: "inflate_response_data"
+        }
+    });
+    // PX?.dowloadPdf({ ...op, btn: "download{{modelUp}}Pdf", dataTable: "yes" })
+    // PX?.dowloadExcel({ ...op, btn: "download{{modelUp}}Excel", dataTable: "yes" })
+}

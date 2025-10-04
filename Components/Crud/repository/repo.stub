@@ -1,0 +1,172 @@
+<?php
+
+namespace App\Repositories\{{importNameSpace}}\Crud;
+
+use App\Http\Requests\{{importNameSpace}}\Crud\ValidateUpdate{{crudUp}};
+use App\Models\{{modelUp}};
+use App\Repositories\BaseRepository;
+use App\Traits\BaseTrait;
+use Carbon\Carbon;
+use DataTables;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+class  {{crudUp}}CrudRepository extends BaseRepository implements I{{crudUp}}CrudRepository {
+
+    use BaseTrait;
+    public function __construct() {
+        $this->LoadModels(['{{modelUp}}']);
+    }
+
+    /**
+     * Get the page default resource
+     *
+     * @param Request $request
+     * @param integer|string $id
+     * @return array
+     */
+    public function index($request,$id=null) : array
+    {
+       return $this->getPageDefault(model: $this->{{modelUp}}, id: $id);
+    }
+
+
+    /**
+     * Yajra datatbale list resource
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function list($request) : JsonResponse
+    {
+        $model = {{modelUp}}::query();
+        return DataTables::of($model)
+        ->editColumn('created_at', function($item) {
+            return  Carbon::parse($item->created_at)->format('d-m-Y');
+        })
+        ->escapeColumns([])
+        ->make(true);
+    }
+
+    /**
+     *  Bulk update list resource
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateList($request) : JsonResponse
+    {
+        $i = {{modelUp}}::whereIn('id',$request->ids)->select(['id','name'])->get();;
+        $dirty = [];
+        if (count($i) > 0) {
+            foreach ($i as $key => $value) {
+                //$value->serial = $request->serial[$value->id];
+                if ($value->isDirty()) {
+                    $dirty[$key] = "yes";
+                }
+            }
+            if (count($dirty) > 0) {
+                foreach ($i as $key => $value) {
+                    $value->save();
+                }
+                $data['extraData'] = [
+                    "inflate" => 'Updated successfully'
+                ];
+                return $this->response(['type' => 'success','data' => $data]);
+            } else {
+                return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success"> You made no changes </span>']);
+            }
+
+        } else {
+            return $this->response(['type' => 'noUpdate', 'title' => 'Something went wrong, try again']);
+        }
+    }
+
+    /**
+     * Bulk delete list resource
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteList($request) : JsonResponse
+    {
+        $errors = [];
+        $i = {{modelUp}}::whereIn('id',$request->ids)->select(['id'])->get();
+        if (count($i) > 0) {
+            // $errors = $this->checkInUse([
+            //     "rows" => $i,
+            //     "search" => ["id","id"],
+            //     "denined" => ["name","name"],
+            //     "targetModel" => [$this->StudentAdmission,$this->ExamResult],
+            //     "targetCol" => ["lib_category_id","lib_category_id"],
+            //     "exists" => ["Class Category","Class Category"],
+            //     "in" => ["Stduent Table","Result Table"]
+            // ]);
+            if (count($errors) > 0) {
+                return $this->response(['type'=>'bigError','errors'=>$errors]);
+            }
+            foreach ($i as $key => $value) {
+                $value->delete();
+            }
+            $data['extraData'] = [
+                "inflate" => "Deleted successfuly",
+                "redirect" => null
+            ];
+            return $this->response(['type' => 'success',"data"=>$data]);
+        } else {
+            return $this->response(['type' => 'noUpdate', 'title' => 'No selected data found, try again']);
+        }
+    }
+
+    /**
+     * Store resource
+     *
+     * @param Request  $request
+     * @return JsonResponse
+     */
+    public function store($request) : JsonResponse
+    {
+        try {
+            {{modelUp}}::create([
+                ...$request->all(),
+                //'serial' => $this->facSrWc($this->{{crudUp}})
+            ]);
+            $response['extraData'] = ['inflate' => 'Action succesfull' ];
+            return $this->response(['type' => 'success', 'data' => $response]);
+        } catch (\Exception $e) {
+            $this->saveError($this->getSystemError(['name' => 'UqProfession_store_error']), $e);
+            return $this->response(['type' => 'noUpdate', 'title' => 'Something went wrong, try again']);
+        }
+    }
+
+    /**
+     * Update resource
+     *
+     * @param Requets $request
+     * @param integer|string $id
+     * @return JsonResponse
+     */
+    public function update($request,$id) : JsonResponse
+    {
+        $row = {{modelUp}}::find($id);
+        if(empty($row)){
+            return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">Requestd resource not found, try again </span>']);
+        }
+        $row->fill($request->all());
+        if($row->isDirty()){
+            $validator = Validator::make($request->all(), (new ValidateUpdate{{crudUp}}())->rules($request,$row));
+            if ($validator->fails()) {
+                return $this->response(['type' => 'validation','errors' => $validator->errors()]);
+            }
+            try {
+                $row->update($request->all());
+                $data['extraData'] = ["inflate" => 'Action successfull'];
+                return $this->response(['type' => 'success','data' => $data]);
+            } catch (\Exception $e) {
+                $this->saveError($this->getSystemError(['name'=>'LibAssociate_update_error']), $e);
+                return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
+            }
+        } else {
+            return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success">You made no changes </span>']);
+        }
+    }
+}

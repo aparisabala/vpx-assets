@@ -1,9 +1,0 @@
-<?php
-
-use {{controllerUrl}}{{controller}};
-use Illuminate\Support\Facades\Route;
-//vpx_imports
-Route::prefix('{{name}}')->group(function(){
-    Route::resource('{{suffix}}',{{controller}}::class);
-    //vpx_attach
-});
