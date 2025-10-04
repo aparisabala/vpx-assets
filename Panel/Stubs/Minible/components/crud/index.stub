@@ -17,7 +17,7 @@
                                             @include('common.view.fragments._show-selected')
                                             @include('common.view.fragments._pdf-layout',['docTitle' => '{{crudUp}} List'])
                                             <div class="table-responsive">
-                                                <table class="table table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed" id="dtCompanyName"></table>
+                                                <table class="table table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed" id="dt{{crudUp}}"></table>
                                             </div>
                                         @else
                                             @include('common.view.fragments._no-list-data')
