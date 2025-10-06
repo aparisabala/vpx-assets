@@ -10,7 +10,9 @@ a {
     font-weight: 900;
 }
 .page-fragment-bar {
-     padding: 5px 0;
+    padding: 5px 0;
+    background: linear-gradient(to bottom, #1e90ff, #0070e0);
+    color: #fff;
 }
 .page-fragment-bar * {
     font-size: 16px;
@@ -43,5 +45,59 @@ a {
 }
 .admin-logo-lg {
     width: 90%;
+    max-height: 30px;
 }
+.shadow-card {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+table.dataTable {
+    max-width: 100%;
+}
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter {
+    margin-bottom: 12px !important;
+}
+.dataTables_wrapper .dataTables_paginate, .dataTables_wrapper .dataTables_info{
+    margin-top: 12px !important;
+}
+table.dataTable,
+table.dataTable th,
+table.dataTable td {
+    border: none !important;
+}
+
+table.dataTable {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    background: transparent;
+}
+table.dataTable thead th {
+    background: linear-gradient(to bottom, #1e90ff, #0070e0);
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    padding: 12px 10px;
+}
+
+table.dataTable tbody tr.odd td {
+    background-color: #f0f4f8; /* slightly darker gray-blue */
+    color: #222;
+}
+
+table.dataTable tbody tr.even td {
+    background-color: #ffffff; /* pure white for contrast */
+    color: #222;
+}
+
+table.dataTable tbody tr:hover td {
+    background-color: #d8e9ff !important; /* gentle blue highlight */
+    transition: background 0.25s ease;
+}
+
+table.dataTable.no-footer {
+    border-bottom: none;
+}
+
 </style>

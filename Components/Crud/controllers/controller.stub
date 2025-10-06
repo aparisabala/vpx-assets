@@ -39,7 +39,7 @@ class {{crudUp}}CrudController  extends Controller {
     }
 
     /**
-     * Store proccedure for comapany crud
+     * Store procedure for comapany crud
      *
      * @param ValidateStore{{crudUp}} $request
      * @return JsonResponse
@@ -63,7 +63,7 @@ class {{crudUp}}CrudController  extends Controller {
     }
 
     /**
-     * Update proccedure for {{crudDown}}
+     * Update procedure for {{crudDown}}
      *
      * @param Request $request
      * @param integer|string $id
@@ -72,6 +72,29 @@ class {{crudUp}}CrudController  extends Controller {
     public function update(Request $request, $id) : JsonResponse
     {
         return $this->i{{crudUp}}CrudRepo->update($request,$id);
+    }
+
+    /**
+     * Bulk delete list resources
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+     public function deleteList(Request $request) : JsonResponse
+    {
+       return $this->i{{crudUp}}CrudRepo->deleteList($request);
+    }
+
+
+    /**
+     * Bulk update list resources
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+     public function updateList(Request $request) : JsonResponse
+    {
+       return $this->i{{crudUp}}CrudRepo->updateList($request);
     }
 
 }

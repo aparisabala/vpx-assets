@@ -4,10 +4,10 @@
         <div class="col-md-12">
             @if($data['item'] != null || $data['type'] != "edit")
                 <div class="">
-                    @include('{{prefixDown}}.pages.company.crud.fragments._breadcum')
+                    @include('{{prefixDown}}.pages.{{pageRoute}}.crud.fragments._breadcum')
                     <div class="page-block-body">
                         @if($data['type'] == "add")
-                            @include('{{prefixDown}}.pages.company.crud.fragments._actions')
+                            @include('{{prefixDown}}.pages.{{pageRoute}}.crud.fragments._actions')
                             <div class="card rounded page-block">
                                 <div id="defaultPage" class="table-list pages">
                                     <h2 class="text-center text-uppercase fs-20 m-0 p-0 pt-2 page-title"> {{crudUp}} List  </h2>
@@ -25,14 +25,14 @@
                                     </div>
                                 </div>
                                 <div id="addPage" class="d-none pages">
-                                    @include('{{prefixDown}}.pages.company.crud.fragments._add')
+                                    @include('{{prefixDown}}.pages.{{pageRoute}}.crud.fragments._add')
                                 </div>
                             </div>
                         @else
                             <div id="editPage" class="pages">
                                 <div class="card rounded-0 pb-3">
                                     <div id="loadEdit" class="w-100">
-                                        @include('{{prefixDown}}.pages.company.crud.fragments._edit')
+                                        @include('{{prefixDown}}.pages.{{pageRoute}}.crud.fragments._edit')
                                     </div>
                                 </div>
                             </div>

@@ -74,7 +74,7 @@ $(document).ready(function(){
                 }
             },
         ];
-        PX.renderDataTable('dt{{modelUp}}Name', {
+        PX.renderDataTable('dt{{modelUp}}', {
             select: true,
             url: '{{nameSpaceDown}}/list',
             columns: col_draft,

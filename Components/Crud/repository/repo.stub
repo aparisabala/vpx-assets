@@ -169,4 +169,5 @@ class  {{crudUp}}CrudRepository extends BaseRepository implements I{{crudUp}}Cru
             return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success">You made no changes </span>']);
         }
     }
+
 }
