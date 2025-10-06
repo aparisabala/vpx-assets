@@ -37,17 +37,13 @@ return [
         "no_data_mgs" => "Click add new button to add new ",
     ],
 	"btns" => [
-		"glob_close" => "Dismiss",
-		"glob_ok" => "Ok",
-		"glob_add" => "Add New",
-		"glob_load" => "Load",
-		"glob_delete" => "Delete",
-		"glob_update" => "Update",
-		"glob_pdf" => "PDF",
-		"glob_excel" => "EXCEL",
-		"add" => "Create",
-		"confirm" => "Confirm",
-		"cancel" => "Cancel"
+		"crud_add" => "Add New",
+		"crud_update" => "Update",
+		"crud_delete" => "Delete",
+		"crud_pdf" => "PDF",
+		"crud_excel" => "Excel",
+		"crud_action_add" => "Add",
+		"crud_action_update" => "Update"
 	],
 	"text" => [
 		"option_select" => "Select"

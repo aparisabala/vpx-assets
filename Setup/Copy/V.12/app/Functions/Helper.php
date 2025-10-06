@@ -29,3 +29,9 @@ function getRowImage($row,$ext='80X80'){
     $img = ($row?->image == "" || !file_exists($path)) ? url('images/system/img.jpg') : url($path);
     return $img;
 }
+
+if (! function_exists('pxLang')) {
+    function pxLang($key='',$value='',$common='') {
+        return app(\App\Services\PxCommandService::class)->pxLang($key,$value,$common);
+    }
+}

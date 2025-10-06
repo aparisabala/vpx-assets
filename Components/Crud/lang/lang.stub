@@ -1,0 +1,18 @@
+<?php
+return [
+    'pageTitle' => 'pageTitle',
+    'pageSubTitle' => 'pageSubTitle',
+    'breadCum' => [
+        'title' => 'breadCumTitle',
+        'b1' => 'b1',
+        'b2' => 'b2',
+        'b3' => 'b3'
+    ],
+    'fields' => [
+        'name' => 'Name'
+    ],
+    'table' => [
+        'id' => 'ID',
+        'name' => 'Name'
+    ]
+];

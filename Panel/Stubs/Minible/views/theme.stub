@@ -50,6 +50,9 @@ a {
 .shadow-card {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
+.card-border {
+    border-top: 3px solid #1e90ff;
+}
 table.dataTable {
     max-width: 100%;
 }

@@ -13,6 +13,7 @@ class {{crudUp}}CrudController  extends Controller {
     use BaseTrait;
     public function __construct(private I{{crudUp}}CrudRepository $i{{crudUp}}CrudRepo) {
         $this->middleware(['auth:{{prefixDown}}','HasSetAdminPassword','HasAdminAuth']);
+        $this->lang= '{{langKey}}';
     }
 
     /**
@@ -24,6 +25,7 @@ class {{crudUp}}CrudController  extends Controller {
     public function index(Request $request) : View
     {
         $data = $this->i{{crudUp}}CrudRepo->index($request);
+        $data['lang'] = $this->lang;
         return view('{{prefixDown}}.pages.{{pageRoute}}.crud.index',compact('data'));
     }
 

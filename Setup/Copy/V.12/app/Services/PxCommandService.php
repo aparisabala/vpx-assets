@@ -3,6 +3,7 @@
 namespace App\Services;
 use File;
 use Route;
+use Lang;
 class PxCommandService
 {
 
@@ -166,5 +167,28 @@ class PxCommandService
         foreach ($routeFiles as $value) {
             Route::middleware($group)->group(base_path((string)$value));
         }
+    }
+
+    /**
+     * Serves language packs to system
+     *
+     * @param string $key
+     * @param string $value
+     * @param string $common
+     * @return string
+     */
+    public function pxLang($key='',$value='',$common='') : string
+    {
+        if($common != '') {
+            return Lang::get($common);
+        }
+        if($key == '') {
+            return '';
+        }
+        $lang = config('pxcommands.language');
+        if(array_key_exists($key,$lang)) {
+            return Lang::get($lang[$key].'.'.$value);
+        }
+        return '';
     }
 }
