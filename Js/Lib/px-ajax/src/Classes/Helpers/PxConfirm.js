@@ -17,6 +17,7 @@ export class PxConfirm extends PxConfig {
             }
         } else {
             let buttons = {};
+            console.log(this?.G);
             buttons[this?.G?.mgs?.btns?.confirm] = {
                 btnClass: 'btn btn-primary',
                 action: function () {

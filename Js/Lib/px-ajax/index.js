@@ -1,8 +1,11 @@
-import { PxValidations } from '@app/Classes/Helpers/PxValidations';
 import './src/Css/App.css';
+import { PxValidations } from '@app/Classes/Helpers/PxValidations';
 import { PxFactory } from './src/Classes/PxFactory';
 import { DataTable } from './src/Classes/DataTable/DataTable';
 import { BulkAction } from './src/Classes/Helpers/BulkAction';
+import { PxConfig } from './src/Classes/PxConfig';
+import { PdfGeneration } from './src/Classes/Helpers/PdfGeneration';
+import { ExcelGeneration } from './src/Classes/Helpers/ExcelGeneration';
 class PX extends PxFactory {
     constructor(props){
         super(props);
@@ -10,9 +13,12 @@ class PX extends PxFactory {
             throw new Error("This library required JQuery library, please use cdn or local JQuery File");
         }
         this.validation = new PxValidations();
-        this.bulk = new BulkAction;
+        this.bulk = new BulkAction();
+        this.pdf = new PdfGeneration();
+        this.excel = new ExcelGeneration();
+        const config = new PxConfig();
+        this.config = config?.G;
         this.init();
-        
     }
 
     /**
@@ -40,6 +46,15 @@ class PX extends PxFactory {
     deleteAll(op){
         this?.bulk?.deleteAll({...op,context: this},this.ajaxRequest);
     }
+
+    dowloadPdf(op){
+        this?.pdf?.dowloadPdf({...op,context: this});
+    }
+
+    dowloadExcel(op){
+        this?.excel?.dowloadExcel({...op,context: this});
+    }
+
 
     updateAll(op){
         this?.bulk?.updateAll({...op,context: this},this.ajaxRequest);
