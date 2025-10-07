@@ -21,6 +21,9 @@ export class DataTable extends PxConfig {
         f.url = op.url || "";
         f.columns = op.columns || [];
         f.body = op.body || {};
+        f.language = {
+            url: baseurl + "../resources/lang/" + this?.G?.local + "/dt.json"
+        }
         if (op.select != undefined) {
             if (op.select) {
                 s = [{
@@ -56,6 +59,7 @@ export class DataTable extends PxConfig {
                 stateSave: f.stateSave,
                 cache: f.cache,
                 pageLength: f.pageLength,
+                language: f.language,
                 columnDefs: s,
                 processing: "<span class='fa-stack fa-lg'>\n\ <i class='fa fa-spinner fa-spin fa-stack-2x fa-fw'></i>\n\</span>&nbsp;&nbsp;&nbsp;&nbsp;Processing ...",
                 serverSide: true,
