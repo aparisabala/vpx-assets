@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <div class="float-end">
-                                        <a href="#" class="text-muted">Forgot password?</a>
+                                        <a href="{{ url('{{name}}/password/reset')}}" class="text-muted">Forgot password?</a>
                                     </div>
                                     <label class="form-label"><b> Password </b> <em class="required">*</em> <span id="password_error"> </span> </label>
                                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
