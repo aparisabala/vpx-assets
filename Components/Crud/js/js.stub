@@ -37,14 +37,16 @@ $(document).ready(function(){
     }
 
     if ($("#dt{{modelUp}}").length > 0) {
+        const {pageLang={}} = PX?.config;
+        const {table={}} = pageLang;
         let col_draft = [
             {
                 data: 'id',
-                title: 'ID'
+                title: table?.id
             },
             /*{
                 data: null,
-                title: 'Serial',
+                title: table?.serial,
                 class: 'text-center',
                 width: '200px',
                 render: function (data, type, row) {
@@ -53,23 +55,21 @@ $(document).ready(function(){
             },*/
             {
                 data: 'name',
-                title: 'Name'
+                title: table?.name
             },
 
             {
                 data: 'created_at',
-                title: 'Created At'
+                title: table?.created
             },
 
             {
                 data: null,
-                title: 'Actions',
+                title: table?.action,
                 class: 'text-end',
                 render: function (data, type, row) {
-                    return `<a href="${baseurl}{{nameSpaceDown}}/${data.id}/edit"
-                        <span class="badge rounded-pill bg-info cursor-pointer me-2">
-                            <span class="bx bxs-edit text-white fw-bold fs-14"></span>
-                        </span>
+                    return `<a href="${baseurl}admin/system/user/${data.id}/edit class="btn btn-outline-secondary btn-sm edit" title="Edit">
+                        <i class="fas fa-pencil-alt"></i>
                     </a>`;
                 }
             },
@@ -116,6 +116,6 @@ function dt{{modelUp}}(table, api, op) {
             type: "inflate_response_data"
         }
     });
-    // PX?.dowloadPdf({ ...op, btn: "download{{modelUp}}Pdf", dataTable: "yes" })
-    // PX?.dowloadExcel({ ...op, btn: "download{{modelUp}}Excel", dataTable: "yes" })
+    PX?.dowloadPdf({ ...op, btn: "download{{modelUp}}Pdf", dataTable: "yes" })
+    PX?.dowloadExcel({ ...op, btn: "download{{modelUp}}Excel", dataTable: "yes" })
 }

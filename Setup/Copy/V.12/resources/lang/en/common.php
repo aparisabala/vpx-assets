@@ -27,7 +27,7 @@ return [
 	"not_found" => ":attribute not found",
 	"no_data_selected" => "No data selected",
 	"no_internet" => "No internet connection",
-	"confirm" => "Are you sure want to perform this action",
+	"confirm" => "Are you sure want to perform this action?",
 	"no_change" => "You made no changes",
 	"no_access" => "You do not have access to this content",
 	"no_access_button" => "Go Back Home",
@@ -43,7 +43,9 @@ return [
 		"crud_pdf" => "PDF",
 		"crud_excel" => "Excel",
 		"crud_action_add" => "Add",
-		"crud_action_update" => "Update"
+		"crud_action_update" => "Update",
+        "confirm" => "Confirm",
+		"cancel" => "Cancel"
 	],
 	"text" => [
 		"option_select" => "Select"

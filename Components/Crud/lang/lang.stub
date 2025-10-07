@@ -2,17 +2,21 @@
 return [
     'pageTitle' => 'pageTitle',
     'pageSubTitle' => 'pageSubTitle',
+    'add' => 'add',
+    'update' => 'update',
     'breadCum' => [
-        'title' => 'breadCumTitle',
+        'title' => 'title',
         'b1' => 'b1',
         'b2' => 'b2',
         'b3' => 'b3'
     ],
     'fields' => [
-        'name' => 'Name'
+        'name' => 'Name',
     ],
     'table' => [
         'id' => 'ID',
-        'name' => 'Name'
+        'name' => 'Name',
+        'created_at' => 'Created',
+        'actions' => 'Actions',
     ]
 ];

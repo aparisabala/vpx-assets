@@ -83,10 +83,14 @@ table.dataTable thead th {
     letter-spacing: 0.2px;
     padding: 12px 10px;
 }
+table.dataTable tbody tr td {
+    vertical-align: middle;
+}
 
 table.dataTable tbody tr.odd td {
     background-color: #f0f4f8; /* slightly darker gray-blue */
     color: #222;
+
 }
 
 table.dataTable tbody tr.even td {
@@ -101,6 +105,14 @@ table.dataTable tbody tr:hover td {
 
 table.dataTable.no-footer {
     border-bottom: none;
+}
+.input-group #status {
+    position: unset;
+    left: unset;
+    top: unset;
+    -webkit-transform: unset;
+    transform:unset;
+    margin: unset;
 }
 
 </style>
