@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\{{nameSpace}};
+namespace App\Http\Controllers\{{nameUp}}\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,23 +8,23 @@ use Auth;
 use Illuminate\Contracts\View\View;
 use App\Traits\BaseTrait;
 //vpx_imports
-class {{controller}} extends Controller
+class {{nameUp}}DashboardGetController extends Controller
 {
     use BaseTrait;
     public function __construct()
     {
-        $this->middleware(['auth:{{authName}}','HasSet{{name}}Password','Has{{name}}Auth']);
+        $this->middleware(['auth:{{nameDown}}','HasSet{{nameUp}}Password','Has{{nameUp}}Auth']);
     }
 
     /**
-     * View Admin dashboard page
+     * View {{nameUp}} dashboard page
      *
      * @param Request $request
      * @return View
      */
     public function index(Request $request) : View
     {
-        return view('{{pageRoute}}');
+        return view('{{nameDown}}.pages.dashboard.index');
     }
     //vpx_attach
 }

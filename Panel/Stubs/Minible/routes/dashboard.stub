@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{{nameSpace}}\{{name}}DashboardGetController;
+use App\Http\Controllers\{{nameSpace}}\{{nameUp}}DashboardGetController;
 
 //vpx_imports
 
-Route::get('{{getRoute}}', [{{name}}DashboardGetController::class,'index'])->name('{{auth}}.dashboard.index');
+Route::get('{{getRoute}}', [{{nameUp}}DashboardGetController::class,'index'])->name('{{auth}}.dashboard.index');
 
 //vpx_attach

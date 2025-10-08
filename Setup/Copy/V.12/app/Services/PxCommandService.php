@@ -17,8 +17,15 @@ class PxCommandService
     public function generateScripts($panels,$panel,$from) : array
     {
         $data = [];
+        if(env('HAS_SOCKET')) {
+            $data = [
+                ...$data,
+                '<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js" integrity="sha512-8BHxHDLsOHx+flIrQ0DrZcea7MkHqRU5GbTHmbdzMRnAaoCIkZ97PqZcXJkKZckMMhqfoeaJE+DNUVuyoQsO3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>'
+            ];
+        }
         if($from == "scripts") {
             $data = [
+                ...$data,
                 '<script src="'.url('js/config/config.js').'"></script>',
                 '<script src="'.url('js/config/defaultConfig.js').'"></script>'
             ];

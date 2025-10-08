@@ -6,6 +6,7 @@ import { BulkAction } from './src/Classes/Helpers/BulkAction';
 import { PxConfig } from './src/Classes/PxConfig';
 import { PdfGeneration } from './src/Classes/Helpers/PdfGeneration';
 import { ExcelGeneration } from './src/Classes/Helpers/ExcelGeneration';
+import { PxErrors } from './src/Classes/Helpers/PxErrors';
 class PX extends PxFactory {
     constructor(props){
         super(props);
@@ -18,6 +19,7 @@ class PX extends PxFactory {
         this.excel = new ExcelGeneration();
         const config = new PxConfig();
         this.config = config?.G;
+        this.errors = new PxErrors();
         this.init();
     }
 
@@ -69,6 +71,7 @@ class PX extends PxFactory {
         let dt = new DataTable;
         dt.makeAjaxDataTable(table,op);
     }
+    
 
     init(){
         if(window){
@@ -76,7 +79,64 @@ class PX extends PxFactory {
                 $(".disBtn").attr('disabled',false);
             };
             this.#pageAction();
+            let context = this;
+            $(".p-link").each(function () {
+                if ($(this).attr("href") == window.location.href) {
+                $(this).addClass("p-link-active");
+                }
+            });
+
+            $(".navbar-nav-link,.module-link").each(function () {
+                if ($(this).attr("href") == window.location.href) {
+                $(this).addClass("active");
+                }
+            });
+            
+            $(".sub-link").each(function () {
+                if ($(this).attr("href") == window.location.href) {
+                $(this).addClass("sub-link-active");
+                }
+            });
+            $(".p-link-hr").each(function () {
+                if ($(this).attr("href") == window.location.href) {
+                $(this).addClass(" p-link-hr-active");
+                }
+            });
+            $(".sub-link-hr").each(function () {
+                if ($(this).attr("href") == window.location.href) {
+                $(this).addClass(" sub-link-hr-active");
+                }
+            });
+            $("#closeError").on("click", function () {
+                $("#showErros").html("");
+                $("#errorBase").removeClass("activateErrors").fadeOut(500);
+            });
+            $("#closeDownload").on("click", function () {
+                $("#theDownloadLoader").css({ display: "none" });
+            });
+
+            $(".openNav").on("click",function(){
+                let id = $(this).attr('data-open-id') ?? 'pageSideBar';
+                context?.openNav(id);
+            });
+            $(".closeNav").on("click",function(){
+                let id = $(this).attr('data-close-id') ?? 'pageSideBar';
+                context?.closeNav(id);
+            })
+
         }
+    }
+
+    openNav(id,width=250) {
+        document.getElementById(id).style.width = width+"px";
+    }
+
+    closeNav(id) {
+        document.getElementById(id).style.width = "0";
+    }
+
+    inflatesuccess(msg) {
+        this?.errors?.inflatesuccess(msg);
     }
 
     #pageAction(){

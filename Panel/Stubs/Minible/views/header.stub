@@ -27,14 +27,43 @@
         </div>
         <div class="d-flex">
             <div class="dropdown d-inline-block">
+                <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="bx bx-bell"></i>
+                    <span class="badge bg-danger rounded-pill" id="notiCount">0</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown" style="">
+                    <div class="p-3">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="m-0 font-size-16"> Notifications </h5>
+                            </div>
+                            <div class="col-auto">
+                                <a href="#!" class="small"> Mark all as read</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div  class="" id="notificationBar">
+                      <div class="ms-3 text-dark notification-item"> No notification yet</div>
+                    </div>
+                    <div class="p-2 border-top">
+                        <div class="d-grid">
+                            <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
+                                <i class="uil-arrow-circle-right me-1"></i> View More..
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="{{ getRowImage(Auth::user(),'80X80') }}" alt="Header Avatar">
                     <span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">{{Auth::user()->name}}</span>
                     <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
-                    <!-- item-->
-                    <a class="dropdown-item" href="{{url('admin/logout')}}"><i class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> <span class="align-middle">Sign out</span></a>
+                     <a class="dropdown-item" href="{{url('{{nameDown}}/setup/profile-update')}}"><i class="bx bx-user fs-18 align-middle me-1 text-muted"></i> <span class="align-middle"> My Profile  </span></a>
+                    <a class="dropdown-item" href="{{url('{{nameDown}}/setup/password-update')}}"><i class="bx bx-lock fs-18 align-middle me-1 text-muted"></i> <span class="align-middle"> Change Password  </span></a>
+                    <a class="dropdown-item" href="{{url('{{nameDown}}/logout')}}"><i class="bx bx-log-out-circle fs-18 align-middle me-1 text-muted"></i> <span class="align-middle"> Sign out</span></a>
                 </div>
             </div>
 
