@@ -141,9 +141,10 @@ export class PxErrors extends PxConfig {
     }
 
     noUpdate(op) {
+        console.log(this?.G);
         const  {response={}} = op;
         let btns = {};
-        let name = this?.G?.mgs.btns.glob_close;
+        let name = this?.G?.mgs?.btns?.cancel;
         btns[name] = {
             btnClass: 'btn btn-primary text-white text-capitalize',
             function() {
@@ -163,7 +164,7 @@ export class PxErrors extends PxConfig {
 
     showAlert(title, content) {
         let btns = {};
-        let name = this?.G?.mgs.btns.glob_ok;
+        let name = this?.G?.mgs.btns.ok;
         btns[name] = {
             btnClass: 'btn btn-primary text-white text-capitalize',
             function() {
