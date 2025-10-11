@@ -48,6 +48,59 @@ class  {{crudUp}}CrudRepository extends BaseRepository implements I{{crudUp}}Cru
     }
 
     /**
+     * Store resource
+     *
+     * @param Request  $request
+     * @return JsonResponse
+     */
+    public function store($request) : JsonResponse
+    {
+        try {
+            {{modelUp}}::create([
+                ...$request->all(),
+                //'serial' => $this->facSrWc($this->{{crudUp}})
+            ]);
+            $response['extraData'] = ['inflate' => 'Action succesfull' ];
+            return $this->response(['type' => 'success', 'data' => $response]);
+        } catch (\Exception $e) {
+            $this->saveError($this->getSystemError(['name' => 'UqProfession_store_error']), $e);
+            return $this->response(['type' => 'noUpdate', 'title' => 'Something went wrong, try again']);
+        }
+    }
+
+    /**
+     * Update resource
+     *
+     * @param Requets $request
+     * @param integer|string $id
+     * @return JsonResponse
+     */
+    public function update($request,$id) : JsonResponse
+    {
+        $row = {{modelUp}}::find($id);
+        if(empty($row)){
+            return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">Requestd resource not found, try again </span>']);
+        }
+        $row->fill($request->all());
+        if($row->isDirty()){
+            $validator = Validator::make($request->all(), (new ValidateUpdate{{crudUp}}())->rules($request,$row));
+            if ($validator->fails()) {
+                return $this->response(['type' => 'validation','errors' => $validator->errors()]);
+            }
+            try {
+                $row->update($request->all());
+                $data['extraData'] = ["inflate" => 'Action successfull'];
+                return $this->response(['type' => 'success','data' => $data]);
+            } catch (\Exception $e) {
+                $this->saveError($this->getSystemError(['name'=>'LibAssociate_update_error']), $e);
+                return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
+            }
+        } else {
+            return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success">You made no changes </span>']);
+        }
+    }
+
+    /**
      *  Bulk update list resource
      *
      * @param Request $request
@@ -114,59 +167,6 @@ class  {{crudUp}}CrudRepository extends BaseRepository implements I{{crudUp}}Cru
             return $this->response(['type' => 'success',"data"=>$data]);
         } else {
             return $this->response(['type' => 'noUpdate', 'title' => 'No selected data found, try again']);
-        }
-    }
-
-    /**
-     * Store resource
-     *
-     * @param Request  $request
-     * @return JsonResponse
-     */
-    public function store($request) : JsonResponse
-    {
-        try {
-            {{modelUp}}::create([
-                ...$request->all(),
-                //'serial' => $this->facSrWc($this->{{crudUp}})
-            ]);
-            $response['extraData'] = ['inflate' => 'Action succesfull' ];
-            return $this->response(['type' => 'success', 'data' => $response]);
-        } catch (\Exception $e) {
-            $this->saveError($this->getSystemError(['name' => 'UqProfession_store_error']), $e);
-            return $this->response(['type' => 'noUpdate', 'title' => 'Something went wrong, try again']);
-        }
-    }
-
-    /**
-     * Update resource
-     *
-     * @param Requets $request
-     * @param integer|string $id
-     * @return JsonResponse
-     */
-    public function update($request,$id) : JsonResponse
-    {
-        $row = {{modelUp}}::find($id);
-        if(empty($row)){
-            return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">Requestd resource not found, try again </span>']);
-        }
-        $row->fill($request->all());
-        if($row->isDirty()){
-            $validator = Validator::make($request->all(), (new ValidateUpdate{{crudUp}}())->rules($request,$row));
-            if ($validator->fails()) {
-                return $this->response(['type' => 'validation','errors' => $validator->errors()]);
-            }
-            try {
-                $row->update($request->all());
-                $data['extraData'] = ["inflate" => 'Action successfull'];
-                return $this->response(['type' => 'success','data' => $data]);
-            } catch (\Exception $e) {
-                $this->saveError($this->getSystemError(['name'=>'LibAssociate_update_error']), $e);
-                return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
-            }
-        } else {
-            return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success">You made no changes </span>']);
         }
     }
 

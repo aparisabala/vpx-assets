@@ -16,6 +16,7 @@ export class PxConfig {
             digits: (document.getElementById('digits')) ? JSON.parse(document.getElementById('digits').value) : {},
             attributes: (document.getElementById('attributes')) ? JSON.parse(document.getElementById('attributes').value) : {},
             pageLang: ($("#page-lang").length > 0) ? JSON.parse($("#page-lang").val()) : null,
+            policy: ($("#systemPolicies").length > 0) ? JSON.parse($("#systemPolicies").val()) : {},
             local: 'en',
             lang: function (op = {}) {
                 let ob = {};

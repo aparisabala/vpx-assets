@@ -1,4 +1,4 @@
-@extends('{{prefixDown}}.layouts.main-layout',["tabTitle" => config('i.service_name')." |".pxLang($data['lang'],'breadCum.title') ])
+@extends('{{prefixDown}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | ".pxLang($data['lang'],'breadCum.title') ])
 @section('page')
     <div class="row">
         <div class="col-md-12">
