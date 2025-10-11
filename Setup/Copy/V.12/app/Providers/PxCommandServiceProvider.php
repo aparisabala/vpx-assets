@@ -48,11 +48,13 @@ class PxCommandServiceProvider extends ServiceProvider
             //feed the styles to header resources
             View::composer($panel.'.includes.header-resource', function ($view) use($panels,$panel,$pxCommandService){
                 $view->with('appStyles', implode("\n",$pxCommandService->generateScripts(panels: $panels,panel: $panel,from: 'styles')));
+                //vpx_to_header
             });
 
             //feed the scripts to footer resources
             View::composer($panel.'.includes.footer-resource', function ($view) use($panels,$panel,$pxCommandService) {
                 $view->with('appScripts', implode("\n",$pxCommandService->generateScripts(panels: $panels,panel: $panel,from: 'scripts')));
+                //vpx_to_footer
             });
         }
     }

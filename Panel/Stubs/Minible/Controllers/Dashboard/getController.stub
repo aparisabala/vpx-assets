@@ -8,7 +8,7 @@ use Auth;
 use Illuminate\Contracts\View\View;
 use App\Traits\BaseTrait;
 //vpx_imports
-class {{nameUp}}DashboardGetController extends Controller
+class {{nameUp}}DashboardController extends Controller
 {
     use BaseTrait;
     public function __construct()

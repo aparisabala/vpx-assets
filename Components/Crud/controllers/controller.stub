@@ -14,6 +14,11 @@ class {{crudUp}}CrudController  extends Controller {
     public function __construct(private I{{crudUp}}CrudRepository $i{{crudUp}}CrudRepo) {
         $this->middleware(['auth:{{prefixDown}}','HasSetAdminPassword','HasAdminAuth']);
         $this->lang= '{{langKey}}';
+        $this->middleware(function ($request, $next) {
+            $request->merge(['lang' => $this->lang]);
+            return $next($request);
+        });
+
     }
 
     /**

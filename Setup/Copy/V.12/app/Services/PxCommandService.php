@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Services;
+
+use App\Models\AdminUser;
+use App\Models\AdminUserPermission;
 use File;
 use Route;
 use Lang;
+use Illuminate\Support\Facades\Gate;
 class PxCommandService
 {
 
@@ -197,5 +201,37 @@ class PxCommandService
             return Lang::get($lang[$key].'.'.$value);
         }
         return '';
+    }
+
+    /**
+     * Get current logged in user policy
+     *
+     * @return array
+     */
+    public function getPolicies() : array
+    {
+        $user = auth()->user();
+        $abilities = Gate::abilities();
+        $permissions = [];
+        foreach (array_keys($abilities) as $slug) {
+            $permissions[$slug] = Gate::forUser($user)->allows($slug);
+        }
+        return $permissions;
+    }
+
+    /**
+     * Set user policy gate
+     *
+     * @param Query $policyModelQuery
+     * @return void
+     */
+    public function registerPolicies($policyModelQuery) : void
+    {
+        $permissions = $policyModelQuery::select(['slug','user_access'])->get();
+        foreach ($permissions as $permission) {
+            Gate::define($permission->slug, function () use ($permission) {
+                return auth()->user()->hasPermission($permission?->user_access ?? []) ;
+            });
+        }
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Services\PxCommandService;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
+use Illuminate\Support\Facades\Schema;
+//vpx_imports
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -21,6 +22,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
+        foreach (config('pxcommands.panels') as $panel => $panels) {
+            if (Schema::hasTable($panel.'_user_roles')) {
+                //vpx_attach
+            }
+        }
     }
 }

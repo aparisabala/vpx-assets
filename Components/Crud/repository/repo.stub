@@ -60,11 +60,11 @@ class  {{crudUp}}CrudRepository extends BaseRepository implements I{{crudUp}}Cru
                 ...$request->all(),
                 //'serial' => $this->facSrWc($this->{{crudUp}})
             ]);
-            $response['extraData'] = ['inflate' => 'Action succesfull' ];
+            $response['extraData'] = ['inflate' => pxLang($request->lang,'','common.action_success') ];
             return $this->response(['type' => 'success', 'data' => $response]);
         } catch (\Exception $e) {
-            $this->saveError($this->getSystemError(['name' => 'UqProfession_store_error']), $e);
-            return $this->response(['type' => 'noUpdate', 'title' => 'Something went wrong, try again']);
+            $this->saveError($this->getSystemError(['name' => '{{modelUp}}_store_error']), $e);
+            return $this->response(['type' => 'noUpdate', 'title' => pxLang($request->lang,'','common.server_wrong')]);
         }
     }
 
@@ -79,7 +79,7 @@ class  {{crudUp}}CrudRepository extends BaseRepository implements I{{crudUp}}Cru
     {
         $row = {{modelUp}}::find($id);
         if(empty($row)){
-            return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">Requestd resource not found, try again </span>']);
+            return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">'.pxLang($request->lang,'','common.no_resourse').'</span>']);
         }
         $row->fill($request->all());
         if($row->isDirty()){
@@ -89,14 +89,14 @@ class  {{crudUp}}CrudRepository extends BaseRepository implements I{{crudUp}}Cru
             }
             try {
                 $row->update($request->all());
-                $data['extraData'] = ["inflate" => 'Action successfull'];
+                $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
                 return $this->response(['type' => 'success','data' => $data]);
             } catch (\Exception $e) {
-                $this->saveError($this->getSystemError(['name'=>'LibAssociate_update_error']), $e);
+                $this->saveError($this->getSystemError(['name'=>'{{modelUp}}_update_error']), $e);
                 return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
             }
         } else {
-            return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success">You made no changes </span>']);
+            return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success">'.pxLang($request->lang,'','common.no_change').'</span>']);
         }
     }
 
@@ -122,15 +122,15 @@ class  {{crudUp}}CrudRepository extends BaseRepository implements I{{crudUp}}Cru
                     $value->save();
                 }
                 $data['extraData'] = [
-                    "inflate" => 'Updated successfully'
+                    "inflate" => pxLang($request->lang,'','common.action_update_success')
                 ];
                 return $this->response(['type' => 'success','data' => $data]);
             } else {
-                return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success"> You made no changes </span>']);
+                return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success"> '.pxLang($request->lang,'','common.no_change').'  </span>']);
             }
 
         } else {
-            return $this->response(['type' => 'noUpdate', 'title' => 'Something went wrong, try again']);
+            return $this->response(['type' => 'noUpdate', 'title' => pxLang($request->lang,'','common.went_wrong')]);
         }
     }
 
@@ -161,12 +161,12 @@ class  {{crudUp}}CrudRepository extends BaseRepository implements I{{crudUp}}Cru
                 $value->delete();
             }
             $data['extraData'] = [
-                "inflate" => "Deleted successfuly",
+                "inflate" => pxLang($request->lang,'','common.action_delete_success'),
                 "redirect" => null
             ];
             return $this->response(['type' => 'success',"data"=>$data]);
         } else {
-            return $this->response(['type' => 'noUpdate', 'title' => 'No selected data found, try again']);
+            return $this->response(['type' => 'noUpdate', 'title' =>  pxLang($request->lang,'','common.no_data_selected')]);
         }
     }
 

@@ -35,3 +35,7 @@ if (! function_exists('pxLang')) {
         return app(\App\Services\PxCommandService::class)->pxLang($key,$value,$common);
     }
 }
+
+function getPolicyKey($Str,$key) {
+    return $Str::lower($Str::replace(' ','_',$key));
+}
