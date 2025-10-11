@@ -1,0 +1,20 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{{nameUp}}\Setup\{{nameUp}}ProfileSetupController;
+use App\Http\Controllers\{{nameUp}}\Setup\{{nameUp}}UserSetupController;
+
+//vpx_imports
+
+//vpx_attach
+Route::get('{{nameDown}}/setup/profile', [{{nameUp}}ProfileSetupController::class,'index'])->name('{{nameDown}}.profile.setup');
+Route::post('{{nameDown}}/setup/profile', [{{nameUp}}ProfileSetupController::class,'update']);
+
+Route::get('{{nameDown}}/setup/profile-update', [{{nameUp}}UserSetupController::class,'index'])->name('{{nameDown}}.user.setup');
+Route::post('{{nameDown}}/setup/profile-update', [{{nameUp}}UserSetupController::class,'updateProfile']);
+
+Route::get('{{nameDown}}/setup/password-update', [{{nameUp}}UserSetupController::class,'password'])->name('{{nameDown}}.user.password');
+Route::post('{{nameDown}}/setup/password-update', [{{nameUp}}UserSetupController::class,'updatePassword']);
+
+
+

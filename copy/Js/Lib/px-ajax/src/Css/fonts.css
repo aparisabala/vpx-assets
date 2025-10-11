@@ -1,0 +1,88 @@
+/* Base font sizes (1px to 50px) */
+.px-font-1 { font-size: 1px; }
+.px-font-2 { font-size: 2px; }
+.px-font-3 { font-size: 3px; }
+.px-font-4 { font-size: 4px; }
+.px-font-5 { font-size: 5px; }
+.px-font-6 { font-size: 6px; }
+.px-font-7 { font-size: 7px; }
+.px-font-8 { font-size: 8px; }
+.px-font-9 { font-size: 9px; }
+.px-font-10 { font-size: 10px; }
+
+/* Make the font size responsive with breakpoints */
+
+/* Small screens (mobile) */
+@media (max-width: 576px) {
+    .px-font-1 { font-size: 8px; }
+    .px-font-2 { font-size: 12px; }
+    .px-font-3 { font-size: 14px; }
+    .px-font-4 { font-size: 16px; }
+    .px-font-5 { font-size: 18px; }
+    .px-font-6 { font-size: 20px; }
+    .px-font-7 { font-size: 22px; }
+    .px-font-8 { font-size: 24px; }
+    .px-font-9 { font-size: 26px; }
+    .px-font-10 { font-size: 28px; }
+    /* Continue for other font sizes as needed */
+}
+
+/* Medium screens (tablet) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .px-font-1 { font-size: 10px; }
+    .px-font-2 { font-size: 14px; }
+    .px-font-3 { font-size: 16px; }
+    .px-font-4 { font-size: 18px; }
+    .px-font-5 { font-size: 20px; }
+    .px-font-6 { font-size: 22px; }
+    .px-font-7 { font-size: 24px; }
+    .px-font-8 { font-size: 26px; }
+    .px-font-9 { font-size: 28px; }
+    .px-font-10 { font-size: 30px; }
+    /* Continue for other font sizes as needed */
+}
+
+/* Large screens (desktop) */
+@media (min-width: 768px) and (max-width: 992px) {
+    .px-font-1 { font-size: 12px; }
+    .px-font-2 { font-size: 16px; }
+    .px-font-3 { font-size: 18px; }
+    .px-font-4 { font-size: 20px; }
+    .px-font-5 { font-size: 22px; }
+    .px-font-6 { font-size: 24px; }
+    .px-font-7 { font-size: 26px; }
+    .px-font-8 { font-size: 28px; }
+    .px-font-9 { font-size: 30px; }
+    .px-font-10 { font-size: 32px; }
+    /* Continue for other font sizes as needed */
+}
+
+/* Extra large screens (larger desktop) */
+@media (min-width: 992px) and (max-width: 1200px) {
+    .px-font-1 { font-size: 14px; }
+    .px-font-2 { font-size: 18px; }
+    .px-font-3 { font-size: 20px; }
+    .px-font-4 { font-size: 22px; }
+    .px-font-5 { font-size: 24px; }
+    .px-font-6 { font-size: 26px; }
+    .px-font-7 { font-size: 28px; }
+    .px-font-8 { font-size: 30px; }
+    .px-font-9 { font-size: 32px; }
+    .px-font-10 { font-size: 34px; }
+    /* Continue for other font sizes as needed */
+}
+
+/* Extra extra large screens (very large desktop) */
+@media (min-width: 1200px) {
+    .px-font-1 { font-size: 16px; }
+    .px-font-2 { font-size: 20px; }
+    .px-font-3 { font-size: 22px; }
+    .px-font-4 { font-size: 24px; }
+    .px-font-5 { font-size: 26px; }
+    .px-font-6 { font-size: 28px; }
+    .px-font-7 { font-size: 30px; }
+    .px-font-8 { font-size: 32px; }
+    .px-font-9 { font-size: 34px; }
+    .px-font-10 { font-size: 36px; }
+    /* Continue for other font sizes as needed */
+}

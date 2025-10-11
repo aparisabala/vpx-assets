@@ -1,0 +1,22 @@
+@extends('{{name}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | Dashboard" ])
+@section('breadCum')
+    <div class="py-2">
+        <a href="#" class="breadcrumb-item">B1</a>
+        <span class="breadcrumb-item">B2</span>
+        <span class="breadcrumb-item active">B3</span>
+    </div>
+@endsection
+@section('page')
+<div class="thepage">
+	<div id="defaultPage" class="pages">
+		<div class="data-summary">
+			<div class="card p-2 text-center">
+				<div class="text-center">
+					<img src="{{config('i.logo')}}" style="width: 100px;" />
+				</div>
+				<h1 class="fs-20">{{config('i.service_name')}}</h1>
+			</div>
+		</div>
+	</div>
+</div>
+@endsection

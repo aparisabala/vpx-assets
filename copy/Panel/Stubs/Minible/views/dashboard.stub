@@ -1,0 +1,15 @@
+@extends('{{name}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | Dashboard" ])
+@section('page')
+	@section('breadCum')
+		<h4 class="mb-0">Dashboard</h4>
+	@endsection
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					We Will Build an Awesome Dashboard Later
+				</div>
+			</div>
+		</div>
+	</div>
+@endsection

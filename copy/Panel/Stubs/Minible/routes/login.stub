@@ -1,0 +1,11 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{{nameSpace}}\{{name}}LoginController;
+
+//vpx_imports
+
+Route::get('{{getRoute}}', [{{name}}LoginController::class,'index'])->name('{{auth}}.login.index');
+Route::post('{{postRoute}}', [{{name}}LoginController::class,'login'])->name('{{auth}}.login');
+
+//vpx_attach

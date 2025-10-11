@@ -1,0 +1,32 @@
+{
+  "private": true,
+  "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress  --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress  --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    "devDependencies": {
+        "axios": "^1.7.4",
+        "concurrently": "^9.0.1",
+        "tailwindcss": "^4.0.12",
+        "postcss": "^8.5.3",
+        "@babel/preset-react": "^7.22.5",
+        "cross-env": "^7.0",
+        "laravel-mix": "^6.0",
+        "lodash": "^4.17",
+        "resolve-url-loader": "^4.0.0",
+        "sass": "^1.35",
+        "sass-loader": "^12.1",
+        "vue-loader": "^15.9"
+    },
+    "dependencies": {
+        "@tailwindcss/postcss": "^4.0.12",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-router": "^7.3.0"
+    }
+}

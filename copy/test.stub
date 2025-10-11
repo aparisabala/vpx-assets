@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="/../../lvtwelve/vpx-assets/Js/Lib/px-ajax/dist/px.css"/>
+<script src="/../../lvtwelve/vpx-assets/Js/Lib/px-ajax/dist/px.js"></script>
+<script>
+    if($("#frmAdminLogin").length > 0) {
+        let rules = {
+            email: {
+                required: true,
+                email: true,
+            },
+            password:{
+                required: true,
+                minlength: 8,
+            },
+        };
+        PX.ajaxRequest({
+            element: "frmAdminLogin",
+            validation: true,
+            script: "admin/login",
+            confirm: true,
+            rules,
+            afterSuccess: {
+                type: "inflate_redirect_response_data",
+            }
+        });
+    }
+</script>
+
+connect copyPx()
+
+minible: https://themesbrand.com/minible/layouts/index.html

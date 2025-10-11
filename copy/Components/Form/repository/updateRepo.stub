@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Repositories\{{importNameSpace}}\Form;
+
+use App\Http\Requests\{{importNameSpace}}\Form\ValidateUpdate{{formUp}};
+use App\Models\{{modelUp}};
+use App\Repositories\BaseRepository;
+use App\Traits\BaseTrait;
+use Carbon\Carbon;
+use DataTables;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+class  {{formUp}}FormRepository extends BaseRepository implements I{{formUp}}FormRepository {
+
+    use BaseTrait;
+    public function __construct() {
+        $this->LoadModels(['{{modelUp}}']);
+    }
+
+    /**
+     * Get the page default resource
+     *
+     * @param Request $request
+     * @param integer|string $id
+     * @return array
+     */
+    public function index($request) : array
+    {
+       return $this->getPageDefault(model: $this->{{modelUp}}, id: $id);
+    }
+
+    /**
+     * Update resource
+     *
+     * @param Requets $request
+     * @param integer|string $id
+     * @return JsonResponse
+     */
+    public function update($request) : JsonResponse
+    {
+        $row = {{modelUp}}::find($request->id);
+        if(empty($row)){
+            return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">'.pxLang($request->lang,'','common.no_resourse').'</span>']);
+        }
+        $row->fill($request->all());
+        if($row->isDirty()){
+            $validator = Validator::make($request->all(), (new ValidateUpdate{{formUp}}())->rules($request,$row));
+            if ($validator->fails()) {
+                return $this->response(['type' => 'validation','errors' => $validator->errors()]);
+            }
+            try {
+                $row->update($request->all());
+                $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
+                return $this->response(['type' => 'success','data' => $data]);
+            } catch (\Exception $e) {
+                $this->saveError($this->getSystemError(['name'=>'{{modelUp}}_update_error']), $e);
+                return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
+            }
+        } else {
+            return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success">'.pxLang($request->lang,'','common.no_change').'</span>']);
+        }
+    }
+
+}

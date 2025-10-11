@@ -1,0 +1,108 @@
+<?php
+
+namespace App\Repositories\{{importNameSpace}}\Form;
+
+use App\Http\Requests\{{importNameSpace}}\Form\ValidateUpdate{{formUp}};
+use App\Models\{{modelUp}}Policy;
+use App\Repositories\BaseRepository;
+use App\Traits\BaseTrait;
+use Carbon\Carbon;
+use DataTables;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+class  {{formUp}}FormRepository extends BaseRepository implements I{{formUp}}FormRepository {
+
+    use BaseTrait;
+    /**
+     * View user policy view
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function index($request) : array
+    {
+        $data['availableUser'] =  {{formUp}}Role::select(['code','name'])->map(function($item){
+            return [
+                $item?->code => $item?->name
+            ];
+        });
+        $data['systePolicies'] = $this->systemPolicies();
+        $this->firstOrCreate($this->getFirstOrCreate($data['systePolicies'],$data['availableUser']));
+        $data['permissions'] = {{formUp}}Policy::select(['id','slug','user_access'])->get();
+        return $data;
+    }
+
+    /**
+     * Update current user policy
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function update($request) : JsonResponse
+    {
+        $i = {{formUp}}Policy::whereIn('id',$request->slug)->select(['id','user_access'])->get();;
+        $dirty = [];
+        if (isset($request->user_access) && count($request->user_access) > 0 && count($i) > 0) {
+            foreach ($i as $key => $value) {
+                $value->user_access =  (isset($request->user_access[$value->id])) ? $request->user_access[$value->id] : null;
+                if ($value->isDirty()) {
+                    $dirty[$key] = "yes";
+                }
+            }
+            if (count($dirty) > 0) {
+                foreach ($i as $key => $value) {
+                    $value->save();
+                }
+                $data['extraData'] = [
+                    "inflate" => 'Updated successfully'
+                ];
+                return $this->response(['type' => 'success','data' => $data]);
+            } else {
+                return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success"> You made no changes </span>']);
+            }
+
+        } else {
+            return $this->response(['type' => 'noUpdate', 'title' => '<span class="text-success"> You made no changes </span>']);
+        }
+    }
+
+    /**
+     * List out user policies to be installed
+     *
+     * @param array $policies
+     * @param array $users
+     * @return array
+     */
+    private function getFirstOrCreate($policies,$users) : array
+    {
+        $data = [];
+        foreach ($policies as $systemPolicy) {
+            foreach ($systemPolicy['policies'] as $moduelPolicy) {
+                foreach ($moduelPolicy['policies'] as $actionPolicy){
+                    foreach ($actionPolicy['keys'] as $action){
+                        $uniqueKey = getPolicyKey(\Str::class,$actionPolicy['name'].'_'.$action);
+                        $data[] = [
+                            "slug" => $uniqueKey
+                        ];
+                    }
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Found or create role
+     *
+     * @param array $permissions
+     * @return void
+     */
+    private function firstOrCreate($permissions) : void
+    {
+        foreach ($permissions as $perm) {
+            {{formUp}}Policy::firstOrCreate(
+                ['slug' => $perm['slug']],
+            );
+        }
+    }
+}

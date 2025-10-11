@@ -1,0 +1,131 @@
+<?php
+
+namespace App\Http\Controllers\{{nameUp}}\Setup;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\{{nameUp}}\Setup\ValidateUpdate{{nameUp}}Password;
+use App\Traits\BaseTrait;
+use Illuminate\Http\Request;
+use Auth;
+use Illuminate\Contracts\View\View;
+use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+use App\Models\{{nameUp}}User;
+use App\Http\Requests\{{nameUp}}\Setup\ValidateUpdate{{nameUp}}Profile;
+use Hash;
+class {{nameUp}}UserSetupController extends Controller
+{
+    use BaseTrait;
+    public function __construct()
+    {
+        $this->middleware(['auth:{{nameDown}}','HasSet{{nameUp}}Password','Has{{nameUp}}Auth']);
+        $this->sizes =  [
+            ['width'=>300, 'height'=> 300,'com'=> 90],
+            ['width'=>80, 'height'=> 80,'com'=> 100],
+        ];
+    }
+
+    /**
+     * View {{nameUp}} profile setup
+     *
+     * @param Request $request
+     * @return View
+    */
+    public function index(Request $request)
+    {
+        $user = Auth::user();
+        $data['item'] = $user;
+        $data['lang'] = '{{nameDown}}.user.update';
+        return  view('{{nameDown}}.pages.setup.user.index')->with("data",$data);
+    }
+
+    /**
+     * View {{nameUp}} profile setup
+     *
+     * @param Request $request
+     * @return View
+    */
+    public function password(Request $request)
+    {
+        $user = Auth::user();
+        $data['item'] = $user;
+        $data['lang'] = '{{nameDown}}.user.pass.update';
+        return  view('{{nameDown}}.pages.setup.pass.index')->with("data",$data);
+    }
+
+
+
+
+     /**
+     * {{nameUp}} Profile Update
+     *
+     * @param  Request $request
+     * @return JsonResponse
+    */
+    public function updateProfile(Request $request)
+    {
+        $lang = '{{nameDown}}.user.update';
+        $user = {{nameUp}}User::find($request?->auth?->id);
+        if (empty($user)) {
+            return $this->response([ 'type' => "noUpdate", "title" => pxLang($lang,'mgs.no_user')]);
+        }
+        $validator = Validator::make($request->all(), (new ValidateUpdate{{nameUp}}Profile())->rules($request, $user));
+        if ($validator->fails()) {
+            return $this->response(['type' => 'validation', 'errors' => $validator->errors()]);
+        }
+        try {
+            $user->name = $request->name;
+            $user->mobile_number = $request->mobile_number;
+            $user->email = $request->email;
+            $path = imagePaths()['dyn_image'];
+            $image = $request->file('image');
+            if (!empty($image)) {
+                $this->deleteImageVersions([
+                    'path' => $path,
+                    'image_link' => $user->image,
+                    'extension' => $user->extension,
+                    'sizes' =>  $this->sizes
+                ]);
+                $image_link = (string) Uuid::generate(4);
+                $extension = $image->getClientOriginalExtension();
+                $this->imageVersioning([
+                    'image' => $image, 'path' => $path, 'image_link' => $image_link, 'extension' => $extension,
+                    'appendSize' => true,
+                    'onlyAppend' => $this->sizes
+                ]);
+                $user->image = $image_link;
+                $user->extension = $extension;
+            }
+            $user->save();
+            $data['extraData'] = [
+                "redirect" => null,
+                "inflate" => pxLang($lang,'mgs.update_success')
+            ];
+            return $this->response(['type' => 'success', "data" => $data]);
+        } catch (\Exception $e) {
+            $this->saveError($this->getSystemError(['name' => 'update_{{nameUp}}_profile_error']), $e);
+            return $this->response(["type" => "wrong", "lang" => "server_wrong"]);
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $data['lang'] = '{{nameDown}}.user.pass.update';
+        $user = {{nameUp}}User::find($request?->auth?->id);
+        if (empty($user)) {
+            return $this->response([ 'type' => "noUpdate", "title" => pxLang($data['lang'] ,'mgs.no_user')]);
+        }
+        $validator = Validator::make($request->all(), (new ValidateUpdate{{nameUp}}Password())->rules($user));
+        if ($validator->fails()) {
+            return $this->response(['type' => 'validation', 'errors' => $validator->errors()]);
+        }
+        $user->password = Hash::make($request->confirm_password);
+        $user->save();
+        $reposne['extraData'] = [
+            "inflate" =>  pxLang($data['lang'],'mgs.update_success'),
+            "redirect" => '{{nameDown}}/logout'
+        ];
+        return $this->response(['type' => 'success', "data" => $reposne]);
+    }
+}

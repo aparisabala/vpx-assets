@@ -1,0 +1,99 @@
+$(document).ready(function(){
+    if($("#frmUpdate{{nameUp}}SetupProfile").length > 0) {
+        let rules = {
+            name: {
+                required: true,
+                maxlength: 253
+            },
+            mobile_number: {
+                required: true,
+            },
+            email: {
+                required: true,
+                maxlength: 253,
+                email: true,
+            },
+            new_password: {
+                required: true,
+                minlength: 8
+            },
+            confim_password: {
+                required: true,
+                minlength: 8
+            },
+        };
+        if($("#img_uploaded").val() == "no") {
+            rules.image = {
+                required: true,
+            }
+        }
+        PX.ajaxRequest({
+            element: "frmUpdate{{nameUp}}SetupProfile",
+            validation: true,
+            script: "{{nameDown}}/setup/profile",
+            rules,
+            afterSuccess: {
+                type: "inflate_redirect_response_data"
+            }
+        });
+    }
+
+     if($("#frm{{nameUp}}UpdateProfile").length > 0) {
+        let rules = {
+            name: {
+                required: true,
+                maxlength: 253
+            },
+            mobile_number: {
+                required: true,
+            },
+            email: {
+                required: true,
+                maxlength: 253,
+                email: true,
+            }
+        };
+        if($("#img_uploaded").val() == "no") {
+            rules.image = {
+                required: true,
+            }
+        }
+        PX.ajaxRequest({
+            element: "frm{{nameUp}}UpdateProfile",
+            validation: true,
+            script: "{{nameDown}}/setup/profile-update",
+            rules,
+            afterSuccess: {
+                type: "inflate_redirect_response_data"
+            }
+        });
+    }
+
+    if($("#frmUpdate{{nameUp}}Passsword").length > 0) {
+        let rules = {
+            old_password: {
+                required: true,
+            },
+            password: {
+                required: true,
+                minlength: 8,
+            },
+            confirm_password: {
+                required: true,
+                minlength: 8,
+            },
+        };
+        PX?.ajaxRequest({
+            element: "frmUpdate{{nameUp}}Passsword",
+            validation: true,
+            script: "{{nameDown}}/setup/password-update",
+            rules,
+            afterSuccess: {
+                type: "inflate_redirect_response_data"
+            }
+        });
+
+    }
+
+    //vpx_attach
+})

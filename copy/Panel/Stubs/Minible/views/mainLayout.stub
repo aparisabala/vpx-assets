@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-style layout-menu-fixed" dir="ltr">
+
+<head>
+    @include('{{name}}.includes.header-resource', ['tabTitle' => $tabTitle ?? 'Site Title'])
+</head>
+
+<body>
+    <!-- Modal -->
+    <div class="modal fade editmodal edimodalGlob" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-18 font-bold" id="exampleModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="layout-wrapper">
+        @include('{{name}}.includes.header')
+        @include('{{name}}.includes.main-nav')
+        <div class="main-content">
+            <div class="page-content">
+                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-flex align-items-center justify-content-between">
+                                @yield('breadCum')
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                 @yield('page')
+            </div>
+            <footer class="footer">
+                @include('{{name}}.includes.footer')
+            </footer>
+        </div>
+    </div>
+    @include('{{name}}.includes.footer-resource', ['react' => $react ?? []])
+</body>
+</html>
+

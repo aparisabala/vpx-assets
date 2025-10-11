@@ -1,0 +1,19 @@
+$(document).ready(function(){
+    if ($('#frmUpdate{{modelUp}}').length > 0) {
+        let rules = {
+            name: {
+                required: true,
+                maxlength: 253
+            }
+        };
+        PX.ajaxRequest({
+            element: 'frmUpdate{{modelUp}}',
+            validation: true,
+            script: '{{nameSpaceDown}}/'+$("#patch_id").val(),
+            rules,
+            afterSuccess: {
+                type: 'inflate_response_data',
+            }
+        });
+    }
+});
