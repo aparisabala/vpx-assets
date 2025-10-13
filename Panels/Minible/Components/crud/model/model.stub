@@ -6,7 +6,7 @@ use App\Traits\BaseTrait;
 use Illuminate\Database\Eloquent\Model;
 //vpx_imports
 //crudDone
-class {{modelUp}} extends Model
+class {{model}} extends Model
 {
     use BaseTrait;
     protected $table = "{{tableName}}";

@@ -2,7 +2,7 @@
     <span class="text-light"> <a href=""><span class="badge badge-info cursor-pointer"> <i class='fa-solid fa-arrow-left fs-16'></i></span></a> <span class="pt-1">{{pxLang($data['lang'],'breadCum.title')}}  </span> </span>
 </div>
 <div class="mt-4 p-3">
-    <form id="frmStore{{modelUp}}" autocomplete="off">
+    <form id="frmStore{{model}}" autocomplete="off">
         <div class="row">
             <div class="col-md-12">
                 <div class="row">

@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\{{importNameSpace}}\Crud;
+namespace {{nameSpace}}\Crud;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\{{importNameSpace}}\Crud\ValidateStore{{crudUp}};
-use App\Repositories\{{importNameSpace}}\Crud\I{{crudUp}}CrudRepository;
+use {{requestNameSpace}}\Crud\ValidateStore{{model}};
+use {{repositoryNameSpace}}\Crud\I{{model}}CrudRepository;
 use App\Traits\BaseTrait;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-class {{crudUp}}CrudController  extends Controller {
+class {{model}}CrudController  extends Controller {
 
     use BaseTrait;
-    public function __construct(private I{{crudUp}}CrudRepository $i{{crudUp}}CrudRepo) {
-        $this->middleware(['auth:{{prefixDown}}','HasSetAdminPassword','HasAdminAuth']);
+    public function __construct(private I{{model}}CrudRepository $i{{model}}CrudRepo) {
+        $this->middleware(['auth:{{nameDown}}','Has{{model}}Password','Has{{model}}Auth']);
         $this->lang= '{{langKey}}';
         $this->middleware(function ($request, $next) {
             $request->merge(['lang' => $this->lang]);
@@ -22,38 +22,38 @@ class {{crudUp}}CrudController  extends Controller {
     }
 
     /**
-     * Index page for {{crudDown}} crud
+     * Index page for {{modelDown}} crud
      *
      * @param Request $request
      * @return View
      */
     public function index(Request $request) : View
     {
-        $data = $this->i{{crudUp}}CrudRepo->index($request);
+        $data = $this->i{{model}}CrudRepo->index($request);
         $data['lang'] = $this->lang;
-        return view('{{prefixDown}}.pages.{{pageRoute}}.crud.index',compact('data'));
+        return view('{{bladeRoute}}.crud.index',compact('data'));
     }
 
     /**
-     * List items for yajra datatable for {{crudDown}} crud
+     * List items for yajra datatable for {{modelDown}} crud
      *
      * @param Request $request
      * @return JsonResponse
      */
     public function list(Request $request) : JsonResponse
     {
-        return  $this->i{{crudUp}}CrudRepo->list($request);
+        return  $this->i{{model}}CrudRepo->list($request);
     }
 
     /**
      * Store procedure for comapany crud
      *
-     * @param ValidateStore{{crudUp}} $request
+     * @param ValidateStore{{modelDown}} $request
      * @return JsonResponse
      */
-    public function store(ValidateStore{{crudUp}} $request): JsonResponse
+    public function store(ValidateStore{{model}} $request): JsonResponse
     {
-        return $this->i{{crudUp}}CrudRepo->store($request);
+        return $this->i{{model}}CrudRepo->store($request);
     }
 
     /**
@@ -65,13 +65,13 @@ class {{crudUp}}CrudController  extends Controller {
      */
     public function edit($id,Request $request) : view
     {
-        $data = $this->i{{crudUp}}CrudRepo->index($request,$id);
+        $data = $this->i{{model}}CrudRepo->index($request,$id);
         $data['lang'] = $this->lang;
-        return view('{{prefixDown}}.pages.{{pageRoute}}.crud.index', compact('data'));
+        return view('{{bladeRoute}}.crud.index', compact('data'));
     }
 
     /**
-     * Update procedure for {{crudDown}}
+     * Update procedure for {{modelDown}}
      *
      * @param Request $request
      * @param integer|string $id
@@ -79,7 +79,7 @@ class {{crudUp}}CrudController  extends Controller {
      */
     public function update(Request $request, $id) : JsonResponse
     {
-        return $this->i{{crudUp}}CrudRepo->update($request,$id);
+        return $this->i{{model}}CrudRepo->update($request,$id);
     }
 
     /**
@@ -90,7 +90,7 @@ class {{crudUp}}CrudController  extends Controller {
      */
      public function deleteList(Request $request) : JsonResponse
     {
-       return $this->i{{crudUp}}CrudRepo->deleteList($request);
+       return $this->i{{model}}CrudRepo->deleteList($request);
     }
 
 
@@ -102,7 +102,7 @@ class {{crudUp}}CrudController  extends Controller {
      */
      public function updateList(Request $request) : JsonResponse
     {
-       return $this->i{{crudUp}}CrudRepo->updateList($request);
+       return $this->i{{model}}CrudRepo->updateList($request);
     }
 
 }

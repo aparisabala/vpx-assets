@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories\{{importNameSpace}}\Crud;
+namespace {{repositoryNameSpace}}\Crud;
 
 use Illuminate\Http\JsonResponse;
 
-interface I{{crudUp}}CrudRepository {
+interface I{{model}}CrudRepository {
 
     public function index($request,$id=null) : array;
     public function list($request) : JsonResponse;
