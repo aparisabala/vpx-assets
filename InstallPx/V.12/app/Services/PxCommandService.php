@@ -41,7 +41,7 @@ class PxCommandService
          if(env('PX_DEBUG')) {
             $data = [
                 ...$data,
-                ($from == 'styles') ?  '<link rel="stylesheet" href="/../../vpx-assets/Js/Lib/px-ajax/dist/px.css"/>' : '<script src="/../../vpx-assets/Js/Lib/px-ajax/dist/px.js"></script>'
+                ($from == 'styles') ?  '<link rel="stylesheet" href="/../../vpx-assets/PxLib/px-ajax/dist/px.css"/>' : '<script src="/../../vpx-assets/PxLib/px-ajax/dist/px.js"></script>'
             ];
         }
         $data = [

@@ -3,7 +3,7 @@
 namespace {{nameSpace}}\Reset;
 
 use App\Http\Controllers\Controller;
-use App\Models\{{model}}User;
+use App\Models\{{model}};
 use App\Traits\BaseTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,7 +39,7 @@ class {{model}}ResetController extends Controller
         if (count($errors) > 0) {
             return $this->response(['type' => 'validation', 'errors' => $errors]);
         }
-        $user = {{model}}User::where([['email', '=', $request->email]])->first();
+        $user = {{model}}::where([['email', '=', $request->email]])->first();
         if (empty($user)) {
             return $this->response(['type' => 'validation', 'errors' => ['email' => [pxLang($this->lang,'mgs.no_user')]]]);
         }
@@ -70,7 +70,7 @@ class {{model}}ResetController extends Controller
         if (count($errors) > 0) {
             return $this->response(['type' => 'validation', 'errors' => $errors]);
         }
-        $user = {{model}}User::where([['uuid', '=', $request->user_uuid]])->first();
+        $user = {{model}}::where([['uuid', '=', $request->user_uuid]])->first();
         if (empty($user)) {
             return $this->response(['type' => 'validation', 'errors' => ['code' => [pxLang($this->lang,'mgs.no_user')]]]);
         }
@@ -99,7 +99,7 @@ class {{model}}ResetController extends Controller
         if (count($errors) > 0) {
             return $this->response(['type' => 'validation', 'errors' => $errors]);
         }
-        $user = {{model}}User::where([['uuid', '=', $request->user_uuid]])->first();
+        $user = {{model}}::where([['uuid', '=', $request->user_uuid]])->first();
         if (empty($user)) {
             return $this->response(['type' => 'validation', 'errors' => ['code' => [pxLang($this->lang,'mgs.no_user')]]]);
         }

@@ -13,7 +13,7 @@ use Illuminate\Contracts\View\View;
 use Webpatser\Uuid\Uuid;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
-use App\Models\{{model}}User;
+use App\Models\{{model}};
 use App\Http\Requests\{{model}}\Setup\Validate{{model}}ProfileUpdate;
 use Hash;
 class {{model}}ProfileUpdateController extends Controller
@@ -21,7 +21,7 @@ class {{model}}ProfileUpdateController extends Controller
     use BaseTrait;
     public function __construct()
     {
-        $this->middleware(['auth:{{authDown}}','HasSet{{model}}Password','Has{{model}}Auth']);
+        $this->middleware(['auth:{{authDown}}','Has{{model}}Password','Has{{model}}Auth']);
         $this->sizes =  [
             ['width'=>300, 'height'=> 300,'com'=> 90],
             ['width'=>80, 'height'=> 80,'com'=> 100],
@@ -68,7 +68,7 @@ class {{model}}ProfileUpdateController extends Controller
     public function updateProfile(Request $request)
     {
         $lang = '{{nameDown}}.user.update';
-        $user = {{model}}User::find($request?->auth?->id);
+        $user = {{model}}::find($request?->auth?->id);
         if (empty($user)) {
             return $this->response([ 'type' => "noUpdate", "title" => pxLang($lang,'mgs.no_user')]);
         }
@@ -114,7 +114,7 @@ class {{model}}ProfileUpdateController extends Controller
     public function updatePassword(Request $request)
     {
         $data['lang'] = '{{nameDown}}.user.pass.update';
-        $user = {{model}}User::find($request?->auth?->id);
+        $user = {{model}}::find($request?->auth?->id);
         if (empty($user)) {
             return $this->response([ 'type' => "noUpdate", "title" => pxLang($data['lang'] ,'mgs.no_user')]);
         }

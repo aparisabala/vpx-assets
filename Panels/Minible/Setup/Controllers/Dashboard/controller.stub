@@ -13,7 +13,7 @@ class {{model}}DashboardController extends Controller
     use BaseTrait;
     public function __construct()
     {
-        $this->middleware(['auth:{{authDown}}','HasSet{{model}}Password','Has{{model}}Auth']);
+        $this->middleware(['auth:{{authDown}}','Has{{model}}Password','Has{{model}}Auth']);
     }
 
     /**
@@ -24,7 +24,7 @@ class {{model}}DashboardController extends Controller
      */
     public function index(Request $request) : View
     {
-        return view('{{bladeRoute}}dashbaord.index');
+        return view('{{bladeRoute}}dashboard.index');
     }
     //vpx_attach
 }

@@ -1,6 +1,6 @@
 <?php
 
-use {{nameSpace}}\Login\{{model}}ResetController;
+use {{nameSpace}}\Reset\{{model}}ResetController;
 use Illuminate\Support\Facades\Route;
 //vpx_imports
 Route::prefix('{{nameDown}}')->group(function(){
