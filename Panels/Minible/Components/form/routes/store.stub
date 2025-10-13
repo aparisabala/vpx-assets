@@ -1,0 +1,10 @@
+<?php
+
+use {{nameSpace}}\Form\{{model}}FormController;
+use Illuminate\Support\Facades\Route;
+//vpx_imports
+Route::prefix('{{nameDown}}')->group(function(){
+    Route::get('{{uri}}',[{{model}}FormController::class,'index']);
+    Route::post('{{uri}}',[{{model}}FormController::class,'store']);
+    //vpx_attach
+});
