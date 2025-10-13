@@ -1,0 +1,14 @@
+<?php
+
+use {{nameSpace}}\Login\{{model}}ResetController;
+use Illuminate\Support\Facades\Route;
+//vpx_imports
+Route::prefix('{{nameDown}}')->group(function(){
+    Route::get('{{uri}}reset',[{{model}}ResetController::class,'index'])->name('{{nameDown}}.reset');
+    Route::post('{{uri}}reset/send-code',[{{model}}ResetController::class,'sendCode']);
+    Route::post('{{uri}}reset/verify-code',[{{model}}ResetController::class,'verifyCode']);
+    Route::post('{{uri}}reset/change-pass',[{{model}}ResetController::class,'changePass']);
+    //vpx_attach
+});
+
+

@@ -1,0 +1,10 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use {{nameSpace}}\Logout\{{model}}LogoutController;
+//vpx_imports
+Route::prefix('{{nameDown}}')->group(function(){
+    Route::get('{{uri}}logout', [{{model}}LogoutController::class,'logout'])->name('{{authDown}}.logout');
+    //vpx_attach
+});
+//vpx_attach

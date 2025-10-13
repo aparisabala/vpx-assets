@@ -1,0 +1,22 @@
+if($("#frm{{model}}Login").length > 0) {
+    let rules = {
+        email: {
+            required: true,
+            email: true,
+        },
+        password:{
+            required: true,
+            minlength: 8,
+        },
+    };
+    PX?.ajaxRequest({
+        element: "frm{{model}}Login",
+        validation: true,
+        script: "{{authDown}}/login",
+        rules,
+        afterSuccess: {
+            type: "inflate_redirect_response_data",
+        }
+    });
+    //vpx_attach
+}

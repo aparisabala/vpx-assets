@@ -1,0 +1,27 @@
+<?php
+
+namespace {{nameSpace}}\Logout;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Traits\BaseTrait;
+//vpx_imports
+class {{model}}LogoutController extends Controller
+{
+    use BaseTrait;
+    public function __construct()
+    {
+        $this->middleware(['auth:{{authDown}}','HasSet{{model}}Password','Has{{model}}Auth']);
+        $this->lang = '{{authDown}}.logout';
+    }
+
+    public function logout(Request $request) : RedirectResponse
+    {
+        Auth::guard('{{authDown}}')->logout();
+        return redirect()->route('{{authDown}}login.index')->withErrors(["success" => [0 =>  pxLang($this->lang,'mgs.logout_sucess')]]);
+    
+    }
+    //vpx_attach
+}

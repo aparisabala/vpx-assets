@@ -1,0 +1,22 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use {{nameSpace}}\Setup\{{model}}SetupController;
+use App\Http\Controllers\{{nameUp}}\Setup\{{model}}ProfileUpdateController;
+
+//vpx_imports
+Route::prefix('{{nameDown}}')->group(function(){
+    
+    Route::get('{{uri}}setup/profile', [{{model}}SetupController::class,'index'])->name('{{authDown}}.profile.setup');
+    Route::post('{{uri}}setup/profile', [{{model}}SetupController::class,'update']);
+
+    Route::get('{{uri}}setup/profile-update', [{{model}}ProfileUpdateController::class,'index'])->name('{{authDown}}.user.setup');
+    Route::post('{{uri}}setup/profile-update', [{{model}}ProfileUpdateController::class,'updateProfile']);
+    Route::get('{{uri}}setup/password-update', [{{model}}ProfileUpdateController::class,'password'])->name('{{authDown}}.user.password');
+    Route::post('{{uri}}setup/password-update', [{{model}}ProfileUpdateController::class,'updatePassword']);
+    //vpx_attach
+});
+
+
+
+

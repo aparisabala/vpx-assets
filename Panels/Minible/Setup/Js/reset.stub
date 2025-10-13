@@ -1,0 +1,82 @@
+$(document).ready(function(){
+
+    if($("#frmSend{{model}}Code").length > 0) {
+        let rules = {
+            email: {
+                required: true,
+                email: true
+            }
+        };
+
+        PX?.ajaxRequest({
+            element: "frmSend{{model}}Code",
+            validation: true,
+            script: "{{authDown}}/reset/send-code",
+            rules,
+            afterSuccess: {
+                type: "load_html",
+                reload: false,
+                target: "resetBase",
+                afterLoad: (response) => {
+                    // const remainingAttempts = response?.response?.data?.extraData?.remainingAttempts;
+                    // if (remainingAttempts !== undefined) {
+                    //     $("#remainingAttempts").text(remainingAttempts);
+                    // } else {
+                    //     console.error('remainingAttempts is undefined, response:', response);
+                    // }
+                    VerifyCode();
+                }
+            }
+        });
+
+        function VerifyCode() {
+            if($("#frmVerify{{model}}Code").length > 0) {
+                let verifyrules  = {
+                    code: {
+                        required: true,
+                        number: true,
+                    }
+                };
+                PX?.ajaxRequest({
+                    element: "frmVerify{{model}}Code",
+                    validation: true,
+                    script: "{{authDown}}/reset/verify-code",
+                    verifyrules,
+                    afterSuccess: {
+                        type: "load_html",
+                        target: "resetBase",
+                        afterLoad: (response) => {
+                            SetNewPassword();
+                        },
+                        reload: false
+                    },
+                });
+            }
+        }
+
+        function SetNewPassword() {
+            if($("#frmChange{{model}}Password").length > 0) {
+                let chnagerules = {
+                    password: {
+                        required: true,
+                        minlength: 8,
+                    },
+                    confirm_password: {
+                        required: true,
+                        minlength: 8,
+                        same: '#password'
+                    }
+                };
+                PX?.ajaxRequest({
+                    element: "frmChange{{model}}Password",
+                    validation: true,
+                    script: "{{authDown}}/reset/change-pass",
+                    chnagerules,
+                    afterSuccess: {
+                        type: "inflate_redirect_response_data",
+                    }
+                });
+            }
+        }
+    }
+});

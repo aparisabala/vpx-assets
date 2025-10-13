@@ -1,0 +1,3 @@
+if($("#frm{{frmName}}Login").length > 0) {
+    //vpx_attach
+}

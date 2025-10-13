@@ -1,0 +1,11 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use {{nameSpace}}\Login\{{model}}LoginController;
+//vpx_imports
+Route::prefix('{{nameDown}}')->group(function(){
+    Route::get('{{uri}}login', [{{model}}LoginController::class,'index'])->name('{{authDown}}.login.index');
+    Route::post('{{uri}}login', [{{model}}LoginController::class,'login'])->name('{{authDown}}.login');
+    //vpx_attach
+});
+//vpx_attach

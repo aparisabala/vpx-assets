@@ -1,0 +1,10 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use {{nameSpace}}\Dashboard\{{model}}DashboardController;
+//vpx_imports
+Route::prefix('{{nameDown}}')->group(function(){
+    Route::get('{{uri}}dashboard', [{{model}}DashboardController::class,'index'])->name('{{authDown}}.dashboard.index');
+    //vpx_attach
+});
+//vpx_attach
