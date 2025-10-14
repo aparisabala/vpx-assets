@@ -1,6 +1,6 @@
 <?php
 
-namespace {{repositoryNameSpace}}\Form;
+namespace {{repositoryNameSpace}}\Form\{{formTypeUp}};
 
 use Illuminate\Http\JsonResponse;
 

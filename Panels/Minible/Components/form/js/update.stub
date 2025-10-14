@@ -9,7 +9,7 @@ $(document).ready(function(){
         PX.ajaxRequest({
             element: 'frm{{model}}Update',
             validation: true,
-            script: '{{nameDown}}/{{uri}}/'+$("#patch_id").val(),
+            script: '{{nameDown}}/{{uri}}/update/'+$("#patch_id").val(),
             rules,
             afterSuccess: {
                 type: 'inflate_response_data',

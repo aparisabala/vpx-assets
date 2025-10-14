@@ -1,6 +1,6 @@
 <?php
 
-namespace {{repositoryNameSpace}}\Form;
+namespace {{repositoryNameSpace}}\Form\{{formTypeUp}};
 
 use App\Models\{{model}};
 use App\Repositories\BaseRepository;
@@ -20,7 +20,7 @@ class  {{model}}StoreRepository extends BaseRepository implements I{{model}}Stor
      * @param integer|string $id
      * @return array
      */
-    public function index($request) : array
+    public function index($request, $id=null) : array
     {
        return $this->getPageDefault(model: $this->{{model}}, id: $id);
     }

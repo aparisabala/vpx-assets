@@ -1,6 +1,6 @@
 <?php
 
-namespace {{requestNameSpace}}\Form;
+namespace {{requestNameSpace}}\Form\{{formTypeUp}};
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;

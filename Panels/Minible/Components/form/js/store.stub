@@ -9,7 +9,7 @@ $(document).ready(function(){
         PX.ajaxRequest({
             element: 'frm{{model}}Store',
             validation: true,
-            script: '{{nameDown}}/{{uri}}',
+            script: '{{nameDown}}/{{uri}}/store',
             rules,
             afterSuccess: {
                 type: 'inflate_reset_response_data',

@@ -12,7 +12,7 @@ class {{model}}CrudController  extends Controller {
 
     use BaseTrait;
     public function __construct(private I{{model}}CrudRepository $i{{model}}CrudRepo) {
-        $this->middleware(['auth:{{nameDown}}','Has{{model}}Password','Has{{model}}Auth']);
+        $this->middleware(['auth:{{baseAuth}}','Has{{authModel}}Password','Has{{authModel}}Auth']);
         $this->lang= '{{langKey}}';
         $this->middleware(function ($request, $next) {
             $request->merge(['lang' => $this->lang]);

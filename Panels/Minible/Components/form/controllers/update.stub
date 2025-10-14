@@ -1,9 +1,10 @@
 <?php
 
-namespace {{nameSpace}}\Form;
+namespace {{nameSpace}}\Form\{{formTypeUp}};
 use App\Http\Controllers\Controller;
-use {{repositoryNameSpace}}\Form\I{{model}}UpdateRepository;
+use {{repositoryNameSpace}}\Form\{{formTypeUp}}\I{{model}}UpdateRepository;
 use App\Traits\BaseTrait;
+use App\Models\{{model}};
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class {{model}}UpdateController extends Controller {
 
     use BaseTrait;
     public function __construct(private I{{model}}UpdateRepository $i{{model}}UpdateRepo) {
-        $this->middleware(['auth:{{nameDown}}','Has{{nameUp}}Password','Has{{nameUp}}Auth']);
+        $this->middleware(['auth:{{baseAuth}}','Has{{authModel}}Password','Has{{authModel}}Auth']);
         $this->lang= '{{langKey}}';
         $this->middleware(function ($request, $next) {
             $request->merge(['lang' => $this->lang]);
@@ -30,7 +31,8 @@ class {{model}}UpdateController extends Controller {
     {
         $data = $this->i{{model}}UpdateRepo->index($request);
         $data['lang'] = $this->lang;
-        return view('{{bladeRoute}}.form.index')->with('data',$data);
+        $data['item'] = {{model}}::find($request->id);
+        return view('{{bladeRoute}}.form.{{formTypeDown}}.index')->with('data',$data);
     }
 
     /**

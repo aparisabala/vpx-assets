@@ -1,9 +1,9 @@
 <?php
 
-namespace {{nameSpace}}\Form;
+namespace {{nameSpace}}\Form\{{formTypeUp}};
 use App\Http\Controllers\Controller;
-use {{requestNameSpace}}\Form\Validate{{model}}Store;
-use {{repositoryNameSpace}}\Form\I{{model}}StoreRepository;
+use {{requestNameSpace}}\Form\{{formTypeUp}}\Validate{{model}}Store;
+use {{repositoryNameSpace}}\Form\{{formTypeUp}}\I{{model}}StoreRepository;
 use App\Traits\BaseTrait;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -13,7 +13,7 @@ class {{model}}StoreController extends Controller {
 
     use BaseTrait;
     public function __construct(private I{{model}}StoreRepository $i{{model}}StoreRepo) {
-        $this->middleware(['auth:{{nameDown}}','Has{{nameUp}}Password','Has{{nameUp}}Auth']);
+        $this->middleware(['auth:{{baseAuth}}','Has{{authModel}}Password','Has{{authModel}}Auth']);
         $this->lang= '{{langKey}}';
         $this->middleware(function ($request, $next) {
             $request->merge(['lang' => $this->lang]);
@@ -31,7 +31,7 @@ class {{model}}StoreController extends Controller {
     {
         $data = $this->i{{model}}StoreRepo->index($request);
         $data['lang'] = $this->lang;
-        return view('{{bladeRoute}}.form.index')->with('data',$data);
+        return view('{{bladeRoute}}.form.{{formTypeDown}}.index')->with('data',$data);
     }
 
     /**
