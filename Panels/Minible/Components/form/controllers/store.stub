@@ -1,0 +1,48 @@
+<?php
+
+namespace {{nameSpace}}\Form;
+use App\Http\Controllers\Controller;
+use {{requestNameSpace}}\Form\Validate{{model}}Store;
+use {{repositoryNameSpace}}\Form\I{{model}}StoreRepository;
+use App\Traits\BaseTrait;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class {{model}}StoreController extends Controller {
+
+    use BaseTrait;
+    public function __construct(private I{{model}}StoreRepository $i{{model}}StoreRepo) {
+        $this->middleware(['auth:{{nameDown}}','Has{{nameUp}}Password','Has{{nameUp}}Auth']);
+        $this->lang= '{{langKey}}';
+        $this->middleware(function ($request, $next) {
+            $request->merge(['lang' => $this->lang]);
+            return $next($request);
+        });
+    }
+
+    /**
+     * View {{modelDown}} store form
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function index(Request $request) : View
+    {
+        $data = $this->i{{model}}StoreRepo->index($request);
+        $data['lang'] = $this->lang;
+        return view('{{bladeRoute}}.form.index')->with('data',$data);
+    }
+
+    /**
+     * Store {{modelDown}} form
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function store(Validate{{model}}Store $request)
+    {
+       return $this->i{{model}}StoreRepo->store($request);
+    }
+}
+

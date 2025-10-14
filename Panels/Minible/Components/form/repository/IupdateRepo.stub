@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories\{{importNameSpace}}\Form;
+namespace {{repositoryNameSpace}}\Form;
 
 use Illuminate\Http\JsonResponse;
 
-interface I{{formUp}}FormRepository {
+interface I{{model}}UpdateRepository {
 
     public function index($request) : array;
     public function update($request) : JsonResponse;

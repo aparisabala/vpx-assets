@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\{{importNameSpace}}\Form\{{controller}};
+use {{nameSpace}}\Form\{{model}}UpdateController;
 use Illuminate\Support\Facades\Route;
 //vpx_imports
-Route::prefix('{{prefix}}')->group(function(){
-    Route::get('{{nameSpaceDown}}',[{{controller}}::class,'index']);
-    Route::post('{{nameSpaceDown}}',[{{controller}}::class,'update']);
+Route::prefix('{{nameDown}}')->group(function(){
+    Route::get('{{uri}}',[{{model}}UpdateController::class,'index']);
+    Route::post('{{uri}}',[{{model}}UpdateController::class,'update']);
     //vpx_attach
 });

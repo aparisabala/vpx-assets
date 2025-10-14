@@ -1,0 +1,46 @@
+<?php
+
+namespace {{nameSpace}}\Form;
+use App\Http\Controllers\Controller;
+use {{repositoryNameSpace}}\Form\I{{model}}UpdateRepository;
+use App\Traits\BaseTrait;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class {{model}}UpdateController extends Controller {
+
+    use BaseTrait;
+    public function __construct(private I{{model}}UpdateRepository $i{{model}}UpdateRepo) {
+        $this->middleware(['auth:{{nameDown}}','Has{{nameUp}}Password','Has{{nameUp}}Auth']);
+        $this->lang= '{{langKey}}';
+        $this->middleware(function ($request, $next) {
+            $request->merge(['lang' => $this->lang]);
+            return $next($request);
+        });
+    }
+
+    /**
+     * View {{modelDown}} update form
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function index(Request $request) : View
+    {
+        $data = $this->i{{model}}UpdateRepo->index($request);
+        $data['lang'] = $this->lang;
+        return view('{{bladeRoute}}.form.index')->with('data',$data);
+    }
+
+    /**
+     * Update {{modelDown}} form
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function update(Request $request)
+    {
+       return $this->i{{model}}UpdateRepo->update($request);
+    }
+}

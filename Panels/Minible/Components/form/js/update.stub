@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    if ($('#frmUpdate{{modelUp}}').length > 0) {
+    if ($('#frm{{model}}Update').length > 0) {
         let rules = {
             name: {
                 required: true,
@@ -7,9 +7,9 @@ $(document).ready(function(){
             }
         };
         PX.ajaxRequest({
-            element: 'frmUpdate{{modelUp}}',
+            element: 'frm{{model}}Update',
             validation: true,
-            script: '{{nameSpaceDown}}/'+$("#patch_id").val(),
+            script: '{{nameDown}}/{{uri}}/'+$("#patch_id").val(),
             rules,
             afterSuccess: {
                 type: 'inflate_response_data',

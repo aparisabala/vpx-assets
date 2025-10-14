@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\{{importNameSpace}}\Form;
+namespace {{requestNameSpace}}\Form;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
-class ValidateUpdate{{formUp}} extends FormRequest
+class Validate{{model}}Update extends FormRequest
 {
    /**
      * Determine if the user is authorized to make this request.

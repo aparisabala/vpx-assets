@@ -1,20 +1,16 @@
 <?php
 
-namespace App\Repositories\{{importNameSpace}}\Form;
+namespace {{repositoryNameSpace}}\Form;
 
-use App\Http\Requests\{{importNameSpace}}\Form\ValidateUpdate{{formUp}};
-use App\Models\{{modelUp}};
+use App\Models\{{model}};
 use App\Repositories\BaseRepository;
 use App\Traits\BaseTrait;
-use Carbon\Carbon;
-use DataTables;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
-class  {{formUp}}FormRepository extends BaseRepository implements I{{formUp}}FormRepository {
+class  {{model}}StoreRepository extends BaseRepository implements I{{model}}StoreRepository {
 
     use BaseTrait;
     public function __construct() {
-        $this->LoadModels(['{{modelUp}}']);
+        $this->LoadModels(['{{model}}']);
     }
 
     /**
@@ -26,7 +22,7 @@ class  {{formUp}}FormRepository extends BaseRepository implements I{{formUp}}For
      */
     public function index($request) : array
     {
-       return $this->getPageDefault(model: $this->{{modelUp}}, id: $id);
+       return $this->getPageDefault(model: $this->{{model}}, id: $id);
     }
 
     /**
@@ -38,14 +34,14 @@ class  {{formUp}}FormRepository extends BaseRepository implements I{{formUp}}For
     public function store($request) : JsonResponse
     {
         try {
-            {{modelUp}}::create([
+            {{model}}::create([
                 ...$request->all(),
-                //'serial' => $this->facSrWc($this->{{formUp}})
+                //'serial' => $this->facSrWc($this->{{model}})
             ]);
             $response['extraData'] = ['inflate' => pxLang($request->lang,'','common.action_success') ];
             return $this->response(['type' => 'success', 'data' => $response]);
         } catch (\Exception $e) {
-            $this->saveError($this->getSystemError(['name' => '{{modelUp}}_store_error']), $e);
+            $this->saveError($this->getSystemError(['name' => '{{model}}_store_error']), $e);
             return $this->response(['type' => 'noUpdate', 'title' => pxLang($request->lang,'','common.server_wrong')]);
         }
     }

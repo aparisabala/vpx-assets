@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    if ($('#frmStore{{modelUp}}').length > 0) {
+    if ($('#frm{{model}}Store').length > 0) {
         let rules = {
             name: {
                 required: true,
@@ -7,9 +7,9 @@ $(document).ready(function(){
             }
         };
         PX.ajaxRequest({
-            element: 'frmStore{{modelUp}}',
+            element: 'frm{{model}}Store',
             validation: true,
-            script: '{{nameSpaceDown}}',
+            script: '{{nameDown}}/{{uri}}',
             rules,
             afterSuccess: {
                 type: 'inflate_reset_response_data',

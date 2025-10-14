@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Repositories\{{importNameSpace}}\Form;
+namespace {{repositoryNameSpace}}\Form;
 
-use App\Http\Requests\{{importNameSpace}}\Form\ValidateUpdate{{formUp}};
-use App\Models\{{modelUp}};
+use {{requestNameSpace}}\Form\Validate{{model}}Update;
+use App\Models\{{model}};
 use App\Repositories\BaseRepository;
 use App\Traits\BaseTrait;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
-class  {{formUp}}FormRepository extends BaseRepository implements I{{formUp}}FormRepository {
+class  {{model}}UpdateRepository extends BaseRepository implements I{{model}}UpdateRepository {
 
     use BaseTrait;
     public function __construct() {
-        $this->LoadModels(['{{modelUp}}']);
+        $this->LoadModels(['{{model}}']);
     }
 
     /**
@@ -26,7 +26,7 @@ class  {{formUp}}FormRepository extends BaseRepository implements I{{formUp}}For
      */
     public function index($request) : array
     {
-       return $this->getPageDefault(model: $this->{{modelUp}}, id: $id);
+       return $this->getPageDefault(model: $this->{{model}}, id: $id);
     }
 
     /**
@@ -38,13 +38,13 @@ class  {{formUp}}FormRepository extends BaseRepository implements I{{formUp}}For
      */
     public function update($request) : JsonResponse
     {
-        $row = {{modelUp}}::find($request->id);
+        $row = {{model}}::find($request->id);
         if(empty($row)){
             return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">'.pxLang($request->lang,'','common.no_resourse').'</span>']);
         }
         $row->fill($request->all());
         if($row->isDirty()){
-            $validator = Validator::make($request->all(), (new ValidateUpdate{{formUp}}())->rules($request,$row));
+            $validator = Validator::make($request->all(), (new Validate{{model}}Update())->rules($request,$row));
             if ($validator->fails()) {
                 return $this->response(['type' => 'validation','errors' => $validator->errors()]);
             }
@@ -53,7 +53,7 @@ class  {{formUp}}FormRepository extends BaseRepository implements I{{formUp}}For
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
                 return $this->response(['type' => 'success','data' => $data]);
             } catch (\Exception $e) {
-                $this->saveError($this->getSystemError(['name'=>'{{modelUp}}_update_error']), $e);
+                $this->saveError($this->getSystemError(['name'=>'{{model}}_update_error']), $e);
                 return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
             }
         } else {

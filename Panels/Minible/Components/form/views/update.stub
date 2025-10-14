@@ -1,13 +1,13 @@
-@extends('{{prefixDown}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | ".pxLang($data['lang'],'breadCum.title') ])
+@extends('{{nameDown}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | ".pxLang($data['lang'],'breadCum.title') ])
 @section('page')
     <div class="row">
         <div class="col-md-12">
             @if($data['item'] != null)
                 <div class="">
-                    @include('{{prefixDown}}.pages.{{pageRoute}}.form.fragments._breadcum')
+                    @include('{{bladeRoute}}.form.fragments._breadcum')
                     <div class="page-block-body">
                        <div class="mt-4 p-3">
-                            <form id="frmUpdate{{formUp}}" autocomplete="off">
+                            <form id="frm{{model}}Update" autocomplete="off">
                                 <input type="hidden" id="id" value="{{$data['item']?->id}}" />
                                 <div class="row">
                                     <div class="col-md-12">
