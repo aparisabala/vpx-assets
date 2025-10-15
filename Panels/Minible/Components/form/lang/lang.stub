@@ -10,6 +10,9 @@ return [
         'b2' => '',
         'b3' => ''
     ],
+    'nav' => [
+        'item1' => '{{model}} crud'
+    ],
     'fields' => [
         'name' => 'Name',
     ],
