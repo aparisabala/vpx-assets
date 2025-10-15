@@ -78,7 +78,7 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
             $m->email = $request->email;
             $m->admin_type = $request->admin_type;
             $m->password = Hash::make('123456789');
-            $m->user_access = json_encode(['SA']);
+            $m->user_access = json_encode($request->user_access);
             $path = imagePaths()['dyn_image'];
             $image = $request->file('image');
             if ($request->hasFile('image')) {
@@ -119,7 +119,7 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
         $row->email = $request->email;
         $row->admin_type = $request->admin_type;
         $row->status = $request->status;
-        $row->user_access = json_encode(['SA']);
+        $row->user_access = json_encode($request->user_access);
         $path = imagePaths()['dyn_image'];
         $image = $request->file('image');
         if ($request->hasFile('image')) {

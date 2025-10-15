@@ -48,13 +48,15 @@
                             </div>
 
                             <div class="form-group text-left mb-3">
-                                <label class="form-label"> <b>{{pxLang($data['lang'],'fields.user_access')}} </b> <em class="required">*</em> <span id="image_error"></span></label>
-                                <div class="input-group">
-                                    @foreach ($data['userRoles'] as $key => $item)
-                                        <input type="file" {{(in_array($item?->code,$data['userRoles']?->pluck('code')->toArray())) ? 'checked':''}} class="form-control" name="user_access[]" value="{{$item?->code}}" id="user_access_{{$item?->id}}">
-                                        <span class="fs-3"> {{$item?->name}} </span>
-                                    @endforeach
-                                </div>
+                                <label class="form-label"> <b>{{pxLang($data['lang'],'fields.user_access')}} </b> <em class="required">*</em> <span id="user_access_error"></span></label>
+                                @foreach ($data['userRoles'] as $key => $item)
+                                   <div class="form-check">
+                                        <input  {{(in_array($item?->code,$data['userRoles']?->pluck('code')->toArray())) ? 'checked':''}} class="form-check-input" type="checkbox"  id="user_access_{{$item?->id}}" name="user_access[]" value="{{$item?->code}}">
+                                        <label class="form-check-label" >
+                                            {{$item?->name}}
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
 
                             <div class="mb-3 mt-3 text-end">

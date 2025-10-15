@@ -2,8 +2,8 @@
 
 namespace App\Repositories\{{nameUp}}\System\User\UserRole\Crud;
 
-use App\Http\Requests\{{nameUp}}\System\User\UserRole\Crud\ValidateUpdate{{model}};
-use App\Models\{{model}};
+use App\Http\Requests\{{nameUp}}\System\User\UserRole\Crud\ValidateUpdate{{model}}Role;
+use App\Models\{{model}}Role;
 use App\Repositories\BaseRepository;
 use App\Traits\BaseTrait;
 use Carbon\Carbon;
@@ -39,7 +39,7 @@ class {{model}}RoleCrudRepository extends BaseRepository implements I{{model}}Ro
      */
     public function list($request) : JsonResponse
     {
-        $model = {{model}}::query();
+        $model = {{model}}Role::query();
         return DataTables::of($model)
         ->editColumn('created_at', function($item) {
             return  Carbon::parse($item->created_at)->format('d-m-Y');
@@ -57,14 +57,14 @@ class {{model}}RoleCrudRepository extends BaseRepository implements I{{model}}Ro
     public function store($request) : JsonResponse
     {
         try {
-            {{model}}::create([
+            {{model}}Role::create([
                 ...$request->all(),
                 'code' => Str::upper($request->code),
             ]);
             $response['extraData'] = ['inflate' => pxLang($request->lang,'','common.action_success') ];
             return $this->response(['type' => 'success', 'data' => $response]);
         } catch (\Exception $e) {
-            $this->saveError($this->getSystemError(['name' => '{{model}}_store_error']), $e);
+            $this->saveError($this->getSystemError(['name' => '{{model}}Role_store_error']), $e);
             return $this->response(['type' => 'noUpdate', 'title' => pxLang($request->lang,'','common.server_wrong')]);
         }
     }
@@ -78,7 +78,7 @@ class {{model}}RoleCrudRepository extends BaseRepository implements I{{model}}Ro
      */
     public function update($request,$id) : JsonResponse
     {
-        $row = {{model}}::find($id);
+        $row = {{model}}Role::find($id);
         if(empty($row)){
             return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">Requestd resource not found, try again </span>']);
         }
@@ -87,7 +87,7 @@ class {{model}}RoleCrudRepository extends BaseRepository implements I{{model}}Ro
             'code' => Str::upper($request->code),
         ]);
         if($row->isDirty()){
-            $validator = Validator::make($request->all(), (new ValidateUpdate{{model}}())->rules($request,$row));
+            $validator = Validator::make($request->all(), (new ValidateUpdate{{model}}Role())->rules($request,$row));
             if ($validator->fails()) {
                 return $this->response(['type' => 'validation','errors' => $validator->errors()]);
             }
@@ -96,7 +96,7 @@ class {{model}}RoleCrudRepository extends BaseRepository implements I{{model}}Ro
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
                 return $this->response(['type' => 'success','data' => $data]);
             } catch (\Exception $e) {
-                $this->saveError($this->getSystemError(['name'=>'{{model}}_update_error']), $e);
+                $this->saveError($this->getSystemError(['name'=>'{{model}}Role_update_error']), $e);
                 return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
             }
         } else {
@@ -112,7 +112,7 @@ class {{model}}RoleCrudRepository extends BaseRepository implements I{{model}}Ro
      */
     public function updateList($request) : JsonResponse
     {
-        $i = {{model}}::whereIn('id',$request->ids)->select(['id','name'])->get();;
+        $i = {{model}}Role::whereIn('id',$request->ids)->select(['id','name'])->get();;
         $dirty = [];
         if (count($i) > 0) {
             foreach ($i as $key => $value) {
@@ -147,7 +147,7 @@ class {{model}}RoleCrudRepository extends BaseRepository implements I{{model}}Ro
     public function deleteList($request) : JsonResponse
     {
         $errors = [];
-        $i = {{model}}::whereIn('id',$request->ids)->select(['id'])->get();
+        $i = {{model}}Role::whereIn('id',$request->ids)->select(['id'])->get();
         if (count($i) > 0) {
             // $errors = $this->checkInUse([
             //     "rows" => $i,
