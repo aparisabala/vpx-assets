@@ -1,0 +1,12 @@
+<?php
+
+use App\Http\Controllers\{{nameUp}}\System\User\Crud\{{model}}CrudController;
+use Illuminate\Support\Facades\Route;
+//vpx_imports
+Route::prefix('{{nameDown}}')->group(function(){
+    Route::resource('system/user',{{model}}CrudController::class)->except(['destroy', 'show']);
+    Route::post('system/user/list',[{{model}}CrudController::class,'list']);
+    Route::post('system/user/delete-list',[{{model}}CrudController::class,'deleteList']);
+    Route::post('system/user/update-list',[{{model}}CrudController::class,'updateList']);
+    //vpx_attach
+});

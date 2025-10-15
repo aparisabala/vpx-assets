@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Http\Controllers\{{nameUp}}\System\User\Policy;
+
+use App\Http\Controllers\Controller;
+use App\Models\{{model}}Role;
+use App\Repositories\{{nameUp}}\System\User\Policy\I{{model}}PolicyRepository;
+use App\Traits\BaseTrait;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+
+class {{model}}PolicyController extends Controller {
+
+    use BaseTrait;
+    public function __construct(private I{{model}}PolicyRepository $i{{model}}Policy) {
+        $this->middleware(['auth:{{nameDown}}','Has{{model}}Password','Has{{model}}Auth']);
+        $this->lang= '{{nameDown}}.system.user.policy';
+    }
+
+    /**
+     * View user policy setup
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function index(Request $request) : View
+    {
+        $data = $this->i{{model}}Policy->index($request);
+        $data['lang'] = $this->lang;
+        return view('{{nameDown}}.pages.system.user.policy.index')->with('data',$data);
+    }
+
+    /**
+     * Update system policies
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function update(Request $request)
+    {
+       return $this->i{{model}}Policy->update($request);
+    }
+}

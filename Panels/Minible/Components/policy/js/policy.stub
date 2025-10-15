@@ -1,0 +1,16 @@
+$(document).ready(function(){
+
+    if ($('#frmUpdate{{model}}Permission').length > 0) {
+        let rules = {
+        };
+        PX?.ajaxRequest({
+            element: 'frmUpdatePermission',
+            validation: true,
+            script: '{{nameDown}}/system/user/user-policy',
+            rules,
+            afterSuccess: {
+                type: 'inflate_redirect_response_data',
+            }
+        });
+    }
+});

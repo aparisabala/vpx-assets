@@ -1,0 +1,75 @@
+@extends('{{nameDown}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | ".pxLang($data['lang'],'breadCum.title') ])
+@section('breadCum')
+    <h4 class="mb-0">{{pxLang($data['lang'],'breadCum.title')}}</h4>
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">{{pxLang($data['lang'],'breadCum.b1')}}</a></li>
+            <li class="breadcrumb-item"> {{pxLang($data['lang'],'breadCum.b2')}} </li>
+        </ol>
+    </div>
+@endsection
+@section('page')
+    <div class="row">
+        <div class="col-md-12">
+           <div class="card rounded page-block">
+                <div id="defaultPage" class="table-list pages">
+                    <div class="mt-2 p-2 p-md-4">
+                        <form id="frmUpdate{{model}}Permission" autocomplete="off">
+                            @can('system_user_policies_update')
+                                <div class="mb-3 mt-3 text-end">
+                                    <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> {{ Lang::get('common.btns.add') }}</button>
+                                </div>
+                            @endcan
+                            @foreach ($data['systePolicies'] as $systemPolicy)
+                                <h2 class="text-center"> {{$systemPolicy['name']}} </h2>
+                                @foreach ($systemPolicy['policies'] as $moduelPolicy)
+                                    @foreach ($moduelPolicy['policies'] as $actionPolicy)
+                                        <div class="mt-3">
+                                            <h4 class="">{{$moduelPolicy['name']}} - {{$actionPolicy['name']}} </h4>
+                                            <table class="table table-striped dataTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th> Action </th>
+                                                        <th> Key </th>
+                                                        @foreach ($data['availableUser'] as $key =>  $item)
+                                                            <th> {{$item?->name}} </th>
+                                                        @endforeach
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($actionPolicy['keys'] as $action)
+                                                        @php
+                                                            $uniqueKey = getPolicyKey(\Str::class,$actionPolicy['name'].'_'.$action);
+                                                            $row = $data['permissions']?->where('slug','=',$uniqueKey)->first();
+                                                        @endphp
+                                                        <tr>
+                                                            <td>
+                                                                <input type="hidden" name="slug[{{$uniqueKey}}]" value="{{$row?->id}}" />
+                                                                {{$action}}
+                                                            </td>
+                                                            <td>
+                                                                {{$uniqueKey}}
+                                                            </td>
+                                                            @foreach ($data['availableUser'] as $key =>  $item)
+                                                                <td> <input {{in_array($item?->code,$row?->user_access ?? []) ? 'checked' : ''}} name="user_access[{{$row?->id}}][]" value="{{$item?->code}}" type="checkbox" /> </td>
+                                                            @endforeach
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endforeach
+                                @endforeach
+                            @endforeach
+                            @can('system_user_policies_update')
+                                <div class="mb-3 mt-3 text-end">
+                                    <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-plus"></i> {{ Lang::get('common.btns.add') }}</button>
+                                </div>
+                            @endcan
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

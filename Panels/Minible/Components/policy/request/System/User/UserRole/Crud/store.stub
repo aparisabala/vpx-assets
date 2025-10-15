@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Http\Requests\{{nameUp}}\System\User\UserRole\Crud;
+
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
+class ValidateStore{{model}}Role extends FormRequest
+{
+   /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function message() : array
+    {
+        return [
+        ];
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'name' => 'required|string|min:2|max:253|unique:{{roleTable}},name',
+            'code' => 'required|string|min:2|max:3|unique:{{roleTable}},code',
+        ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $response = response()->json([
+            'success' => false,
+            'errors'  => $validator->errors(),
+        ]);
+        throw (new ValidationException($validator, $response))->errorBag($this->errorBag);
+    }
+}

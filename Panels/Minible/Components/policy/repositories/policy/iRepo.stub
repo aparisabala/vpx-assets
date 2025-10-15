@@ -1,0 +1,9 @@
+<?php
+
+namespace App\Repositories\{{nameUp}}\System\User\Policy;
+
+interface I{{model}}PolicyRepository {
+    public function index($request);
+    public function update($request);
+}
+

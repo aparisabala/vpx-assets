@@ -1,0 +1,12 @@
+<?php
+
+use App\Http\Controllers\{{nameUp}}\System\User\UserRole\Crud\{{model}}RoleCrudController;
+use Illuminate\Support\Facades\Route;
+//vpx_imports
+Route::prefix('{{nameDown}}')->group(function(){
+    Route::resource('system/user/user-role',{{model}}RoleCrudController::class)->except(['destroy', 'show']);
+    Route::post('system/user/user-role/list',[{{model}}RoleCrudController::class,'list']);
+    Route::post('system/user/user-role/delete-list',[{{model}}RoleCrudController::class,'deleteList']);
+    Route::post('system/user/user-role/update-list',[{{model}}RoleCrudController::class,'updateList']);
+    //vpx_attach
+});

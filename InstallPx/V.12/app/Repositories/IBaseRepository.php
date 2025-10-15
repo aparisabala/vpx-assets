@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 interface IBaseRepository
 {
-    public function getPageDefault($request,$id) :  array;
-    public function facSrWc($request) :  int;
-    
+    public function getPageDefault($query,$data,$where=[]);
+    public function facSrWc($model,$data);
 }

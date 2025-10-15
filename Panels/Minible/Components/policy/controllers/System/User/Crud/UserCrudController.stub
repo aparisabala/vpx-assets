@@ -1,0 +1,104 @@
+<?php
+
+namespace App\Http\Controllers\{{nameUp}}\System\User\Crud;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\{{nameUp}}\System\User\Crud\ValidateStore{{model}};
+use App\Repositories\{{nameUp}}\System\User\Crud\I{{model}}CrudRepository;
+use App\Traits\BaseTrait;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use App\Models\{{model}}Role;
+class {{model}}CrudController  extends Controller {
+
+    use BaseTrait;
+    public function __construct(private I{{model}}CrudRepository $i{{model}}CrudRepo) {
+        $this->middleware(['auth:{{nameDown}}','Has{{model}}Password','Has{{model}}Auth']);
+        $this->lang= '{{nameDown}}.system.user';
+    }
+
+     /**
+     * Index page for {{model}} crud
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function index(Request $request) : View
+    {
+        $data = $this->i{{model}}CrudRepo->index($request);
+        $data['lang'] = $this->lang;
+        $data['userRoles'] = {{model}}Role::select(['id','name','code'])->get();
+        return view('{{nameDown}}.pages.system.user.crud.index',compact('data'));
+    }
+
+    /**
+     * List items for yajra datatable for {{model}} crud
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function list(Request $request) : JsonResponse
+    {
+        return  $this->i{{model}}CrudRepo->list($request);
+    }
+
+    /**
+     * Store procedure for comapany crud
+     *
+     * @param ValidateStore{{model}} $request
+     * @return JsonResponse
+     */
+    public function store(ValidateStore{{model}} $request): JsonResponse
+    {
+        return $this->i{{model}}CrudRepo->store($request);
+    }
+
+    /**
+     * Index page for view
+     *
+     * @param integer|string $id
+     * @param Request $request
+     * @return view
+     */
+    public function edit($id,Request $request) : view
+    {
+        $data = $this->i{{model}}CrudRepo->index($request,$id);
+        $data['lang'] = $this->lang;
+        return view('{{nameDown}}.pages.system.user.crud.index', compact('data'));
+    }
+
+    /**
+     * Update procedure for {{model}}
+     *
+     * @param Request $request
+     * @param integer|string $id
+     * @return JsonResponse
+     */
+    public function update(Request $request, $id) : JsonResponse
+    {
+        return $this->i{{model}}CrudRepo->update($request,$id);
+    }
+
+    /**
+     * Bulk delete list resources
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+     public function deleteList(Request $request) : JsonResponse
+    {
+       return $this->i{{model}}CrudRepo->deleteList($request);
+    }
+
+
+    /**
+     * Bulk update list resources
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+     public function updateList(Request $request) : JsonResponse
+    {
+       return $this->i{{model}}CrudRepo->updateList($request);
+    }
+}

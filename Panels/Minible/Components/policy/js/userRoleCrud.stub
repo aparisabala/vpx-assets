@@ -1,0 +1,127 @@
+$(document).ready(function(){
+
+    if ($('#frmStore{{model}}Role').length > 0) {
+        let rules = {
+            name: {
+                required: true,
+                maxlength: 253
+            },
+            code: {
+                required: true,
+                minlength: 2,
+                maxlength: 3
+            }
+        };
+        PX.ajaxRequest({
+            element: 'frmStore{{model}}Role',
+            validation: true,
+            script: '{{nameDown}}/system/user/user-role',
+            rules,
+            afterSuccess: {
+                type: 'inflate_reset_response_data',
+            }
+        });
+    }
+
+    if ($('#frmUpdate{{model}}Role').length > 0) {
+        let rules = {
+            name: {
+                required: true,
+                maxlength: 253
+            },
+             code: {
+                required: true,
+                minlength: 2,
+                maxlength: 3
+            }
+        };
+        PX.ajaxRequest({
+            element: 'frmUpdate{{model}}Role',
+            validation: true,
+            script: '{{nameDown}}/system/user/user-role/'+$("#patch_id").val(),
+            rules,
+            afterSuccess: {
+                type: 'inflate_response_data',
+            }
+        });
+    }
+
+    if ($("#dt{{model}}Role").length > 0) {
+        const {pageLang={}} = PX?.config;
+        const {table={}} = pageLang;
+        let col_draft = [
+            {
+                data: 'id',
+                title: table?.id
+            },
+
+            {
+                data: 'name',
+                title: table?.name
+            },
+             {
+                data: 'code',
+                title: table?.code
+            },
+
+            {
+                data: 'created_at',
+                title: table?.created
+            },
+
+            {
+                data: null,
+                title: table?.action,
+                class: 'text-end',
+                render: function (data, type, row) {
+                    return `<a href="${baseurl}{{nameDown}}/system/user-role/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit" title="Edit">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>`;
+                }
+            },
+        ];
+        PX.renderDataTable('dt{{model}}Role', {
+            select: true,
+            url: '{{nameDown}}/system/user/user-role/list',
+            columns: col_draft,
+            pdf: [1, 2]
+        });
+    }
+})
+
+function dt{{model}}Role(table, api, op) {
+    PX.deleteAll({
+        element: "deleteAll{{model}}Role",
+        script: "{{nameDown}}/system/user/user-role/delete-list",
+        confirm: true,
+        api,
+    });
+    PX.updateAll({
+        element: "updateAll{{model}}Role",
+        script: "{{nameDown}}/system/user/user-role/update-list",
+        confirm: true,
+        dataCols: {
+            key: "ids",
+            items: [
+                {
+                    index: 1,
+                    name: "ids",
+                    type: "input",
+                    data: [],
+                },
+                {
+                    index: 1,
+                    name: "serial",
+                    type: "input",
+                    data: []
+                }
+            ]
+        },
+        api,
+        afterSuccess: {
+            type: "inflate_response_data"
+        }
+    });
+    PX?.dowloadPdf({ ...op, btn: "download{{model}}RolePdf", dataTable: "yes" })
+    PX?.dowloadExcel({ ...op, btn: "download{{model}}RoleExcel", dataTable: "yes" })
+}

@@ -1,0 +1,9 @@
+<?php
+
+use App\Http\Controllers\{{nameUp}}\System\User\Policy\{{model}}PolicyController;
+use Illuminate\Support\Facades\Route;
+
+Route::prefix('{{nameDown}}')->group(function(){
+    Route::get('system/user/user-policy',[{{model}}PolicyController::class,'index']);
+    Route::post('system/user/user-policy',[{{model}}PolicyController::class,'update']);
+});
