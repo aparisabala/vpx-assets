@@ -64,6 +64,7 @@ class {{model}}CrudController  extends Controller {
     {
         $data = $this->i{{model}}CrudRepo->index($request,$id);
         $data['lang'] = $this->lang;
+        $data['userRoles'] = {{model}}Role::select(['id','name','code'])->get();
         return view('{{nameDown}}.pages.system.user.crud.index', compact('data'));
     }
 

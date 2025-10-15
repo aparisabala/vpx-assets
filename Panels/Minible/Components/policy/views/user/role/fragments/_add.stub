@@ -1,5 +1,5 @@
 <div class="bg-info pl-2 page-fragment-bar">
-    <span class="text-light"> <a href=""><span class="badge badge-info cursor-pointer"> <i class='fa-solid fa-arrow-left fs-16'></i></span></a> <span class="pt-1">{{pxLang($data['lang'],'breadCum.title')}}  </span> </span>
+    <span class="text-light"> <a href=""><span class="badge badge-info cursor-pointer"> <i class='fa-solid fa-arrow-left fs-16'></i></span></a> <span class="pt-1">{{pxLang($data['lang'],'add')}}  </span> </span>
 </div>
 <div class="mt-4 p-3">
     <form id="frmStore{{model}}Role" autocomplete="off">

@@ -2,7 +2,7 @@
     <span class="text-light"> <a href="{{url('{{nameDown}}/system/user')}}"><span class="badge badge-info cursor-pointer"> <i class='fa-solid fa-arrow-left fs-16'></i></span></a> <span class="pt-1"> {{pxLang($data['lang'],'update')}}   </span> </span>
 </div>
 <div class="mt-4 p-3">
-    <form id="frmUpdate{{model}}User" autocomplete="off">
+    <form id="frmUpdate{{model}}" autocomplete="off">
         @method('PATCH')
         <input type="hidden" id="patch_id" value="{{$data['item']?->id}}" />
         <div class="row">

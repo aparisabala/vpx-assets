@@ -29,11 +29,12 @@ class ValidateStore{{model}} extends FormRequest
     public function rules(): array
     {
         return [
-            'admin_type' => 'required|in:Super Admin',
+            'admin_type' => 'required|in:system_user',
             'name' => 'required|string|max:253',
             'mobile_number' => 'required|string|max:253|unique:{{tableName}},mobile_number',
             'email' => 'required|email|max:253|unique:{{tableName}},email',
             'image' => 'required|file|mimes:jpg,png,jpeg,webp|max:2024',
+            'user_access' => 'required|array'
         ];
     }
 

@@ -29,8 +29,8 @@ class ValidateUpdate{{model}} extends FormRequest
     public function rules($request,$row): array
     {
         $rules =  [
-            'admin_type' => 'required|in:Super Admin',
             'name' => 'required|string|max:253',
+            'user_access' => 'required|array'
         ];
         if($row->isDirty('name')) {
             $rules['mobile_number'] = 'required|string|max:253|unique:{{tableName}},mobile_number';

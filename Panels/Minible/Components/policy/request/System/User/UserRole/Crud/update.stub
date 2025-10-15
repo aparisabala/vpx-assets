@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\{{nameUp}}\User\System\UserRole\Crud;
+namespace App\Http\Requests\{{nameUp}}\System\User\UserRole\Crud;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
