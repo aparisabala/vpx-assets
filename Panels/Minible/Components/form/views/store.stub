@@ -4,7 +4,9 @@
         <div class="col-md-12">
             <div class="">
                 @include('{{bladeRoute}}.form.{{formTypeDown}}.fragments._breadcum')
-                <div class="page-block-body">
+                {{navInc}}
+                <div class="card rounded page-block">
+                    {{navTrigger}}
                     <div class="mt-4 p-3">
                         <div class="mt-4 p-3">
                             <form id="frm{{model}}Store" autocomplete="off">
