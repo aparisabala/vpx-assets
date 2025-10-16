@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
+use Carbon\Carbon;
+use Auth;
 class  {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRepository {
 
     use BaseTrait;
@@ -26,7 +28,7 @@ class  {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudR
      */
     public function index($request,$id=null) : array
     {
-       return $this->getPageDefault(query: $this->{{model}}, id: $id);
+       return $this->getPageDefault(model: $this->{{model}}, id: $id);
     }
 
 
@@ -39,6 +41,13 @@ class  {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudR
     public function list($request) : JsonResponse
     {
         $model = {{model}}::query();
+        $this->saveTractAction(
+            $this->getTrackData(
+                title: '{{model}} was viewed by '.$request?->auth?->name.' at '.Carbon::now()->format('d M Y H:i s'),
+                request: $request,
+                onlyTitle: true
+            )
+        );
         return DataTables::of($model)
         ->editColumn('created_at', function($item) {
             return  Carbon::parse($item->created_at)->format('d-m-Y');
@@ -54,15 +63,19 @@ class  {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudR
      * @return JsonResponse
      */
     public function store($request) : JsonResponse
-    {
+    {   
+        DB::beginTransaction();
         try {
             {{model}}::create([
                 ...$request->all(),
                 //'serial' => $this->facSrWc($this->{{model}})
             ]);
             $response['extraData'] = ['inflate' => pxLang($request->lang,'','common.action_success') ];
+            $this->saveTractAction($this->getTrackData(title: "A new country was created by ".$request?->auth?->name,request: $request));
+            DB::commit();
             return $this->response(['type' => 'success', 'data' => $response]);
         } catch (\Exception $e) {
+            DB::rollback();
             $this->saveError($this->getSystemError(['name' => '{{model}}_store_error']), $e);
             return $this->response(['type' => 'noUpdate', 'title' => pxLang($request->lang,'','common.server_wrong')]);
         }
@@ -87,9 +100,12 @@ class  {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudR
             if ($validator->fails()) {
                 return $this->response(['type' => 'validation','errors' => $validator->errors()]);
             }
+            DB::beginTransaction();
             try {
                 $row->update($request->all());
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
+                $this->saveTractAction($this->getTrackData(title: " Country ".$row?->name.' was updated by '.$request?->auth?->name,request: $request, row: $rowRef, type: 'to'));
+                DB::commit();
                 return $this->response(['type' => 'success','data' => $data]);
             } catch (\Exception $e) {
                 $this->saveError($this->getSystemError(['name'=>'{{model}}_update_error']), $e);

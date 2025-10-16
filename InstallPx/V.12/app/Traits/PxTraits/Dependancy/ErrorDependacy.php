@@ -2,6 +2,7 @@
 namespace App\Traits\PxTraits\Dependancy;
 
 use App\Models\SystemError;
+use App\Models\SystemTracking;
 
 trait ErrorDependacy
 {
@@ -24,5 +25,36 @@ trait ErrorDependacy
             "id"        => (isset($params['id'])) ?  $params['id'] :  0,
             "map_table" => (isset($params['map_table'])) ?  $params['map_table'] :  "no",
         ];
+    }
+
+     public function getTracData($title,$request,$row=null,$type='from')
+    {
+        $rData = $request->all();
+        $row = ($row == null) ? [] : $row;
+        unset($rData['_token']);
+        unset($rData['auth']);
+        unset($rData['lang']);
+        $fromData = "";
+        $toData = NUll;
+        if($type == 'from') {
+            $fromData = implode(', ', array_map(fn($k,$v)=>ucfirst($k).': '.ucfirst($v), array_keys($rData),$rData));
+        }
+        if($type == 'to') {
+            $fromData = implode(', ', array_map(fn($k,$v)=>ucfirst($k).' : '.ucfirst($v), array_keys($row),$row));
+            $toData = implode(', ', array_map(fn($k,$v)=>ucfirst($k).' : '.ucfirst($v), array_keys($rData),$rData));
+        }
+        return [
+            "title"      => $title,
+            "from_data"  => $fromData,
+            "to_data"  =>  $toData,
+        ];
+    }
+     public function saveTractAction($data)
+    {
+        $i                = new SystemTracking;
+        $i->title = $data['title'];
+        $i->from_data   = $data['from_data'];
+        $i->to_data    = (isset($data['to_data'])) ? $data['to_data'] : NULL;
+        $i->save();
     }
 }

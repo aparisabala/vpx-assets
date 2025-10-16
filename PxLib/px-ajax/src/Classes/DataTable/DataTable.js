@@ -41,10 +41,11 @@ export class DataTable extends PxConfig {
             }
         }
         f.selected = op.selected || [];
-        let post_data = { _token: this?.G?.csrf_token };
+        let post_data = { _token: this?.G?.csrf_token, auth_uuid: $("#auth_uuid").val() };
         for (let key in f.body) {
             post_data[key] = f.body[key]
         }
+        console.log(post_data);
         if ($("#" + table).length > 0) {
             let dt = $("#" + table).DataTable({
                 paging: f.paging,

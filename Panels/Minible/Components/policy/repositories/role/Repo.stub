@@ -27,7 +27,7 @@ class {{model}}RoleCrudRepository extends BaseRepository implements I{{model}}Ro
      */
     public function index($request,$id=null) : array
     {
-       return $this->getPageDefault(query: $this->{{model}}Role, id: $id);
+       return $this->getPageDefault(model: $this->{{model}}Role, id: $id);
     }
 
 

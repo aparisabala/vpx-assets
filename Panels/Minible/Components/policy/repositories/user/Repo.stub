@@ -34,7 +34,7 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
     public function index($request,$id=null) : array
     {
        $query = {{model}}::query();
-       return $this->getPageDefault(query: $query, id: $id,where: $this->baseCondition);
+       return $this->getPageDefault(model: $query, id: $id,where: $this->baseCondition);
     }
 
 
