@@ -26,7 +26,7 @@ class  {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudR
      */
     public function index($request,$id=null) : array
     {
-       return $this->getPageDefault(model: $this->{{model}}, id: $id);
+       return $this->getPageDefault(query: $this->{{model}}, id: $id);
     }
 
 
