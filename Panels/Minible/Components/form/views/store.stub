@@ -2,39 +2,46 @@
 @section('page')
     <div class="row">
         <div class="col-md-12">
-            <div class="">
-                @include('{{bladeRoute}}.form.{{formTypeDown}}.fragments._breadcum')
-                {{navInc}}
-                <div class="card rounded page-block">
-                    {{navTrigger}}
-                    <div class="mt-4 p-3">
+            @can('{{allowKey}}_view')
+                <div class="">
+                    @include('{{bladeRoute}}.form.{{formTypeDown}}.fragments._breadcum')
+                    {{navInc}}
+                    <div class="card rounded page-block">
+                        {{navTrigger}}
                         <div class="mt-4 p-3">
-                            <form id="frm{{model}}Store" autocomplete="off">
-                                <div class="row">
-                                    <div class="col-md-12">
+                            <div class="mt-4 p-3">
+                                @can('{{allowKey}}_store')
+                                    <form id="frm{{model}}Store" autocomplete="off">
                                         <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="card p-2 shadow-card card-border">
-                                                    <div class="form-group text-left mb-3">
-                                                        <label class="form-label"> <b>{{pxLang($data['lang'],'fields.name')}}</b> <em class="required">*</em> <span id="name_error"></span></label>
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control" name="name" id="name">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="card p-2 shadow-card card-border">
+                                                            <div class="form-group text-left mb-3">
+                                                                <label class="form-label"> <b>{{pxLang($data['lang'],'fields.name')}}</b> <em class="required">*</em> <span id="name_error"></span></label>
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control" name="name" id="name">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 mt-3 text-end">
+                                                                <button class="btn btn-info btn-sm" type="submit"><i class="fa fa-plus"></i> {{pxLang($data['lang'],'','common.btns.crud_action_add')}} </button>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="mb-3 mt-3 text-end">
-                                                        <button class="btn btn-info btn-sm" type="submit"><i class="fa fa-plus"></i> {{pxLang($data['lang'],'','common.btns.crud_action_add')}} </button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </form>
+                                    </form>
+                                @else
+                                    @include('common.view.fragments.-item-403')
+                                @endcan
+                            </div>
                         </div>
-
                     </div>
                 </div>
-            </div>
+            @else
+                @include('common.view.fragments.-item-403')
+            @endcan
         </div>
     </div>
 @endsection

@@ -4,7 +4,7 @@ $(document).ready(function(){
         let rules = {
         };
         PX?.ajaxRequest({
-            element: 'frmUpdatePermission',
+            element: 'frmUpdate{{model}}Permission',
             validation: true,
             script: '{{nameDown}}/system/user/user-policy',
             rules,

@@ -27,7 +27,7 @@ trait ErrorDependacy
         ];
     }
 
-     public function getTracData($title,$request,$row=null,$type='from')
+     public function getTrackData($title,$request,$onlyTitle=false,$row=null,$type='from')
     {
         $rData = $request->all();
         $row = ($row == null) ? [] : $row;
@@ -36,12 +36,25 @@ trait ErrorDependacy
         unset($rData['lang']);
         $fromData = "";
         $toData = NUll;
-        if($type == 'from') {
-            $fromData = implode(', ', array_map(fn($k,$v)=>ucfirst($k).': '.ucfirst($v), array_keys($rData),$rData));
-        }
-        if($type == 'to') {
-            $fromData = implode(', ', array_map(fn($k,$v)=>ucfirst($k).' : '.ucfirst($v), array_keys($row),$row));
-            $toData = implode(', ', array_map(fn($k,$v)=>ucfirst($k).' : '.ucfirst($v), array_keys($rData),$rData));
+        if($onlyTitle) {
+            $fromData = "";
+            $toData = NUll;
+        } else {
+            if($type == 'from') {
+                $fromData = implode(', ', array_map( fn($k, $v) => $k . ': ' . (is_array($v) ? implode(', ', $v) : $v), array_keys($rData),  $rData));
+            }
+            if($type == 'to') {
+                $fromData = implode(', ', array_map(
+                    fn($k, $v) => $k . ' : ' . (is_array($v) ? implode(', ', $v) : $v),
+                    array_keys($row),
+                    $row
+                ));
+                $toData = implode(', ', array_map(
+                    fn($k, $v) => $k . ' : ' . (is_array($v) ? implode(', ', $v) : $v),
+                    array_keys($rData),
+                    $rData
+                ));
+            }
         }
         return [
             "title"      => $title,

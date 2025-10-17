@@ -55,6 +55,8 @@ class PxCommandServiceProvider extends ServiceProvider
             View::composer($panel.'.includes.footer-resource', function ($view) use($panels,$panel,$pxCommandService) {
                 $view->with('appScripts', implode("\n",$pxCommandService->generateScripts(panels: $panels,panel: $panel,from: 'scripts')));
                 //vpx_to_footer
+                $systemPolicies = $pxCommandService?->getPolicies();
+                $view->with('systemPolicies',$systemPolicies);
             });
         }
     }

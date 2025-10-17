@@ -9,12 +9,16 @@ trait SytemUserPolicyTrait {
             'name' => 'System Core',
             'policies' => [
                 [
+                    'name' => 'System User Roles',
+                    'keys' => ['view','store','bulk_update','delete','pdf','excel','edit']
+                ],
+                [
                     'name' => 'System User',
-                    'keys' => ['view','create','delete','pdf','excel','edit','pass_change']
+                    'keys' => ['view','store','bulk_update','delete','pdf','excel','edit','pass_change']
                 ],
                 [
                     'name' => 'System User Policies',
-                    'keys' => ['view','update']
+                    'keys' => ['view','edit']
                 ]
             ]
         ];

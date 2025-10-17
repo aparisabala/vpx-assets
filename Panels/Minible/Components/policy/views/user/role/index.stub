@@ -2,47 +2,53 @@
 @section('page')
     <div class="row">
         <div class="col-md-12">
-            @if($data['item'] != null || $data['type'] != "edit")
-                <div class="">
-                    @include('{{nameDown}}.pages.system.user.user-role.crud.fragments._breadcum')
-                    <div class="page-block-body">
-                        @if($data['type'] == "add")
-                            @include('{{nameDown}}.pages.system.user.user-role.crud.fragments._actions')
-                            <div class="card rounded page-block">
-                                <div id="defaultPage" class="table-list pages">
-                                    <div class="mt-2 p-2 p-md-4">
-                                        <input type="hidden" id="page-lang" value="{{ json_encode(Lang::get(config('pxcommands.language')[$data['lang']])) }}" />
-                                        @if(count($data['items']) > 0)
-                                            @include('common.view.fragments._show-selected')
-                                            @include('common.view.fragments._pdf-layout',['docTitle' => '{{model}}Role List'])
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed" id="dt{{model}}Role"></table>
-                                            </div>
-                                        @else
-                                            @include('common.view.fragments._no-list-data')
-                                        @endif
+            @can('{{allowKey}}_view')
+                @if($data['item'] != null || $data['type'] != "edit")
+                    <div class="">
+                        @include('{{nameDown}}.pages.system.user.user-role.crud.fragments._breadcum')
+                        <div class="page-block-body">
+                            @if($data['type'] == "add")
+                                @include('{{nameDown}}.pages.system.user.user-role.crud.fragments._actions')
+                                <div class="card rounded page-block">
+                                    <div id="defaultPage" class="table-list pages">
+                                        <div class="mt-2 p-2 p-md-4">
+                                            <input type="hidden" id="page-lang" value="{{ json_encode(Lang::get(config('pxcommands.language')[$data['lang']])) }}" />
+                                            @if(count($data['items']) > 0)
+                                                @include('common.view.fragments._show-selected')
+                                                @include('common.view.fragments._pdf-layout',['docTitle' => '{{model}}Role List'])
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed" id="dt{{model}}Role"></table>
+                                                </div>
+                                            @else
+                                                @include('common.view.fragments._no-list-data')
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div id="addPage" class="d-none pages">
+                                        @include('{{nameDown}}.pages.system.user.user-role.crud.fragments._add')
                                     </div>
                                 </div>
-                                <div id="addPage" class="d-none pages">
-                                    @include('{{nameDown}}.pages.system.user.user-role.crud.fragments._add')
-                                </div>
-                            </div>
-                        @else
-                            <div id="editPage" class="pages">
-                                <div class="card rounded-0 pb-3">
-                                    <div id="loadEdit" class="w-100">
-                                        @include('{{nameDown}}.pages.system.user.user-role.crud.fragments._edit')
+                            @else
+                                <div id="editPage" class="pages">
+                                    <div class="card rounded-0 pb-3">
+                                        <div id="loadEdit" class="w-100">
+                                            @include('{{nameDown}}.pages.system.user.user-role.crud.fragments._edit')
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endif
+                            @endif
+                        </div>
                     </div>
-                </div>
+                @else
+                    <div class="card rounded page-block">
+                        @include('common.view.fragments.-item-404')
+                    </div>
+                @endif
             @else
                 <div class="card rounded page-block">
-                    @include('common.view.fragments.-item-404')
+                    @include('common.view.fragments.-item-403')
                 </div>
-            @endif
+            @endcan
         </div>
     </div>
 @endsection

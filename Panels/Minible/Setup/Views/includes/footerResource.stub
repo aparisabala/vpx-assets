@@ -2,6 +2,7 @@
 <input type="hidden" id="digits" value="{{ json_encode(Lang::get('digits')) }}" />
 <input type="hidden" id="attributes" value="{{ json_encode(Lang::get('validation.attributes')) }}" />
 <input type="hidden" id="locale" value="{{ app()->getLocale() }}" />
+<input type="hidden" id="systemPolicies" value="{{ json_encode($systemPolicies) }}" />
 @if(Auth::check())
     <input type="hidden" value="{{ Auth::user()->uuid }}" id="auth_uuid">
 @endif

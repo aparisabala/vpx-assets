@@ -45,7 +45,13 @@ class {{model}} extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'user_access' => 'array'
     ];
+
+    public function hasPermission($permissions)
+    {
+        return (in_array('SA',$this->user_access)) ? true : count(array_intersect($this->user_access, $permissions)) > 0;
+    }
 
     //vpx_attach
 }

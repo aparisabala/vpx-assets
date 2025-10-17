@@ -35,26 +35,29 @@ class {{model}}PolicyRepository extends BaseRepository implements I{{model}}Poli
      */
     public function update($request) : JsonResponse
     {
-       $row = {{model}}::find($id);
-        if(empty($row)){
-            return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">'.pxLang($request->lang,'','common.no_resourse').'</span>']);
-        }
-        $row->fill($request->all());
-        if($row->isDirty()){
-            $validator = Validator::make($request->all(), (new ValidateUpdate{{model}}())->rules($request,$row));
-            if ($validator->fails()) {
-                return $this->response(['type' => 'validation','errors' => $validator->errors()]);
+        $i = {{model}}Permission::whereIn('id',$request->slug)->select(['id','user_access'])->get();;
+        $dirty = [];
+        if (count($i) > 0) {
+            foreach ($i as $key => $value) {
+                $value->user_access =  (isset($request->user_access[$value->id])) ? $request->user_access[$value->id] : NULL;
+                if ($value->isDirty()) {
+                    $dirty[$key] = "yes";
+                }
             }
-            try {
-                $row->update($request->all());
-                $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
+            if (count($dirty) > 0) {
+                foreach ($i as $key => $value) {
+                    $value->save();
+                }
+                $data['extraData'] = [
+                    "inflate" =>  pxLang($request->lang,'','common.action_success')
+                ];
                 return $this->response(['type' => 'success','data' => $data]);
-            } catch (\Exception $e) {
-                $this->saveError($this->getSystemError(['name'=>'{{model}}_update_error']), $e);
-                return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
+            } else {
+                return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success"> '.pxLang($request->lang,'','common.no_change').' </span>']);
             }
+
         } else {
-            return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success">'.pxLang($request->lang,'','common.no_change').'</span>']);
+            return $this->response(['type' => 'noUpdate', 'title' => '<span class="text-success"> '.pxLang($request->lang,'','common.no_change').' </span>']);
         }
     }
 
