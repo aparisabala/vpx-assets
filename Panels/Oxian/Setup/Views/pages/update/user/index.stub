@@ -1,0 +1,99 @@
+@extends('{{nameDown}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | ".pxLang($data['lang'],'breadCum.title') ])
+@section('page')
+@section('breadCum')
+    <h4 class="mb-0">{{pxLang($data['lang'],'breadCum.title')}}</h4>
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="{{url('/')}}">{{pxLang($data['lang'],'breadCum.b1')}} </a></li>
+            <li class="breadcrumb-item active">{{pxLang($data['lang'],'breadCum.b2')}} </li>
+        </ol>
+    </div>
+@endsection
+<div id="pageSideBar" class="pageSideBar">
+    <a href="javascript:void(0)" class="closebtn closeNav">×</a>
+    @include('{{nameDown}}.pages.setup.navs.user-navs')
+</div>
+<div class="thepage">
+	<div id="defaultPage" class="pages">
+		<div class="data-summary">
+			<div class="card">
+                <div class="d-none d-md-block mb-4">
+                    @include('{{nameDown}}.pages.setup.navs.user-navs')
+                </div>
+                <div class="d-block d-md-none">
+					<div class="d-flex flex-row justify-content-end align-items-center p-2">
+						<span class="fs-18 openNav" style="cursor:pointer">&#9776;</span>
+					</div>
+				</div>
+				<div class="p-2">
+                    <form id="frm{{model}}UpdateProfile" autocomplete="off">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="card p-2 shadow-card card-border">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group text-left mb-3">
+                                                        <label class="form-label"> <b> {{pxLang($data['lang'],'fields.name')}}   </b> <em class="required">*</em> <span id="name_error"> </span></label>
+                                                        <div class="input-group">
+                                                            <input type="text"  class="form-control" name="name" id="name" value="{{$data['item']->name}}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group text-left mb-3">
+                                                        <label class="form-label"> <b>  {{pxLang($data['lang'],'fields.mobile_number')}} </b> <em class="required">*</em> <span id="mobile_number_error"> </span></label>
+                                                        <div class="input-group">
+                                                            <input type="text" readonly class="form-control" name="mobile_number" id="mobile_number"  value="{{$data['item']->mobile_number}}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group text-left mb-3">
+                                                        <div class="d-flex flex-row justify-content-between">
+                                                            <label class="form-label" > <b>  {{pxLang($data['lang'],'fields.user_image')}}  </b> <em class="required">*</em> <span id="image_error"></span></label>
+                                                        </div>
+                                                        <div class="input-group">
+                                                            <input type="file" class="form-control" name="image" id="image"/>
+                                                        </div>
+                                                        <div class="row mt-3">
+                                                            <div class="col-md-4">
+                                                                <img src="{{getRowImage(Auth::user(),'300X300')}}" class="img-fluid w-100 border border-primary " />
+                                                                @if(imageExists(Auth::user(),'80X80'))
+                                                                    <input type="hidden"  id="img_uploaded" name="img_uploaded" value="yes"/>
+                                                                @else
+                                                                    <input type="hidden"  id="img_uploaded" name="img_uploaded" value="no"/>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group text-left mb-3">
+                                                        <label class="form-label"> <b> {{pxLang($data['lang'],'fields.email')}} </b> <em class="required">*</em> <span id="email_error"> </span></label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" name="email" id="email" value="{{$data['item']->email}}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 mt-3 text-end">
+                                                <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-save"></i>  {{pxLang($data['lang'],'btns.update')}}  </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+@endsection
