@@ -14,7 +14,6 @@ use Webpatser\Uuid\Uuid;
 use Image;
 use Hash;
 use DB;
-use Carbon\Carbon;
 class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRepository {
 
     use BaseTrait;
@@ -88,7 +87,7 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
             $m->email = $request->email;
             $m->admin_type = $request->admin_type;
             $m->password = Hash::make('123456789');
-            $m->user_access = json_encode($request->user_access);
+            $m->user_access = $request->user_access;
             $path = imagePaths()['dyn_image'];
             $image = $request->file('image');
             if ($request->hasFile('image')) {
@@ -132,7 +131,7 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
         $row->mobile_number = $request->mobile_number;
         $row->email = $request->email;
         $row->status = $request->status;
-        $row->user_access = json_encode($request->user_access);
+        $row->user_access = $request->user_access;
         $path = imagePaths()['dyn_image'];
         $image = $request->file('image');
         if ($request->hasFile('image')) {

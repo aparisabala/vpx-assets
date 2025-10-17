@@ -3,7 +3,8 @@
 </div>
 <div class="mt-4 p-3">
     @can('{{allowKey}}_store')
-        <form id="frmStore{{model}}Role" autocomplete="off">
+        <form id="frmStore{{model}}" autocomplete="off">
+            <input type="hidden" value="system_user" name="admin_type"/>
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">

@@ -3,7 +3,7 @@
 </div>
 <div class="mt-4 p-3">
     @can('{{allowKey}}_edit')
-        <form id="frmUpdate{{model}}Role" autocomplete="off">
+        <form id="frmUpdate{{model}}" autocomplete="off">
             @method('PATCH')
             <input type="hidden" id="patch_id" value="{{$data['item']?->id}}" />
             <div class="row">
