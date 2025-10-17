@@ -6,6 +6,8 @@ use App\Models\{{model}};
 use App\Repositories\BaseRepository;
 use App\Traits\BaseTrait;
 use Illuminate\Http\JsonResponse;
+use DB;
+use Carbon\Carbon;
 class  {{model}}StoreRepository extends BaseRepository implements I{{model}}StoreRepository {
 
     use BaseTrait;
@@ -22,6 +24,13 @@ class  {{model}}StoreRepository extends BaseRepository implements I{{model}}Stor
      */
     public function index($request, $id=null) : array
     {
+       $this->saveTractAction(
+            $this->getTrackData(
+                title: '{{model}} store was viewed by '.$request?->auth?->name.' at '.Carbon::now()->format('d M Y H:i:s A'),
+                request: $request,
+                onlyTitle: true
+            )
+        );  
        return $this->getPageDefault(model: $this->{{model}}, id: $id);
     }
 
@@ -33,14 +42,18 @@ class  {{model}}StoreRepository extends BaseRepository implements I{{model}}Stor
      */
     public function store($request) : JsonResponse
     {
+        DB::beginTransaction();
         try {
             {{model}}::create([
                 ...$request->all(),
                 //'serial' => $this->facSrWc($this->{{model}})
             ]);
             $response['extraData'] = ['inflate' => pxLang($request->lang,'','common.action_success') ];
+            $this->saveTractAction($this->getTrackData(title: "{{model}} was created by ".$request?->auth?->name,request: $request));
+            DB::commit();
             return $this->response(['type' => 'success', 'data' => $response]);
         } catch (\Exception $e) {
+            DB::rollback();
             $this->saveError($this->getSystemError(['name' => '{{model}}_store_error']), $e);
             return $this->response(['type' => 'noUpdate', 'title' => pxLang($request->lang,'','common.server_wrong')]);
         }

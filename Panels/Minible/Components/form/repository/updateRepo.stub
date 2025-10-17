@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
+use DB;
+use Carbon\Carbon;
 class  {{model}}UpdateRepository extends BaseRepository implements I{{model}}UpdateRepository {
 
     use BaseTrait;
@@ -26,6 +28,13 @@ class  {{model}}UpdateRepository extends BaseRepository implements I{{model}}Upd
      */
     public function index($request, $id=null) : array
     {
+        $this->saveTractAction(
+            $this->getTrackData(
+                title: '{{model}} update was viewed by '.$request?->auth?->name.' at '.Carbon::now()->format('d M Y H:i:s A'),
+                request: $request,
+                onlyTitle: true
+            )
+        );   
        return $this->getPageDefault(model: $this->{{model}}, id: $id);
     }
 
@@ -36,21 +45,25 @@ class  {{model}}UpdateRepository extends BaseRepository implements I{{model}}Upd
      * @param integer|string $id
      * @return JsonResponse
      */
-    public function update($request) : JsonResponse
+    public function update($request,$id) : JsonResponse
     {
-        $row = {{model}}::find($request->id);
+        $row = {{model}}::find($id);
         if(empty($row)){
             return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">'.pxLang($request->lang,'','common.no_resourse').'</span>']);
         }
+        $rowRef = [...$row->toArray()];
         $row->fill($request->all());
         if($row->isDirty()){
-            $validator = Validator::make($request->all(), (new Validate{{model}}Update())->rules($request,$row));
+            $validator = Validator::make($request->all(), (new ValidateUpdate{{model}}())->rules($request,$row));
             if ($validator->fails()) {
                 return $this->response(['type' => 'validation','errors' => $validator->errors()]);
             }
+            DB::beginTransaction();
             try {
                 $row->update($request->all());
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
+                $this->saveTractAction($this->getTrackData(title: " {{model}} ".$row?->name.' was updated by '.$request?->auth?->name,request: $request, row: $rowRef, type: 'to'));
+                DB::commit();
                 return $this->response(['type' => 'success','data' => $data]);
             } catch (\Exception $e) {
                 $this->saveError($this->getSystemError(['name'=>'{{model}}_update_error']), $e);
@@ -59,6 +72,7 @@ class  {{model}}UpdateRepository extends BaseRepository implements I{{model}}Upd
         } else {
             return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success">'.pxLang($request->lang,'','common.no_change').'</span>']);
         }
+    }
     }
 
 }
