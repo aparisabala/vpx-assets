@@ -47,7 +47,7 @@ $(document).ready(function(){
     }
 
     if ($("#dt{{model}}Role").length > 0) {
-        const {pageLang={}} = PX?.config;
+        const {pageLang={},policy={}} = PX?.config;
         const {table={}} = pageLang;
         let col_draft = [
             {
@@ -74,9 +74,13 @@ $(document).ready(function(){
                 title: table?.action,
                 class: 'text-end',
                 render: function (data, type, row) {
-                    return `<a href="${baseurl}{{nameDown}}/system/user/user-role/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit" title="Edit">
-                        <i class="fas fa-pencil-alt"></i>
-                    </a>`;
+                    let str = ``;
+                    if(policy?.{{allowKey}}_edit) {
+                        str += `<a href="${baseurl}{{nameDown}}/system/user/user-role/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit" title="Edit">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>`;
+                    }
+                    return str;
                 }
             },
         ];

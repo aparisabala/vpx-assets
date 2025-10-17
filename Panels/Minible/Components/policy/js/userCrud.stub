@@ -105,7 +105,7 @@ $(document).ready(function(){
                 class: 'text-end',
                 render: function (data, type, row) {
                     let str = ``;
-                    if(policy?.system_user_edit) {
+                    if(policy?.{{allowKey}}_edit) {
                         str +=  `<a href="${baseurl}{{nameDown}}/system/user/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit" title="Edit">
                             <i class="fas fa-pencil-alt"></i>
                         </a>`
