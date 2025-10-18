@@ -48,7 +48,7 @@ class {{model}}CrudController  extends Controller {
     /**
      * Store procedure for comapany crud
      *
-     * @param ValidateStore{{modelDown}} $request
+     * @param ValidateStore{{model}} $request
      * @return JsonResponse
      */
     public function store(ValidateStore{{model}} $request): JsonResponse
