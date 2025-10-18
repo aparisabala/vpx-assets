@@ -17,6 +17,7 @@ export class PxConfig {
             attributes: (document.getElementById('attributes')) ? JSON.parse(document.getElementById('attributes').value) : {},
             pageLang: ($("#page-lang").length > 0) ? JSON.parse($("#page-lang").val()) : null,
             policy: ($("#systemPolicies").length > 0) ? JSON.parse($("#systemPolicies").val()) : {},
+            user_access : ($("#user_access").length > 0) ? JSON.parse($("#user_access").val()) : {},
             local: 'en',
             lang: function (op = {}) {
                 let ob = {};

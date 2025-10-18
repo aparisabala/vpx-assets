@@ -243,6 +243,12 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
             DB::beginTransaction();
             try {
                 foreach ($i as $key => $value) {
+                    $this->deleteImageVersions([
+                        'path' => imagePaths()['dyn_image'],
+                        'image_link' => $value->image,
+                        'extension' => $value->extension,
+                        'sizes' =>  $this->sizes
+                    ]);
                     $value->delete();
                 }
                 $data['extraData'] = [
