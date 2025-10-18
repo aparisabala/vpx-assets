@@ -8,6 +8,7 @@ import { PdfGeneration } from './src/Classes/Helpers/PdfGeneration';
 import { ExcelGeneration } from './src/Classes/Helpers/ExcelGeneration';
 import { PxErrors } from './src/Classes/Helpers/PxErrors';
 import { PxModal } from './src/Classes/Modal/PxModal';
+import { PxUtils } from './src/Classes/Helpers/PxUtils';
 class PX extends PxFactory {
     constructor(props){
         super(props);
@@ -22,6 +23,7 @@ class PX extends PxFactory {
         this.config = config?.G;
         this.errors = new PxErrors();
         this.modal = new PxModal();
+        this.utils  = new PxUtils();
         this.init();
     }
 
@@ -77,7 +79,7 @@ class PX extends PxFactory {
 
     init(){
         const context =this;
-        if(window){
+        if(window) {
             window.onload = function() {
                 $(".disBtn").attr('disabled',false);
             };
@@ -125,8 +127,7 @@ class PX extends PxFactory {
                 let id = $(this).attr('data-close-id') ?? 'pageSideBar';
                 context?.closeNav(id);
             });
-            this?.modal?.initModal(context)
-
+            this?.modal?.initModal(context);
         }
     }
 
