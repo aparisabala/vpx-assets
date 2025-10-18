@@ -1,0 +1,25 @@
+<?php
+return [
+    'pageTitle' => '',
+    'pageSubTitle' => '',
+    'add' => '',
+    'update' => '',
+    'breadCum' => [
+        'title' => '',
+        'b1' => '',
+        'b2' => '',
+        'b3' => ''
+    ],
+    'nav' => [
+        'item1' => '{{model}} crud'
+    ],
+    'fields' => [
+        'name' => 'Name',
+    ],
+    'table' => [
+        'id' => 'ID',
+        'name' => 'Name',
+        'created' => 'Created',
+        'actions' => 'Actions',
+    ]
+];

@@ -1,0 +1,39 @@
+<?php
+
+namespace {{nameSpace}}\Modal\{{modalNameUp}};
+use App\Http\Controllers\Controller;
+use App\Traits\BaseTrait;
+use Illuminate\Http\JsonResponse;
+use View;
+use Illuminate\Http\Request;
+//vpx_imports
+
+class {{modalNameUp}}ModalController  extends Controller {
+
+    use BaseTrait;
+    public function __construct() {
+        $this->middleware(['HasAdminUserAuth']);
+        $this->lang= '{{langKey}}';
+        $this->middleware(function ($request, $next) {
+            $request->merge(['lang' => $this->lang]);
+            return $next($request);
+        });
+
+    }
+
+    /**
+     * Loaded page for {{modalNameDown}}
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function display(Request $request) : JsonResponse
+    {
+        $data['lang'] = $this->lang;
+        $view = View::make('{{bladeRoute}}.modal.{{modalNameKebab}}._modal', compact('data'))->render();
+        $response = ['extraData' => ['inflate' => pxLang($data['lang'],'','common.response_success')],'view' => $view];
+        return $this->response(['type' => 'success', 'data' => $response]);
+    }
+    //vpx_attach
+
+}
