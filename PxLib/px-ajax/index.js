@@ -7,6 +7,7 @@ import { PxConfig } from './src/Classes/PxConfig';
 import { PdfGeneration } from './src/Classes/Helpers/PdfGeneration';
 import { ExcelGeneration } from './src/Classes/Helpers/ExcelGeneration';
 import { PxErrors } from './src/Classes/Helpers/PxErrors';
+import { PxModal } from './src/Classes/Modal/PxModal';
 class PX extends PxFactory {
     constructor(props){
         super(props);
@@ -20,6 +21,7 @@ class PX extends PxFactory {
         const config = new PxConfig();
         this.config = config?.G;
         this.errors = new PxErrors();
+        this.modal = new PxModal();
         this.init();
     }
 
@@ -74,12 +76,12 @@ class PX extends PxFactory {
     
 
     init(){
+        const context =this;
         if(window){
             window.onload = function() {
                 $(".disBtn").attr('disabled',false);
             };
             this.#pageAction();
-            let context = this;
             $(".p-link").each(function () {
                 if ($(this).attr("href") == window.location.href) {
                 $(this).addClass("p-link-active");
@@ -122,7 +124,8 @@ class PX extends PxFactory {
             $(".closeNav").on("click",function(){
                 let id = $(this).attr('data-close-id') ?? 'pageSideBar';
                 context?.closeNav(id);
-            })
+            });
+            this?.modal?.initModal(context)
 
         }
     }

@@ -55,13 +55,13 @@ export class PxSuccess extends PxConfig {
                             $("#" + target).html(view);
                             break;
                         case "api_response":
-
                             if(customHideLoader) {
                                 this.#pxErros?.hideLoader();
                             }
-
                             break;
-
+                        case "modal":
+                            this.#afterLoadModal(op);
+                            break;
                         default:
                             this.#pxErros?.inflatesuccess(this?.G.lang()?.action_success);
                             this.#pxErros?.timeoutReload(extraData.redirect, 400);
@@ -77,6 +77,32 @@ export class PxSuccess extends PxConfig {
             }
         } else {
             $('#global-loader').removeClass("active-global-loader").css({ "display": "none" });
+        }
+    }
+
+    #afterLoadModal(op) {
+        let type = typeof(op);
+        if (local) {
+            console.log(op);
+        }
+        if (type === "object") {
+            const {response,title,modalCallback = undefined,globLoader=true} = op;
+            if (response.success) {
+                let { extraData = { inflate: G?.lang()?.no_message_return, redirect: window.location.href},view="reached"} = response.data;
+                if(globLoader) {
+                   this.#pxErros?.inflatesuccess(extraData?.inflate);
+                }
+                console.log(view);
+                $(".modal-title").html(title);
+                $(".modal-body").html(view);
+                if(modalCallback) {
+                    if(window[modalCallback]) {
+                        window[modalCallback](response);
+                    }
+                }
+            }
+        } else {
+            $('#theGlobalLoader').removeClass("activeGlobalLoader").css({ "display": "none" });
         }
     }
 }
