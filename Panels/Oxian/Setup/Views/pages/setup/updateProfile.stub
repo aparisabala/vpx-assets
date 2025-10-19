@@ -1,12 +1,16 @@
 @extends('{{nameDown}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | ".pxLang($data['lang'],'breadCum.title') ])
 @section('page')
 @section('breadCum')
-    <h4 class="mb-0">{{pxLang($data['lang'],'breadCum.title')}}</h4>
-    <div class="page-title-right">
-        <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item"><a href="{{url('/')}}">{{pxLang($data['lang'],'breadCum.b1')}} </a></li>
-            <li class="breadcrumb-item active">{{pxLang($data['lang'],'breadCum.b2')}} </li>
-        </ol>
+    <div class="clearfix">
+        <h1 class="app-page-title">Pricing</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="index.html">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Pricing</li>
+            </ol>
+        </nav>
     </div>
 @endsection
 <div class="thepage">
@@ -54,7 +58,6 @@
 
                                             </div>
                                         </div>
-
                                         <div class="col-md-6">
                                             <div class="form-group text-left mb-3">
                                                 <label class="form-label"> <b> {{pxLang($data['lang'],'fields.email')}} </b> <em class="required">*</em> <span id="email_error"> </span></label>
@@ -64,7 +67,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group text-left mb-3">

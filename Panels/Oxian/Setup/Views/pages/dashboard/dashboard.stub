@@ -1,7 +1,17 @@
 @extends('{{nameDown}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | Dashboard" ])
 @section('page')
 	@section('breadCum')
-		<h4 class="mb-0">Dashboard</h4>
+		<div class="clearfix">
+			<h1 class="app-page-title">Pricing</h1>
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb mb-0">
+					<li class="breadcrumb-item">
+						<a href="index.html">Dashboard</a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">Pricing</li>
+				</ol>
+			</nav>
+		</div>
 	@endsection
 	<div class="row">
 		<div class="col-md-12">

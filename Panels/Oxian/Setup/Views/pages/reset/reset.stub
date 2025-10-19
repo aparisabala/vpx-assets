@@ -1,39 +1,42 @@
 @extends('{{nameDown}}.layouts.full-page-layout',["tabTitle" => config('i.service_name').' | '.pxLang($data['lang'],'breadCum.title') ])
 @section('page')
-<div class="account-pages my-5 pt-sm-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="text-center">
-                    <a href="{{ url('{{nameDown}}/login') }}" class="mb-5 d-block auth-logo">
-                        <img src="{{ config('i.logo') }}" alt="" class="logo logo-dark">
-                        <img src="{{ config('i.logo') }}" alt="" class="logo logo-light">
-                    </a>
-                </div>
+<div class="auth-cover-wrapper">
+    <div class="row g-0">
+    <div class="col-lg-6">
+        <div class="auth-cover" style="background-image: url(assets/images/auth/auth-cover-bg.png);">
+        <div class="clearfix">
+            <img src="assets/images/auth/auth.png" alt="" class="img-fluid cover-img ms-5">
+            <div class="auth-content">
+            <h1 class="display-6 fw-bold">Welcome Back!</h1>
+            <p>Our HR Management &amp; Administration ensure your organization runs smoothly, focusing on people, compliance, and efficiency to drive growth and employee satisfaction.</p>
             </div>
         </div>
-        <div class="row align-items-center justify-content-center">
-            <div class="col-md-8 col-lg-6 col-xl-5">
-                <div class="card call-center-card">
-                    <div class="card-body p-4"  id="resetBase">
-                        <div class="text-center mt-2">
-                            <p class="text-muted fs-34"> {{pxLang($data['lang'],'pageTitle')}} </p>
-                        </div>
-                        <div class="p-2 mt-4">
-                            <form id="frmSend{{model}}Code" class="mb-3" autocomplete="off" method="POST">
-                                <div class="mb-3">
-                                    <label class="form-label"><b> {{pxLang($data['lang'],'fields.email')}}  </b> <em class="required">*</em> <span id="email_error"> </span> </label>
-                                    <input type="text" class="form-control" id="email" name="email" placeholder="{{pxLang($data['lang'],'fields.email_palceholder')}}">
-                                </div>
-                                <div class="mt-3 text-end">
-                                    <button class="btn btn-primary w-sm waves-effect waves-light disBtn" disabled type="submit">{{pxLang($data['lang'],'btns.send_code')}}</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
+    </div>
+    <div class="col-lg-6 align-self-center">
+        <div class="p-3 p-sm-5 maxw-450px m-auto">
+        <div class="mb-4 text-center">
+            <a href="index.html" aria-label="GXON logo">
+            <img class="visible-light" src="assets/images/logo-full.svg" alt="GXON logo">
+            <img class="visible-dark" src="assets/images/logo-full-white.svg" alt="GXON logo">
+            </a>
+        </div>
+        <div class="text-center mb-5">
+            <h5 class="mb-1">Welcome to GXON</h5>
+            <p>Enter your email to reset your password.</p>
+        </div>
+        <form action="authentication/new-password-cover.html">
+            <div class="mb-4">
+            <label class="form-label" for="resetEmail">Email address</label>
+            <input type="email" class="form-control" id="resetEmail" placeholder="info@example.com">
+            </div>
+            <div class="clearfix">
+            <button type="submit" value="Submit" class="btn btn-primary waves-effect waves-light w-100 mb-3">Forgot Password</button>
+            <a href="authentication/login-cover.html" class="btn btn-light waves-effect waves-light w-100"> Cancel </a>
+            </div>
+        </form>
+        </div>
+    </div>
     </div>
 </div>
 @endsection
