@@ -1,0 +1,21 @@
+<?php
+
+namespace {{repositoryNameSpace}}\Modal\{{modelNameUp}}Repository;
+
+use App\Repositories\BaseRepository;
+
+class {{modelNameUp}}Repository extends BaseRepository implements I{{modelNameUp}}Repository
+{
+
+    /**
+     * Modal  data
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function display($request) : array
+    {
+        $data[] = [];
+        return $data;
+    }
+}

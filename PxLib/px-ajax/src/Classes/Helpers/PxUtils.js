@@ -59,4 +59,8 @@ export class PxUtils {
             ...op
         });
     }
+
+    fReset(f){
+        $("#" + f)[0].reset();
+    }
 }

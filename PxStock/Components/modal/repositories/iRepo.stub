@@ -1,0 +1,10 @@
+<?php
+
+namespace {{repositoryNameSpace}}\Modal\{{modelNameUp}}Repository;
+
+use Illuminate\Http\JsonResponse;
+
+interface I{{modelNameUp}}Repository {
+
+    public function display($request) : array;
+}
