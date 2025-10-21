@@ -1,6 +1,6 @@
 <?php
 
-namespace {{repositoryNameSpace}}\Modal\{{modalNameUp}}Repository;
+namespace {{repositoryNameSpace}}\Modal\{{modalNameUp}};
 
 use App\Repositories\BaseRepository;
 
