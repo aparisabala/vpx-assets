@@ -3,16 +3,16 @@
 namespace {{nameSpace}}\Form\{{formTypeUp}};
 use App\Http\Controllers\Controller;
 use {{requestNameSpace}}\Form\{{formTypeUp}}\Validate{{model}}Store;
-use {{repositoryNameSpace}}\Form\{{formTypeUp}}\I{{model}}StoreRepository;
+use {{repositoryNameSpace}}\Form\{{formTypeUp}}\I{{model}}{{lastNameSpace}}StoreRepository;
 use App\Traits\BaseTrait;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class {{model}}StoreController extends Controller {
+class {{model}}{{lastNameSpace}}StoreController extends Controller {
 
     use BaseTrait;
-    public function __construct(private I{{model}}StoreRepository $i{{model}}StoreRepo) {
+    public function __construct(private I{{model}}{{lastNameSpace}}StoreRepository $i{{model}}{{lastNameSpace}}StoreRepo) {
         $this->middleware(['auth:{{baseAuth}}','Has{{authModel}}Password','Has{{authModel}}Auth']);
         $this->lang= '{{langKey}}';
         $this->middleware(function ($request, $next) {
@@ -29,7 +29,7 @@ class {{model}}StoreController extends Controller {
      */
     public function index(Request $request) : View
     {
-        $data = $this->i{{model}}StoreRepo->index($request);
+        $data = $this->i{{model}}{{lastNameSpace}}StoreRepo->index($request);
         $data['lang'] = $this->lang;
         return view('{{bladeRoute}}.form.{{formTypeDown}}.index')->with('data',$data);
     }
@@ -42,7 +42,7 @@ class {{model}}StoreController extends Controller {
      */
     public function store(Validate{{model}}Store $request)
     {
-       return $this->i{{model}}StoreRepo->store($request);
+       return $this->i{{model}}{{lastNameSpace}}StoreRepo->store($request);
     }
 }
 

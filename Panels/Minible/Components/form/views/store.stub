@@ -11,7 +11,7 @@
                         <div class="mt-4 p-3">
                             <div class="mt-4 p-3">
                                 @can('{{allowKey}}_store')
-                                    <form id="frm{{model}}Store" autocomplete="off">
+                                    <form id="frm{{model}}{{lastNameSpace}}Store" autocomplete="off">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="row">

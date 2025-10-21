@@ -8,7 +8,7 @@ use App\Traits\BaseTrait;
 use Illuminate\Http\JsonResponse;
 use DB;
 use Carbon\Carbon;
-class  {{model}}StoreRepository extends BaseRepository implements I{{model}}StoreRepository {
+class  {{model}}{{lastNameSpace}}StoreRepository extends BaseRepository implements I{{model}}{{lastNameSpace}}StoreRepository {
 
     use BaseTrait;
     public function __construct() {

@@ -2,17 +2,17 @@
 
 namespace {{nameSpace}}\Form\{{formTypeUp}};
 use App\Http\Controllers\Controller;
-use {{repositoryNameSpace}}\Form\{{formTypeUp}}\I{{model}}UpdateRepository;
+use {{repositoryNameSpace}}\Form\{{formTypeUp}}\I{{model}}{{lastNameSpace}}UpdateRepository;
 use App\Traits\BaseTrait;
 use App\Models\{{model}};
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class {{model}}UpdateController extends Controller {
+class {{model}}{{lastNameSpace}}UpdateController extends Controller {
 
     use BaseTrait;
-    public function __construct(private I{{model}}UpdateRepository $i{{model}}UpdateRepo) {
+    public function __construct(private I{{model}}{{lastNameSpace}}UpdateRepository $i{{model}}{{lastNameSpace}}UpdateRepo) {
         $this->middleware(['auth:{{baseAuth}}','Has{{authModel}}Password','Has{{authModel}}Auth']);
         $this->lang= '{{langKey}}';
         $this->middleware(function ($request, $next) {
@@ -29,7 +29,7 @@ class {{model}}UpdateController extends Controller {
      */
     public function index(Request $request) : View
     {
-        $data = $this->i{{model}}UpdateRepo->index($request);
+        $data = $this->i{{model}}{{lastNameSpace}}UpdateRepo->index($request);
         $data['lang'] = $this->lang;
         $data['item'] = {{model}}::find($request->id);
         return view('{{bladeRoute}}.form.{{formTypeDown}}.index')->with('data',$data);
@@ -43,6 +43,6 @@ class {{model}}UpdateController extends Controller {
      */
     public function update(Request $request)
     {
-       return $this->i{{model}}UpdateRepo->update($request);
+       return $this->i{{model}}{{lastNameSpace}}UpdateRepo->update($request);
     }
 }

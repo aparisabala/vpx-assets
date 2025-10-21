@@ -10,9 +10,9 @@
                         <div class="card rounded page-block">
                             {{navTrigger}} 
                             <div class="mt-4 p-3">
-                                @can('{{allowKey}}_store')
-                                    <form id="frm{{model}}Update" autocomplete="off">
-                                        <input type="hidden" id="id" value="{{$data['item']?->id}}" />
+                                @can('{{allowKey}}_update')
+                                    <form id="frm{{model}}{{lastNameSpace}}Update" autocomplete="off">
+                                        <input type="hidden" name="id" value="{{$data['item']?->id}}" />
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="row">

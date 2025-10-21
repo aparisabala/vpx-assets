@@ -2,7 +2,7 @@
 
 namespace {{repositoryNameSpace}}\Form\{{formTypeUp}};
 
-use {{requestNameSpace}}\Form\{{formTypeUp}}\Validate{{model}}Update;
+use {{requestNameSpace}}\Form\{{formTypeUp}}\Validate{{model}}{{lastNameSpace}}Update;
 use App\Models\{{model}};
 use App\Repositories\BaseRepository;
 use App\Traits\BaseTrait;
@@ -11,7 +11,7 @@ use DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use DB;
-class  {{model}}UpdateRepository extends BaseRepository implements I{{model}}UpdateRepository {
+class  {{model}}{{lastNameSpace}}UpdateRepository extends BaseRepository implements I{{model}}{{lastNameSpace}}UpdateRepository {
 
     use BaseTrait;
     public function __construct() {
@@ -44,16 +44,16 @@ class  {{model}}UpdateRepository extends BaseRepository implements I{{model}}Upd
      * @param integer|string $id
      * @return JsonResponse
      */
-    public function update($request,$id) : JsonResponse
+    public function update($request) : JsonResponse
     {
-        $row = {{model}}::find($id);
+        $row = {{model}}::find($request->id);
         if(empty($row)){
             return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">'.pxLang($request->lang,'','common.no_resourse').'</span>']);
         }
         $rowRef = [...$row->toArray()];
         $row->fill($request->all());
         if($row->isDirty()){
-            $validator = Validator::make($request->all(), (new Validate{{model}}Update())->rules($request,$row));
+            $validator = Validator::make($request->all(), (new Validate{{model}}{{lastNameSpace}}Update())->rules($request,$row));
             if ($validator->fails()) {
                 return $this->response(['type' => 'validation','errors' => $validator->errors()]);
             }

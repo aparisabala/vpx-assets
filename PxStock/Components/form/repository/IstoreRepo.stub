@@ -4,7 +4,7 @@ namespace {{repositoryNameSpace}}\Form\{{formTypeUp}};
 
 use Illuminate\Http\JsonResponse;
 
-interface I{{model}}StoreRepository {
+interface I{{model}}{{lastNameSpace}}StoreRepository {
 
     public function index($request) : array;
     public function store($request) : JsonResponse;
