@@ -1,10 +1,10 @@
 <?php
 
-namespace {{repositoryNameSpace}}\Modal\{{modelNameUp}}Repository;
+namespace {{repositoryNameSpace}}\Modal\{{modalNameUp}}Repository;
 
 use App\Repositories\BaseRepository;
 
-class {{modelNameUp}}Repository extends BaseRepository implements I{{modelNameUp}}Repository
+class {{modalNameUp}}Repository extends BaseRepository implements I{{modalNameUp}}Repository
 {
 
     /**

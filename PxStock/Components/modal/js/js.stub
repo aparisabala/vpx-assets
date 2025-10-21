@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 });
-function {{modelNameUp}}(op){
-    console.log("modal loaded);
+function {{modalNameUp}}(op){
+    console.log("modal loaded");
     //vpx_attach
 }

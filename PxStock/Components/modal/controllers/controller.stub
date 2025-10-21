@@ -6,13 +6,13 @@ use App\Traits\BaseTrait;
 use Illuminate\Http\JsonResponse;
 use View;
 use Illuminate\Http\Request;
-use {{repositoryNameSpace}}\Modal\{{modelNameUp}}\I{{modelNameUp}}Repository;
+use {{repositoryNameSpace}}\Modal\{{modalNameUp}}\I{{modalNameUp}}Repository;
 //vpx_imports
 
 class {{modalNameUp}}ModalController extends Controller {
 
     use BaseTrait;
-    public function __construct(private I{{modelNameUp}}Repository $i{{modelNameUp}}Repo) {
+    public function __construct(private I{{modalNameUp}}Repository $i{{modalNameUp}}Repo) {
         $this->middleware(['auth:{{baseAuth}}','Has{{authModel}}Password','Has{{authModel}}Auth']);
         $this->lang= '{{langKey}}';
         $this->middleware(function ($request, $next) {
@@ -31,7 +31,7 @@ class {{modalNameUp}}ModalController extends Controller {
     public function display(Request $request) : JsonResponse
     {
         $data['lang'] = $this->lang;
-        $data = [...$data,...$this->i{{modelNameUp}}Repo->display($request)];
+        $data = [...$data,...$this->i{{modalNameUp}}Repo->display($request)];
         $view = View::make('{{bladeRoute}}.modal.{{modalNameKebab}}._modal', compact('data'))->render();
         $response = ['extraData' => ['inflate' => pxLang($data['lang'],'','common.response_success')],'view' => $view];
         return $this->response(['type' => 'success', 'data' => $response]);
