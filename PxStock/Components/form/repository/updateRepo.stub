@@ -53,7 +53,7 @@ class  {{model}}UpdateRepository extends BaseRepository implements I{{model}}Upd
         $rowRef = [...$row->toArray()];
         $row->fill($request->all());
         if($row->isDirty()){
-            $validator = Validator::make($request->all(), (new ValidateUpdate{{model}}())->rules($request,$row));
+            $validator = Validator::make($request->all(), (new Validate{{model}}Update())->rules($request,$row));
             if ($validator->fails()) {
                 return $this->response(['type' => 'validation','errors' => $validator->errors()]);
             }
