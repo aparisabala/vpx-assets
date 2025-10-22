@@ -9,7 +9,7 @@ $(document).ready(function(){
         PX.ajaxRequest({
             element: 'frm{{model}}{{lastNameSpace}}Update',
             validation: true,
-            script: '{{nameDown}}/{{uri}}/update/',
+            script: '{{nameDown}}/{{uri}}/update',
             rules,
             afterSuccess: {
                 type: 'inflate_response_data',
