@@ -1,0 +1,11 @@
+<?php
+
+namespace {{repositoryNameSpace}}\Dt\{{dtNameUp}};
+
+use Illuminate\Http\JsonResponse;
+
+interface I{{dtNameUp}}DtRepository {
+
+    public function index($request) : array;
+    public function list($request) : JsonResponse;
+}

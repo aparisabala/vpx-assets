@@ -1,13 +1,13 @@
 <?php
 
-namespace {{nameSpace}}\Dt\{{dtNameUp}}\{{dtNameUp}}DtController;
+namespace {{nameSpace}}\Dt\{{dtNameUp}};
 use App\Http\Controllers\Controller;
 use {{repositoryNameSpace}}\Dt\{{dtNameUp}}\I{{dtNameUp}}DtRepository;
 use App\Traits\BaseTrait;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-class {{model}}CrudController  extends Controller {
+class {{dtNameUp}}DtController extends Controller {
 
     use BaseTrait;
     public function __construct(private I{{dtNameUp}}DtRepository $i{{dtNameUp}}DtRepo) {
@@ -21,7 +21,7 @@ class {{model}}CrudController  extends Controller {
     }
 
     /**
-     * Index page for {{modelDown}} crud
+     * Index page for {{dtNameDown}} crud
      *
      * @param Request $request
      * @return View
@@ -30,11 +30,11 @@ class {{model}}CrudController  extends Controller {
     {
         $data = $this->i{{dtNameUp}}DtRepo->index($request);
         $data['lang'] = $this->lang;
-        return view('{{bladeRoute}}.dt.{{modalNameKebab}}.index',compact('data'));
+        return view('{{bladeRoute}}.dt.{{modalNameKebab}}{{dtNameKebab}}.index',compact('data'));
     }
 
     /**
-     * List items for yajra datatable for {{modelDown}} crud
+     * List items for yajra datatable for {{dtNameDown}}   crud
      *
      * @param Request $request
      * @return JsonResponse
