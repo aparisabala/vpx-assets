@@ -1,0 +1,47 @@
+<?php
+
+namespace {{nameSpace}}\Dt\{{dtNameUp}}\{{dtNameUp}}DtController;
+use App\Http\Controllers\Controller;
+use {{repositoryNameSpace}}\Dt\{{dtNameUp}}\I{{dtNameUp}}DtRepository;
+use App\Traits\BaseTrait;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+class {{model}}CrudController  extends Controller {
+
+    use BaseTrait;
+    public function __construct(private I{{dtNameUp}}DtRepository $i{{dtNameUp}}DtRepo) {
+        $this->middleware(['auth:{{baseAuth}}','Has{{authModel}}Password','Has{{authModel}}Auth']);
+        $this->lang= '{{langKey}}';
+        $this->middleware(function ($request, $next) {
+            $request->merge(['lang' => $this->lang]);
+            return $next($request);
+        });
+
+    }
+
+    /**
+     * Index page for {{modelDown}} crud
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function index(Request $request) : View
+    {
+        $data = $this->i{{dtNameUp}}DtRepo->index($request);
+        $data['lang'] = $this->lang;
+        return view('{{bladeRoute}}.dt.{{modalNameKebab}}.index',compact('data'));
+    }
+
+    /**
+     * List items for yajra datatable for {{modelDown}} crud
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function list(Request $request) : JsonResponse
+    {
+        return  $this->i{{dtNameUp}}DtRepo->list($request);
+    }
+
+}

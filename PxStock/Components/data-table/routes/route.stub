@@ -1,0 +1,10 @@
+<?php
+
+use {{nameSpace}}\Dt\{{dtNameUp}}\{{dtNameUp}}DtController;
+use Illuminate\Support\Facades\Route;
+//vpx_imports
+Route::prefix('{{nameDown}}')->group(function(){
+    Route::get('{{uri}}/{{dtNameKebab}}/list',[{{dtNameUp}}DtController::class,'index']);
+    Route::post('{{uri}}/{{dtNameKebab}}/list',[{{dtNameUp}}DtController::class,'list']);
+    //vpx_attach
+});
