@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    if ($("#dt{{model}}").length > 0) {
+    if ($("#dt{{dtNameUp}}").length > 0) {
         const {pageLang={}} = PX?.config;
         const {table={}} = pageLang;
         let col_draft = [
@@ -38,14 +38,14 @@ $(document).ready(function(){
                 }
             },
         ];
-        PX.renderDataTable('dt{{model}}', {
+        PX.renderDataTable('dt{{dtNameUp}}', {
             select: true,
-            url: '{{uri}}/{{dtNameKebab}}/list',
+            url: '{{nameDown}}/{{uri}}/{{dtNameKebab}}/list',
             columns: col_draft,
             pdf: [1, 2]
         });
     }
 })
 
-function dt{{model}}(table, api, op) {
+function dt{{dtNameUp}}(table, api, op) {
 }

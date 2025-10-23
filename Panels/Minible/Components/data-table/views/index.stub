@@ -14,9 +14,9 @@
                                     <input type="hidden" id="page-lang" value="{{ json_encode(Lang::get(config('pxcommands.language')[$data['lang']])) }}" />
                                     @if(count($data['items']) > 0)
                                         @include('common.view.fragments._show-selected')
-                                        @include('common.view.fragments._pdf-layout',['docTitle' => '{{model}} List'])
+                                        @include('common.view.fragments._pdf-layout',['docTitle' => '{{dtNameUp}} List'])
                                         <div class="table-responsive">
-                                            <table class="table table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed" id="dt{{model}}"></table>
+                                            <table class="table table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed" id="dt{{dtNameUp}}"></table>
                                         </div>
                                     @else
                                         @include('common.view.fragments._no-list-data')
