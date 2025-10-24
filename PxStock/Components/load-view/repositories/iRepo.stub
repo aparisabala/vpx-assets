@@ -1,0 +1,11 @@
+<?php
+
+namespace {{repositoryNameSpace}}\Load\{{loadViewUp}};
+
+use Illuminate\Http\JsonResponse;
+
+interface I{{loadViewUp}}LoadRepository {
+
+    public function index($request) : array;
+    public function display($request) : array;
+}

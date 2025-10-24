@@ -1,0 +1,22 @@
+$(document).ready(function(){
+    if ($('#frmLoad{{loadViewUp}}').length > 0) {
+        let rules = {
+            name: {
+                required: true,
+                maxlength: 253
+            }
+        };
+        PX.ajaxRequest({
+            element: 'frmLoad{{loadViewUp}}',
+            validation: true,
+            script: '{{nameDown}}/{{uri}}/{{dtNameKebab}}{{loadViewKebab}}/display',
+            rules,
+            afterSuccess: {
+                type: 'load_html',
+                target: '{{loadViewKebab}}',
+                afterLoad: (req,res) => {
+                }
+            }
+        });
+    }
+});

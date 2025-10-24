@@ -1,0 +1,10 @@
+<?php
+
+use {{nameSpace}}\Load\{{loadViewUp}}\{{loadViewUp}}LoadController;
+use Illuminate\Support\Facades\Route;
+//vpx_imports
+Route::prefix('{{nameDown}}')->group(function(){
+    Route::get('{{uri}}/{{loadViewKebab}}',[{{loadViewUp}}LoadController::class,'index']);
+    Route::post('{{uri}}/{{loadViewKebab}}/display',[{{loadViewUp}}LoadController::class,'display']);
+    //vpx_attach
+});
