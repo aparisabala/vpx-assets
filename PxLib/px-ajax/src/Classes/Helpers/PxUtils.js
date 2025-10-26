@@ -63,4 +63,94 @@ export class PxUtils {
     fReset(f){
         $("#" + f)[0].reset();
     }
+
+    summerNote(ele,op={}) {
+        
+        let context = this;
+        $('#' + ele).summernote({
+            placeholder: 'Type your content',
+            tabsize: 2,
+            height: 140,
+            width: "100%",
+            disableDragAndDrop: true,
+            tabDisable: false,
+            followingToolbar: false,
+            fontSizes: ['5','6','6.5','7','8', '9', '10', '11', '12', '13', '14', '15', '16', '18', '20', '22' , '24', '28', '32', '36', '40', '48'],
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['picture', 'hr','code']],
+                ['table', ['table']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ],
+            onPaste: function (e) {
+                var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                e.preventDefault();
+                document.execCommand('insertText', false, bufferText);
+            },
+            callbacks: {
+                onImageUpload: function (files, editor, welEditable) {
+                    context?.sendFile(files[0], editor, welEditable, 3, ele);
+                },
+                onMediaDelete: function ($target, editor, $editable) {
+                    context?.deleteMeia($target[0].src); 
+                }
+            },
+            ...op
+        });
+    }
+
+    sendFile(file, editor, welEditable, ul = 3, id = '') {
+        data = new FormData();
+        data.append("file", file);
+        data.append("_token", csrf_token)
+        data.append("uploadurl", $("#service_domain").val() + "/summernote/");
+        data.append("ul", ul)
+        $.ajax({
+            data: data,
+            type: "POST",
+            url: baseurl + 'glob/uploadsummernote',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (sdata) {
+                if (sdata === "size") {
+                    alert("Image size must be below 300kb");
+                } else if (sdata === "error") {
+                    alert("Image format not acceptable");
+                } else if (sdata === "type") {
+                    alert("jpg, png or gif accepted only");
+                } else {
+                    let image = $('<img>').attr('src', baseurl + 'uploads/app/' + uploadurl + sdata);
+                    $('#' + id).summernote("insertNode", image[0]);
+                }
+            }
+        })
+        .fail(function (xhr, status, error, req) {
+            console.log(xhr.responseText);
+        });
+    }
+
+    deleteMeia(img) {
+        let file = img.substr(img.lastIndexOf("/") + 1);
+        $.ajax({
+            data: { img: file, _token: csrf_token },
+            type: "POST",
+            url: baseurl + 'glob/deletesummernote',
+            success: function (sdata) {
+                if (sdata === "error") {
+                    alert("Img not found, try refresh");
+                }
+            }
+        })
+        .fail(function (xhr, status, error, req) {
+            console.log(xhr.responseText);
+        });
+    }
+
 }
