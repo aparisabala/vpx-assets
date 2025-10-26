@@ -15,7 +15,7 @@ class {{modalNameUp}}Repository extends BaseRepository implements I{{modalNameUp
      */
     public function display($request) : array
     {
-        $data[] = [];
+        $data['item'] = null;
         return $data;
     }
 }

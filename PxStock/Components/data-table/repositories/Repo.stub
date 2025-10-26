@@ -1,0 +1,54 @@
+<?php
+
+namespace {{repositoryNameSpace}}\Dt\{{dtNameUp}};
+
+use App\Models\{{model}};
+use App\Repositories\BaseRepository;
+use App\Traits\BaseTrait;
+use Carbon\Carbon;
+use DataTables;
+use Illuminate\Http\JsonResponse;
+class {{dtNameUp}}DtRepository extends BaseRepository implements I{{dtNameUp}}DtRepository {
+
+    use BaseTrait;
+    public function __construct() {
+        $this->LoadModels(['{{model}}']);
+    }
+
+    /**
+     * Get the page default resource
+     *
+     * @param Request $request
+     * @param integer|string $id
+     * @return array
+     */
+    public function index($request) : array
+    {
+       return $this->getPageDefault(model: $this->{{model}}, id: $id);
+    }
+
+
+    /**
+     * Yajra datatbale list resource
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function list($request) : JsonResponse
+    {
+        $model = {{model}}::query();
+        $this->saveTractAction(
+            $this->getTrackData(
+                title: '{{model}} was viewed by '.$request?->auth?->name.' at '.Carbon::now()->format('d M Y H:i:s A'),
+                request: $request,
+                onlyTitle: true
+            )
+        );
+        return DataTables::of($model)
+        ->editColumn('created_at', function($item) {
+            return  Carbon::parse($item->created_at)->format('d-m-Y');
+        })
+        ->escapeColumns([])
+        ->make(true);
+    }
+}

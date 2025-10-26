@@ -1,0 +1,51 @@
+$(document).ready(function(){
+
+    if ($("#dt{{dtNameUp}}").length > 0) {
+        const {pageLang={}} = PX?.config;
+        const {table={}} = pageLang;
+        let col_draft = [
+            {
+                data: 'id',
+                title: table?.id
+            },
+            /*{
+                data: null,
+                title: table?.serial,
+                class: 'text-center',
+                width: '200px',
+                render: function (data, type, row) {
+                    return `<input type="number" value="` + data.serial + `" class="form-control serial"><input type="hidden" value="` + data.id + `" class="form-control ids">`;
+                }
+            },*/
+            {
+                data: 'name',
+                title: table?.name
+            },
+
+            {
+                data: 'created_at',
+                title: table?.created
+            },
+
+            {
+                data: null,
+                title: table?.action,
+                class: 'text-end',
+                render: function (data, type, row) {
+                    return `<span class="btn btn-outline-secondary btn-sm edit" title="Edit">
+                        <i class="fas fa-pencil-alt"></i>
+                    </span>`;
+                }
+            },
+        ];
+        PX.renderDataTable('dt{{dtNameUp}}', {
+            select: true,
+            url: '{{nameDown}}/{{uri}}/{{dtNameKebab}}/list',
+            columns: col_draft,
+            pdf: [1, 2]
+        });
+    }
+})
+
+function dt{{dtNameUp}}(table, api, op) {
+}

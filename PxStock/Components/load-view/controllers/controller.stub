@@ -1,0 +1,51 @@
+<?php
+
+namespace {{nameSpace}}\Load\{{loadViewUp}};
+use App\Http\Controllers\Controller;
+use {{repositoryNameSpace}}\Load\{{loadViewUp}}\I{{loadViewUp}}LoadRepository;
+use App\Traits\BaseTrait;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+class {{loadViewUp}}LoadController extends Controller {
+
+    use BaseTrait;
+    public function __construct(private I{{loadViewUp}}LoadRepository $i{{loadViewUp}}LoadRepo) {
+        $this->middleware(['auth:{{baseAuth}}','Has{{authModel}}Password','Has{{authModel}}Auth']);
+        $this->lang= '{{langKey}}';
+        $this->middleware(function ($request, $next) {
+            $request->merge(['lang' => $this->lang]);
+            return $next($request);
+        });
+
+    }
+
+    /**
+     * Index page for {{loadViewDown}} crud
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function index(Request $request) : View
+    {
+        $data = $this->i{{loadViewUp}}LoadRepo->index($request);
+        $data['lang'] = $this->lang;
+        return view('{{bladeRoute}}.load.{{modalNameKebab}}{{loadViewKebab}}.index',compact('data'));
+    }
+
+    /**
+     * Load view 
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function display(Request $request) : JsonResponse
+    {
+        $data['lang'] = $this->lang;
+        $data = [...$data,...$this->i{{loadViewUp}}LoadRepo->display($request)];
+        $view = View::make('{{bladeRoute}}.load.{{modalNameKebab}}{{loadViewKebab}}.fragments._display', compact('data'))->render();
+        $response = ['extraData' => ['inflate' => pxLang($data['lang'],'','common.response_success')],'view' => $view];
+        return $this->response(['type' => 'success', 'data' => $response]);
+    }
+
+}
