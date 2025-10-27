@@ -1,6 +1,6 @@
  <div class="vertical-menu">
     <div class="navbar-brand-box">
-        <a href="{{url('/')}}" class="logo logo-dark">
+        <a href="{{url('{{nameDown}}/dashboard')}}" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="{{config('i.favicon')}}" alt="" class="admin-logo-sm">
             </span>
@@ -8,7 +8,7 @@
                 <img src="{{config('i.logo')}}" alt=""  class="admin-logo-lg">
             </span>
         </a>
-        <a href="{{url('/')}}" class="logo logo-light">
+        <a href="{{url('{{nameDown}}/dashboard')}}" class="logo logo-light">
             <span class="logo-sm">
                 <img src="{{config('i.favicon')}}" alt=""  class="admin-logo-sm">
             </span>

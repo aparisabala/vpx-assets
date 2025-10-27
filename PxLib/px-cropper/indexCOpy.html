@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>jQuery Image Cropper Plugin (Canvas)</title>
+<style>
+/* --- Minimal styles for modal and UI --- */
+.icp-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index: 10000;
+}
+.icp-modal {
+  width: 92%;
+  max-width: 900px;
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  overflow: hidden;
+  display:flex;
+  flex-direction: column;
+}
+.icp-header {
+  padding: 12px 16px;
+  background:#f7f7f7;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid #eee;
+}
+.icp-title { font-weight:600 }
+.icp-body { display:flex; gap:12px; padding: 12px; flex:1; overflow:hidden; }
+.icp-canvas-wrap {
+  background: #222;
+  position: relative;
+  flex: 1 1 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow: hidden;
+  min-width: 300px;
+  max-height: calc(90vh - 150px);
+}
+.icp-canvas {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  outline: none;
+}
+
+/* Crop box visual */
+.icp-crop-box {
+  position: absolute;
+  border: 2px dashed rgba(255,255,255,0.9);
+  box-sizing: border-box;
+  pointer-events: none;
+  /* center default */
+}
+
+/* controls column */
+.icp-controls {
+  width: 260px;
+  max-width: 40%;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.icp-controls label { font-size:13px; margin-bottom:6px; display:block; }
+.icp-controls input[type="range"] { width:100%; }
+.icp-footer {
+  padding:10px 12px;
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  border-top:1px solid #eee;
+  background:#fafafa;
+}
+.icp-btn {
+  border:0;
+  background:#2b6cb0;
+  color:white;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+.icp-btn.secondary { background:#e2e8f0; color:#111; }
+.icp-hint { font-size:12px; color:#333; }
+
+.small { font-size:13px; padding:6px 9px; }
+
+/* responsive */
+@media (max-width:720px){
+  .icp-controls{ width: 180px; }
+}
+</style>
+</head>
+<body style="font-family:system-ui,Segoe UI,Arial; padding:20px;">
+
+<h2>PX Cropper Plugin</h2>
+<p>Author: Paris Ariyan.</p>
+<p>Licence: MIT</p>
+
+<input id="fileInput" type="file" accept="image/*" />
+
+<div style="margin-top:18px;">
+  <button id="sendBtn" class="small">Simulate send to server (console)</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+/*
+ * jQuery Image Cropper (ICP) plugin
+ * - Opens a modal when a file input is used
+ * - Lets user pan & zoom image inside a fixed crop box
+ * - Crops to specified output size (outputWidth x outputHeight)
+ * - Downscales/compresses if final blob > maxFileSize
+ * - Returns { blob, dataURL, fileName, mimeType, width, height } via onComplete
+ *
+ * Usage:
+ * $('#fileInput').imageCropper({ outputWidth: 800, outputHeight: 600, maxFileSize: 200000 });
+ *
+ * Options:
+ * - outputWidth (px) - desired output width in pixels (required)
+ * - outputHeight (px) - desired output height in pixels (required)
+ * - aspectRatio (number|null) - if provided, crop box will maintain ratio (width/height)
+ * - maxFileSize (bytes|null) - if provided, plugin will iteratively reduce quality/size to fit
+ * - mimeType (string) - 'image/jpeg' or 'image/png' (default 'image/jpeg')
+ * - quality (0..1) - initial jpeg quality (default 0.9)
+ * - minQuality (0..1) - minimum jpeg quality for iteration (default 0.5)
+ * - maxDimension (px|null) - maximum dimension to allow for source (to avoid huge memory use)
+ * - onOpen, onClose, onComplete callbacks
+ *
+ * Notes:
+ * - Uses canvas to map crop box coordinates to original image coordinates.
+ * - Simple single-touch/mouse drag + wheel for zoom is provided.
+ */
+
+(function($){
+  const defaults = {
+    outputWidth: 800,
+    outputHeight: 600,
+    aspectRatio: null, // e.g. 4/3 or null
+    maxFileSize: 200000, // bytes (200KB) - set to null to skip
+    mimeType: 'image/jpeg',
+    quality: 0.92,
+    minQuality: 0.5,
+    maxDimension: 4000, // clamp very-large images
+    onOpen: null,
+    onClose: null,
+    onComplete: null
+  };
+
+  function dataURLToBlob(dataURL){
+    const parts = dataURL.split(',');
+    const meta = parts[0].match(/:(.*?);/);
+    const mime = meta ? meta[1] : '';
+    const binary = atob(parts[1]);
+    const len = binary.length;
+    const u8 = new Uint8Array(len);
+    for (let i = 0; i < len; i++) u8[i] = binary.charCodeAt(i);
+    return new Blob([u8], { type: mime });
+  }
+
+  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+  $.fn.imageCropper = function(opts){
+    const settings = $.extend({}, defaults, opts || {});
+    if (!settings.outputWidth || !settings.outputHeight) {
+      console.error('imageCropper: outputWidth and outputHeight must be specified.');
+      return this;
+    }
+
+    // create modal (one global instance)
+    let modal = null, state = null;
+
+    function createModal(){
+      if (modal) return modal;
+      const $overlay = $('<div class="icp-overlay" style="display:none"></div>');
+      const $modal = $(`
+        <div class="icp-modal" role="dialog" aria-modal="true" aria-label="Image cropper">
+          <div class="icp-header">
+            <div>
+              <div class="icp-title">Crop Image</div>
+              <div class="icp-hint">Drag to pan; mousewheel to zoom; use slider to adjust zoom.</div>
+            </div>
+            <div>
+              <button class="icp-btn secondary icp-cancel">Cancel</button>
+              <button class="icp-btn icp-confirm">Crop & Save</button>
+            </div>
+          </div>
+          <div class="icp-body">
+            <div class="icp-canvas-wrap">
+              <canvas class="icp-canvas"></canvas>
+              <div class="icp-crop-box" aria-hidden="true"></div>
+            </div>
+            <div class="icp-controls">
+              <div>
+                <label>Zoom</label>
+                <input type="range" class="icp-zoom" min="0.1" max="3" step="0.01" value="1">
+              </div>
+              <div>
+                <label>Preview output size</label>
+                <div class="icp-preview" style="border:1px solid #ddd; padding:6px; text-align:center;">
+                  <canvas class="icp-preview-canvas" width="200" height="150" style="max-width:100%;height:auto"></canvas>
+                </div>
+              </div>
+              <div style="margin-top:auto">
+                <div style="font-size:13px;color:#444">Output: <span class="icp-output-size"></span></div>
+                <div style="font-size:12px;color:#666;margin-top:6px">Format: <span class="icp-mime"></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="icp-footer">
+            <button class="icp-btn secondary icp-cancel2">Cancel</button>
+            <button class="icp-btn icp-confirm2">Crop & Save</button>
+          </div>
+        </div>
+      `);
+      $overlay.append($modal);
+      $('body').append($overlay);
+
+      modal = {
+        $overlay, $modal,
+        $canvas: $modal.find('.icp-canvas'),
+        $cropBox: $modal.find('.icp-crop-box'),
+        $zoom: $modal.find('.icp-zoom'),
+        $previewCanvas: $modal.find('.icp-preview-canvas'),
+        $outputSize: $modal.find('.icp-output-size'),
+        $mime: $modal.find('.icp-mime'),
+        $confirm: $modal.find('.icp-confirm, .icp-confirm2'),
+        $cancel: $modal.find('.icp-cancel, .icp-cancel2')
+      };
+
+      // event bindings will be set when opened
+      return modal;
+    }
+
+    // main open flow
+    function openModal(file, fileName){
+      const m = createModal();
+      const canvas = m.$canvas[0];
+      const ctx = canvas.getContext('2d');
+      const previewCanvas = m.$previewCanvas[0];
+      const pctx = previewCanvas.getContext('2d');
+
+      // reset state
+      state = {
+        img: new Image(),
+        imgNaturalWidth: 0,
+        imgNaturalHeight: 0,
+        translate: { x: 0, y: 0 },
+        scale: 1,
+        dragging: false,
+        lastPointer: null
+      };
+
+      m.$mime.text(settings.mimeType);
+      m.$outputSize.text(`${settings.outputWidth}px × ${settings.outputHeight}px`);
+
+      // read file
+      const reader = new FileReader();
+      reader.onload = function(ev){
+        state.img.onload = function(){
+          // clamp very large images to avoid memory blow up
+          let naturalW = state.img.naturalWidth;
+          let naturalH = state.img.naturalHeight;
+          if (settings.maxDimension && Math.max(naturalW, naturalH) > settings.maxDimension) {
+            const ratio = settings.maxDimension / Math.max(naturalW, naturalH);
+            naturalW = Math.round(naturalW * ratio);
+            naturalH = Math.round(naturalH * ratio);
+            // create downscaled offscreen canvas and redraw
+            const off = document.createElement('canvas');
+            off.width = naturalW;
+            off.height = naturalH;
+            const octx = off.getContext('2d');
+            octx.drawImage(state.img, 0, 0, naturalW, naturalH);
+            state.img = new Image();
+            state.img.onload = onImageReady;
+            state.img.src = off.toDataURL('image/png');
+          } else {
+            onImageReady();
+          }
+
+          function onImageReady(){
+            state.imgNaturalWidth = state.img.naturalWidth || naturalW;
+            state.imgNaturalHeight = state.img.naturalHeight || naturalH;
+
+            // setup canvas size to fit modal area
+            const wrapRect = m.$canvas.parent()[0].getBoundingClientRect();
+            const availW = Math.max(300, Math.floor(wrapRect.width));
+            const availH = Math.max(200, Math.floor(Math.min(wrapRect.height, window.innerHeight * 0.6)));
+
+            // canvas display size (CSS pixel) set to avail dims * devicePixelRatio for crispness
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = availW * dpr;
+            canvas.height = availH * dpr;
+            canvas.style.width = availW + 'px';
+            canvas.style.height = availH + 'px';
+            ctx.setTransform(dpr,0,0,dpr,0,0);
+            ctx.imageSmoothingQuality = 'high';
+
+            // center & fit image inside canvas
+            const scaleFit = Math.min(availW / state.imgNaturalWidth, availH / state.imgNaturalHeight, 1.0);
+            state.scale = scaleFit;
+            state.translate.x = (availW - state.imgNaturalWidth * state.scale) / 2;
+            state.translate.y = (availH - state.imgNaturalHeight * state.scale) / 2;
+
+            // calculate crop box size (visual), maintain requested output aspect ratio
+            const aspect = settings.aspectRatio || (settings.outputWidth / settings.outputHeight);
+            // prefer to show crop box as up to 80% of smaller canvas dim
+            const maxCropW = availW * 0.8;
+            const maxCropH = availH * 0.8;
+            let cropW = maxCropW;
+            let cropH = cropW / aspect;
+            if (cropH > maxCropH) {
+              cropH = maxCropH;
+              cropW = cropH * aspect;
+            }
+            // set position centered
+            const cropLeft = (availW - cropW) / 2;
+            const cropTop = (availH - cropH) / 2;
+            m.$cropBox.css({
+              width: Math.round(cropW) + 'px',
+              height: Math.round(cropH) + 'px',
+              left: Math.round(cropLeft) + 'px',
+              top: Math.round(cropTop) + 'px'
+            });
+
+            // set range slider default/min/max relative to scale
+            m.$zoom.attr('min', 0.1);
+            m.$zoom.attr('max', Math.max(3, state.scale * 5));
+            m.$zoom.val(state.scale);
+
+            // render first frame
+            render();
+
+            // preview small scaled output
+            drawPreview();
+          }
+        };
+        state.img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      // show modal
+      m.$overlay.fadeIn(100);
+      if (typeof settings.onOpen === 'function') settings.onOpen();
+
+      // event handlers
+      // pointer interactions for pan
+      let pointerDown = false;
+      function getEventPos(e){
+        if (e.touches && e.touches.length) {
+          return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        } else {
+          return { x: e.clientX, y: e.clientY };
+        }
+      }
+
+      function canvasToLocal(clientX, clientY){
+        const rect = canvas.getBoundingClientRect();
+        return { x: clientX - rect.left, y: clientY - rect.top };
+      }
+
+      function onPointerDown(e){
+        e.preventDefault();
+        pointerDown = true;
+        const pos = getEventPos(e);
+        const local = canvasToLocal(pos.x, pos.y);
+        state.dragging = true;
+        state.lastPointer = local;
+      }
+      function onPointerMove(e){
+        if (!state || !state.img) return;
+        if (!state.dragging) return;
+        e.preventDefault();
+        const pos = getEventPos(e);
+        const local = canvasToLocal(pos.x, pos.y);
+        const dx = local.x - state.lastPointer.x;
+        const dy = local.y - state.lastPointer.y;
+        state.translate.x += dx;
+        state.translate.y += dy;
+        state.lastPointer = local;
+        render();
+        drawPreview();
+      }
+      function onPointerUp(e){
+        state.dragging = false;
+      }
+      // wheel zoom
+      function onWheel(e){
+        e.preventDefault();
+        if (!state || !state.img) return;
+        const delta = -e.deltaY;
+        const zoomFactor = delta > 0 ? 1.08 : 0.92;
+        const mouse = canvasToLocal(e.clientX, e.clientY);
+        // zoom around mouse pos
+        const prevScale = state.scale;
+        let newScale = clamp(prevScale * zoomFactor, parseFloat(m.$zoom.attr('min')), parseFloat(m.$zoom.attr('max')));
+        // translate so point under mouse stays stable:
+        const imgX = (mouse.x - state.translate.x) / prevScale;
+        const imgY = (mouse.y - state.translate.y) / prevScale;
+        state.scale = newScale;
+        state.translate.x = mouse.x - imgX * newScale;
+        state.translate.y = mouse.y - imgY * newScale;
+        m.$zoom.val(state.scale);
+        render();
+        drawPreview();
+      }
+
+      function onZoomChange(){
+        if (!state) return;
+        const newScale = parseFloat(m.$zoom.val());
+        // scale around center of crop area
+        const cropRect = m.$cropBox[0].getBoundingClientRect();
+        const canvasRect = canvas.getBoundingClientRect();
+        const center = { x: (cropRect.left + cropRect.right)/2 - canvasRect.left, y: (cropRect.top + cropRect.bottom)/2 - canvasRect.top};
+        const prevScale = state.scale;
+        const imgX = (center.x - state.translate.x) / prevScale;
+        const imgY = (center.y - state.translate.y) / prevScale;
+        state.scale = newScale;
+        state.translate.x = center.x - imgX * newScale;
+        state.translate.y = center.y - imgY * newScale;
+        render();
+        drawPreview();
+      }
+
+      // attach events
+      canvas.addEventListener('mousedown', onPointerDown);
+      canvas.addEventListener('touchstart', onPointerDown, {passive:false});
+      window.addEventListener('mousemove', onPointerMove);
+      window.addEventListener('touchmove', onPointerMove, {passive:false});
+      window.addEventListener('mouseup', onPointerUp);
+      window.addEventListener('touchend', onPointerUp);
+      canvas.addEventListener('wheel', onWheel, {passive:false});
+      m.$zoom.on('input change', onZoomChange);
+
+      // cleanup function to remove listeners when modal closed
+      function detachAll(){
+        canvas.removeEventListener('mousedown', onPointerDown);
+        canvas.removeEventListener('touchstart', onPointerDown);
+        window.removeEventListener('mousemove', onPointerMove);
+        window.removeEventListener('touchmove', onPointerMove);
+        window.removeEventListener('mouseup', onPointerUp);
+        window.removeEventListener('touchend', onPointerUp);
+        canvas.removeEventListener('wheel', onWheel);
+        m.$zoom.off('input change', onZoomChange);
+      }
+
+      // render function to draw current state to canvas
+      function render(){
+        if (!state || !state.img) return;
+        const dpr = window.devicePixelRatio || 1;
+        const cw = canvas.width / dpr;
+        const ch = canvas.height / dpr;
+        ctx.clearRect(0,0,cw,ch);
+        // fill background
+        ctx.fillStyle = '#222';
+        ctx.fillRect(0,0,cw,ch);
+
+        // draw image with current scale + translate
+        ctx.save();
+        ctx.translate(state.translate.x, state.translate.y);
+        ctx.scale(state.scale, state.scale);
+        ctx.drawImage(state.img, 0, 0);
+        ctx.restore();
+
+        // dim outside crop area for better UX
+        const cropEl = m.$cropBox[0];
+        const cropRect = cropEl.getBoundingClientRect();
+        const canvasRect = canvas.getBoundingClientRect();
+        const left = cropRect.left - canvasRect.left;
+        const top = cropRect.top - canvasRect.top;
+        const w = cropRect.width;
+        const h = cropRect.height;
+        ctx.fillStyle = 'rgba(0,0,0,0.45)';
+        // top
+        ctx.fillRect(0,0,cw,top);
+        // left
+        ctx.fillRect(0,top,left,h);
+        // right
+        ctx.fillRect(left+w,top,cw-(left+w),h);
+        // bottom
+        ctx.fillRect(0,top+h,cw, ch-(top+h));
+      }
+
+      // map crop box to original image coordinates and draw preview & final
+      function getCropMapping(){
+        const cropRect = m.$cropBox[0].getBoundingClientRect();
+        const canvasRect = canvas.getBoundingClientRect();
+        const left = cropRect.left - canvasRect.left;
+        const top = cropRect.top - canvasRect.top;
+        const cw = canvasRect.width;
+        const ch = canvasRect.height;
+        // convert to canvas CSS px (already CSS)
+        // compute source coordinates in original image space:
+        // For a point (x,y) on canvas, image coords = ((x - translate.x) / scale, (y - translate.y) / scale)
+        const srcX = (left - state.translate.x) / state.scale;
+        const srcY = (top - state.translate.y) / state.scale;
+        const srcW = cropRect.width / state.scale;
+        const srcH = cropRect.height / state.scale;
+        return { srcX, srcY, srcW, srcH };
+      }
+
+      function drawPreview(){
+        if (!state || !state.img) return;
+        const mapping = getCropMapping();
+        const pW = previewCanvas.width;
+        const pH = previewCanvas.height;
+        // draw white background
+        pctx.clearRect(0,0,pW,pH);
+        pctx.fillStyle = '#fff';
+        pctx.fillRect(0,0,pW,pH);
+        pctx.save();
+        // draw the cropped area scaled to preview size
+        // If source coordinates are out-of-bounds, drawImage will handle it
+        pctx.drawImage(state.img,
+          mapping.srcX, mapping.srcY, mapping.srcW, mapping.srcH,
+          0,0,pW,pH
+        );
+        pctx.restore();
+      }
+
+      // crop & produce final blob (with resizing/compression)
+      async function produceResult(){
+        if (!state || !state.img) return null;
+        const mapping = getCropMapping();
+        // clamp source region to original image bounds
+        let sx = Math.max(0, mapping.srcX);
+        let sy = Math.max(0, mapping.srcY);
+        let sw = mapping.srcW;
+        let sh = mapping.srcH;
+        // if crop extends outside, we still want output filled with transparent/white background
+        // use an offscreen canvas sized to outputWidth x outputHeight
+        const outW = settings.outputWidth;
+        const outH = settings.outputHeight;
+        const off = document.createElement('canvas');
+        off.width = outW;
+        off.height = outH;
+        const octx = off.getContext('2d');
+        octx.fillStyle = settings.mimeType === 'image/png' ? 'rgba(0,0,0,0)' : '#fff';
+        octx.fillRect(0,0,outW,outH);
+
+        // draw image section scaled to target size
+        // If sx,sy smaller than 0, drawImage will handle by clipping source coords; so we may prefer using drawImage with source params
+        octx.drawImage(state.img, sx, sy, sw, sh, 0, 0, outW, outH);
+
+        // initial export
+        let q = settings.quality;
+        let dataURL = off.toDataURL(settings.mimeType, q);
+        let blob = dataURLToBlob(dataURL);
+
+        // if maxFileSize set, iteratively reduce quality (for jpeg) or scale down until fits
+        if (settings.maxFileSize && blob.size > settings.maxFileSize) {
+          // first try lowering quality (jpeg only)
+          if (settings.mimeType === 'image/jpeg') {
+            while (blob.size > settings.maxFileSize && q > settings.minQuality + 0.01) {
+              q = q - 0.06;
+              dataURL = off.toDataURL('image/jpeg', q);
+              blob = dataURLToBlob(dataURL);
+            }
+          }
+          // if still too large, scale down dimensions by 0.9 and retry (repeat)
+          let attempt = 0;
+          let curW = outW, curH = outH;
+          while (blob.size > settings.maxFileSize && attempt < 8) {
+            attempt++;
+            curW = Math.max(1, Math.round(curW * 0.9));
+            curH = Math.max(1, Math.round(curH * 0.9));
+            const off2 = document.createElement('canvas');
+            off2.width = curW;
+            off2.height = curH;
+            const o2 = off2.getContext('2d');
+            o2.fillStyle = settings.mimeType === 'image/png' ? 'rgba(0,0,0,0)' : '#fff';
+            o2.fillRect(0,0,curW,curH);
+            o2.drawImage(state.img, sx, sy, sw, sh, 0, 0, curW, curH);
+            dataURL = off2.toDataURL(settings.mimeType, q);
+            blob = dataURLToBlob(dataURL);
+          }
+        }
+
+        return { blob, dataURL, mimeType: settings.mimeType, width: outW, height: outH, fileName: fileName || ('cropped.' + (settings.mimeType==='image/png'?'png':'jpg')) };
+      }
+
+      // confirm button
+      m.$confirm.off('click').on('click', async function(){
+        m.$confirm.prop('disabled', true).text('Processing...');
+        try {
+          const result = await produceResult();
+          if (typeof settings.onComplete === 'function') {
+            settings.onComplete(result);
+          } else {
+            // default action: console.log
+            console.log('ImageCropper result', result);
+          }
+        } catch (err) {
+          console.error('Crop error', err);
+        } finally {
+          m.$confirm.prop('disabled', false).text('Crop & Save');
+          closeModal();
+        }
+      });
+
+      // cancel close
+      m.$cancel.off('click').on('click', closeModal);
+
+      function closeModal(){
+        detachAll();
+        m.$overlay.fadeOut(120, function(){ /* keep markup for reuse */ });
+        state = null;
+        if (typeof settings.onClose === 'function') settings.onClose();
+      }
+
+      // allow clicking overlay to close
+      m.$overlay.off('click').on('click', function(e){
+        if (e.target === m.$overlay[0]) {
+          closeModal();
+        }
+      });
+
+    } // end openModal
+
+    // plugin applied to each element (expecting file input)
+    this.each(function(){
+      const $input = $(this);
+      // only handle file inputs
+      if ($input.attr('type') !== 'file') {
+        console.warn('imageCropper: target element is not a file input.');
+      }
+      $input.off('change.icp').on('change.icp', function(e){
+        const files = e.target.files;
+        if (!files || !files.length) return;
+        const file = files[0];
+        if (!file.type.startsWith('image/')) {
+          alert('Please select an image file.');
+          $input.val('');
+          return;
+        }
+        openModal(file, file.name);
+        // clear file input so re-selecting same file works
+        setTimeout(()=> $input.val(''), 0);
+      });
+    });
+
+    return this;
+  };
+})(jQuery);
+</script>
+
+<script>
+/* Demo usage */
+$('#fileInput').imageCropper({
+  outputWidth: 800,
+  outputHeight: 600,
+  aspectRatio: 4/3,
+  maxFileSize: 300 * 1024, // 300 KB
+  mimeType: 'image/jpeg',
+  quality: 0.92,
+  onOpen: function(){ console.log('Cropper opened'); },
+  onClose: function(){ console.log('Cropper closed'); },
+  onComplete: function(result){
+    console.log('Cropped result:', result);
+    // show preview on page
+    const url = URL.createObjectURL(result.blob);
+    const img = document.createElement('img');
+    img.style.maxWidth = '360px';
+    img.style.marginTop = '12px';
+    img.src = url;
+    document.body.appendChild(img);
+    // store blob for later upload (example: attach to send button)
+    window._lastCropped = result;
+  }
+});
+
+$('#sendBtn').on('click', function(){
+  if (!window._lastCropped) return alert('No cropped image yet. Select and crop one.');
+  // Example: send to server with fetch
+  const fd = new FormData();
+  fd.append('file', window._lastCropped.blob, window._lastCropped.fileName);
+  console.log('Would send FormData with', window._lastCropped);
+  // Uncomment to actually send (example endpoint):
+  /*
+  fetch('/upload', { method:'POST', body: fd })
+    .then(r=>r.json()).then(console.log).catch(console.error);
+  */
+  alert('Prepared FormData — see console for details. (You can send with fetch / XMLHttpRequest.)');
+});
+</script>
+</body>
+</html>
