@@ -136,3 +136,27 @@
     font-size: 36px;
     margin-left: 50px;
 }
+
+.note-editor .dropdown-toggle::after {
+    all: unset;
+}
+.note-editor .note-dropdown-menu, .note-editor .note-modal-footer {
+    box-sizing: content-box;
+}
+
+.note-editor.note-airframe.fullscreen, .note-editor.note-frame.fullscreen {
+    z-index: 3020;
+    background-color: #f5f5f5;
+}
+
+.note-editor.note-airframe .note-editing-area .note-editable, .note-editor.note-frame .note-editing-area .note-editable {
+    background-color: #f5f5f5;
+}
+.note-editable {
+  padding-bottom: 60px !important;
+  min-height: 140px;
+  cursor: text;
+}
+.note-editable p:empty::before {
+  content: '\200B';
+}
