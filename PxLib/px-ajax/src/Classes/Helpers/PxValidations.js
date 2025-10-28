@@ -28,6 +28,8 @@ export class PxValidations extends PxConfig {
                 error.addClass("invalid-feedback");
                 if (element.prop("type") === "checkbox") {
                     error.insertAfter(element.next("label"));
+                } else if (element.parent('.input-group').length) {
+                    error.insertAfter(element.parent());
                 } else {
                     error.insertAfter(element);
                 }
