@@ -236,4 +236,38 @@ export class PxUtils {
         });
     }
 
+    fixHeight(c, a, less = 0, add = 0) {
+        let arrayBlogdes = [];
+        $("." + c).each(function () {
+            arrayBlogdes.push($(this).height());
+        });
+        if (arrayBlogdes.length > 0) {
+            let largest = 0;
+            for (let i = 0; i <= largest; i++) {
+                if (arrayBlogdes[i] > largest) {
+                    largest = arrayBlogdes[i];
+                }
+            }
+            if (largest < 30) {
+                $("." + a).css({ "height": ((largest + add) - less) + "px" });
+            } else {
+                $("." + a).css({ "height": ((largest + add) - less) + "px" });
+            }
+        }
+    }
+
+    DirectPrintElem(elem) {
+        this?.Print(elem);
+    }
+    Print(elem) {
+        var divToPrint = document.getElementById(elem);
+        var newWin = window.open('', 'Print-Window');
+        newWin.document.open();
+        newWin.document.write('<html><head>');
+        newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css" integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA==" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" />');
+        // newWin.document.write('<link rel="stylesheet" href="' + baseurl + 'px_assets/css/system/print/print.css" type="text/css" media="print"/>');
+        newWin.document.write('</head><body onload="window.print()" class="printDivClass">' + divToPrint.innerHTML + '</body></html>');
+        newWin.document.close();
+    }
+
 }

@@ -4,9 +4,10 @@ namespace {{nameSpace}}\Load\{{loadViewUp}};
 use App\Http\Controllers\Controller;
 use {{repositoryNameSpace}}\Load\{{loadViewUp}}\I{{loadViewUp}}LoadRepository;
 use App\Traits\BaseTrait;
-use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\View\View as ReturnView;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use View;
 class {{loadViewUp}}LoadController extends Controller {
 
     use BaseTrait;
@@ -24,9 +25,9 @@ class {{loadViewUp}}LoadController extends Controller {
      * Index page for {{loadViewDown}} crud
      *
      * @param Request $request
-     * @return View
+     * @return ReturnView
      */
-    public function index(Request $request) : View
+    public function index(Request $request) : ReturnView
     {
         $data = $this->i{{loadViewUp}}LoadRepo->index($request);
         $data['lang'] = $this->lang;
