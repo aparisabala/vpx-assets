@@ -22,7 +22,7 @@ export class DataTable extends PxConfig {
         f.columns = op.columns || [];
         f.body = op.body || {};
         f.language = {
-            url: baseurl + "../resources/lang/" + this?.G?.local + "/dt.json"
+            url: baseurl + "../resources/lang/" + $("#locale").val() + "/dt.json"
         }
         if (op.select != undefined) {
             if (op.select) {
@@ -45,7 +45,6 @@ export class DataTable extends PxConfig {
         for (let key in f.body) {
             post_data[key] = f.body[key]
         }
-        console.log(post_data);
         if ($("#" + table).length > 0) {
             let dt = $("#" + table).DataTable({
                 paging: f.paging,
