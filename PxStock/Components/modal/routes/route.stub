@@ -3,7 +3,7 @@
 use {{nameSpace}}\Modal\{{modalNameUp}}\{{modalNameUp}}ModalController;
 use Illuminate\Support\Facades\Route;
 //vpx_imports
-Route::prefix('admin')->group(function(){
+Route::prefix('{{nameDown}}')->group(function(){
     Route::post('{{uri}}/{{modalNameKebab}}/display',[{{modalNameUp}}ModalController::class,'display']);
     //vpx_attach
 });

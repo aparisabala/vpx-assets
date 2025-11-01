@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 });
-function {{modalNameKebab}}(op){
+function {{modalNameCamel}}(op){
     console.log("modal loaded");
     //vpx_attach
 }
