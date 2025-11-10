@@ -160,3 +160,4 @@
 .note-editable p:empty::before {
   content: '\200B';
 }
+@import './Cropper.css';

@@ -87,42 +87,17 @@ export class PxUtils {
                 ['table', ['table']],
                 ['view', ['fullscreen', 'codeview', 'help']],
             ],
+            onPaste: function (e) {
+                var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                e.preventDefault();
+                document.execCommand('insertText', false, bufferText);
+            },
             callbacks: {
-                // --- Clean Paste and move cursor after ---
-                onPaste: function (e) {
-                    e.preventDefault();
-                    let html = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/html');
-                    let text = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('text/plain');
-                    let content = html && html.trim() !== "" ? html : text.replace(/\r?\n/g, '<br>');
-                    
-                    context?.insertHTMLAndMoveCursor($('#' + ele), content);
-                    context?.ensureCursorAfterBlocks($sn);
-                },
-
-                // --- Image Upload ---
                 onImageUpload: function (files, editor, welEditable) {
-                    context?.sendFile(files[0], editor, welEditable, 3, ele);
-                    context?.ensureCursorAfterBlocks($sn);
+                    context?.sendFile(files[0], editor, welEditable, 3, id);
                 },
-
-                // --- Image Delete ---
                 onMediaDelete: function ($target, editor, $editable) {
-                    context?.deleteMeia($target[0].src);
-                    context?.ensureCursorAfterBlocks($sn);
-                },
-
-                // --- Init ---
-                onInit: function() {
-                    const $sn = $('#' + ele);
-                    context?.ensureEditableEnd($sn);
-                    context?.ensureCursorAfterBlocks($sn);
-                },
-
-                // --- Change ---
-                onChange: function(contents, $editable) {
-                    const $sn = $('#' + ele);
-                    context?.ensureEditableEnd($sn);
-                    context?.ensureCursorAfterBlocks($sn);
+                    context?.deleteMeia($target[0].src); // img 
                 }
             },
             ...op

@@ -1,4 +1,5 @@
 import './src/Css/App.css';
+import './src/Css/App.css';
 import { PxValidations } from '@app/Classes/Helpers/PxValidations';
 import { PxFactory } from './src/Classes/PxFactory';
 import { DataTable } from './src/Classes/DataTable/DataTable';
@@ -9,6 +10,8 @@ import { ExcelGeneration } from './src/Classes/Helpers/ExcelGeneration';
 import { PxErrors } from './src/Classes/Helpers/PxErrors';
 import { PxModal } from './src/Classes/Modal/PxModal';
 import { PxUtils } from './src/Classes/Helpers/PxUtils';
+import './src/Classes/Lib/PxCropper';
+import { PxCropper } from './src/Classes/Lib/PxCropper';
 class PX extends PxFactory {
     constructor(props){
         super(props);
@@ -47,6 +50,14 @@ class PX extends PxFactory {
                 this?.requestGate(op);
             }
         }
+    }
+
+    initCropper(selector, opts = {}) {
+        if (!window.jQuery) {
+            console.error('PX.initCropper requires jQuery.');
+            return;
+        }
+       new PxCropper().initCropper(selector,opts);
     }
 
     deleteAll(op){
