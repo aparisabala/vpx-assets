@@ -1,0 +1,33 @@
+<?php
+
+namespace {{nameSpace}}\Landing;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Auth;
+use Illuminate\Contracts\View\View;
+use App\Traits\BaseTrait;
+use {{repositoryNameSpace}}\Landing\I{{nameUp}}LandingRepository;
+//vpx_imports
+class {{nameUp}}LandingController extends Controller
+{
+    use BaseTrait;
+    public function __construct(private I{{nameUp}}LandingRepository $i{{nameUp}}LandingRepo)
+    {
+        $this->lang = '{{nameDown}}.landing.index';
+    }
+
+    /**
+     * View {{nameUp}} lading page
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function index(Request $request) : View
+    {
+        $data['lang'] = $this->lang;
+        $data = [...$data,...$this->i{{nameUp}}LandingRepo->display($request)];
+        return view('{{bladeRoute}}landing.index')->with('data',$data);
+    }
+    //vpx_attach
+}

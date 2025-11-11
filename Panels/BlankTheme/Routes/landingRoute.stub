@@ -1,0 +1,7 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use {{nameSpace}}\Landing\{{nameUp}}LandingController;
+//vpx_imports
+    Route::get('/', [{{nameUp}}LandingController::class,'index'])->name('{{nameDown}}.index');
+//vpx_attach

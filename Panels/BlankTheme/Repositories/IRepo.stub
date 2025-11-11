@@ -1,0 +1,10 @@
+<?php
+
+namespace {{repositoryNameSpace}}\Landing;
+
+use Illuminate\Http\JsonResponse;
+
+interface I{{nameUp}}LandingRepository {
+
+    public function display($request) : array;
+}

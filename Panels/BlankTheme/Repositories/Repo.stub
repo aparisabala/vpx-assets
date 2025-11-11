@@ -1,0 +1,21 @@
+<?php
+
+namespace {{repositoryNameSpace}}\Landing;
+
+use App\Repositories\BaseRepository;
+
+class {{nameUp}}LandingRepository  extends BaseRepository implements I{{nameUp}}LandingRepository 
+{
+
+    /**
+     * Landing  data
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function display($request) : array
+    {
+        $data['item'] = null;
+        return $data;
+    }
+}
