@@ -2,16 +2,16 @@
 
 namespace {{nameSpace}}\Crud;
 use App\Http\Controllers\Controller;
-use {{requestNameSpace}}\Crud\ValidateStore{{model}};
-use {{repositoryNameSpace}}\Crud\I{{model}}CrudRepository;
+use {{requestNameSpace}}\Crud\ValidateStore{{repoName}};
+use {{repositoryNameSpace}}\Crud\I{{repoName}}CrudRepository;
 use App\Traits\BaseTrait;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-class {{model}}CrudController  extends Controller {
+class {{repoName}}CrudController  extends Controller {
 
     use BaseTrait;
-    public function __construct(private I{{model}}CrudRepository $i{{model}}CrudRepo) {
+    public function __construct(private I{{repoName}}CrudRepository $i{{repoName}}CrudRepo) {
         $this->middleware(['auth:{{baseAuth}}','Has{{authModel}}Password','Has{{authModel}}Auth']);
         $this->lang= '{{langKey}}';
         $this->middleware(function ($request, $next) {
@@ -29,7 +29,7 @@ class {{model}}CrudController  extends Controller {
      */
     public function index(Request $request) : View
     {
-        $data = $this->i{{model}}CrudRepo->index($request);
+        $data = $this->i{{repoName}}CrudRepo->index($request);
         $data['lang'] = $this->lang;
         return view('{{bladeRoute}}.crud.index',compact('data'));
     }
@@ -42,18 +42,18 @@ class {{model}}CrudController  extends Controller {
      */
     public function list(Request $request) : JsonResponse
     {
-        return  $this->i{{model}}CrudRepo->list($request);
+        return  $this->i{{repoName}}CrudRepo->list($request);
     }
 
     /**
      * Store procedure for comapany crud
      *
-     * @param ValidateStore{{model}} $request
+     * @param ValidateStore{{repoName}} $request
      * @return JsonResponse
      */
-    public function store(ValidateStore{{model}} $request): JsonResponse
+    public function store(ValidateStore{{repoName}} $request): JsonResponse
     {
-        return $this->i{{model}}CrudRepo->store($request);
+        return $this->i{{repoName}}CrudRepo->store($request);
     }
 
     /**
@@ -65,7 +65,7 @@ class {{model}}CrudController  extends Controller {
      */
     public function edit($id,Request $request) : view
     {
-        $data = $this->i{{model}}CrudRepo->index($request,$id);
+        $data = $this->i{{repoName}}CrudRepo->index($request,$id);
         $data['lang'] = $this->lang;
         return view('{{bladeRoute}}.crud.index', compact('data'));
     }
@@ -79,7 +79,7 @@ class {{model}}CrudController  extends Controller {
      */
     public function update(Request $request, $id) : JsonResponse
     {
-        return $this->i{{model}}CrudRepo->update($request,$id);
+        return $this->i{{repoName}}CrudRepo->update($request,$id);
     }
 
     /**
@@ -90,7 +90,7 @@ class {{model}}CrudController  extends Controller {
      */
      public function deleteList(Request $request) : JsonResponse
     {
-       return $this->i{{model}}CrudRepo->deleteList($request);
+       return $this->i{{repoName}}CrudRepo->deleteList($request);
     }
 
 
@@ -102,7 +102,7 @@ class {{model}}CrudController  extends Controller {
      */
      public function updateList(Request $request) : JsonResponse
     {
-       return $this->i{{model}}CrudRepo->updateList($request);
+       return $this->i{{repoName}}CrudRepo->updateList($request);
     }
 
 }

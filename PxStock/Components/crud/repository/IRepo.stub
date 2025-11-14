@@ -4,7 +4,7 @@ namespace {{repositoryNameSpace}}\Crud;
 
 use Illuminate\Http\JsonResponse;
 
-interface I{{model}}CrudRepository {
+interface I{{repoName}}CrudRepository {
 
     public function index($request,$id=null) : array;
     public function list($request) : JsonResponse;

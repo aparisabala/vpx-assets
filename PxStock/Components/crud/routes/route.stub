@@ -1,12 +1,12 @@
 <?php
 
-use {{nameSpace}}\Crud\{{model}}CrudController;
+use {{nameSpace}}\Crud\{{repoName}}CrudController;
 use Illuminate\Support\Facades\Route;
 //vpx_imports
 Route::prefix('{{nameDown}}')->group(function(){
-    Route::resource('{{uri}}',{{model}}CrudController::class)->except(['destroy', 'show']);
-    Route::post('{{uri}}/list',[{{model}}CrudController::class,'list']);
-    Route::post('{{uri}}/delete-list',[{{model}}CrudController::class,'deleteList']);
-    Route::post('{{uri}}/update-list',[{{model}}CrudController::class,'updateList']);
+    Route::resource('{{uri}}',{{repoName}}CrudController::class)->except(['destroy', 'show']);
+    Route::post('{{uri}}/list',[{{repoName}}CrudController::class,'list']);
+    Route::post('{{uri}}/delete-list',[{{repoName}}CrudController::class,'deleteList']);
+    Route::post('{{uri}}/update-list',[{{repoName}}CrudController::class,'updateList']);
     //vpx_attach
 });

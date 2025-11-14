@@ -2,7 +2,7 @@
 
 namespace {{repositoryNameSpace}}\Crud;
 
-use {{requestNameSpace}}\Crud\ValidateUpdate{{model}};
+use {{requestNameSpace}}\Crud\ValidateUpdate{{repoName}};
 use App\Models\{{model}};
 use App\Repositories\BaseRepository;
 use App\Traits\BaseTrait;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Auth;
 use DB;
-class  {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRepository {
+class  {{repoName}}CrudRepository extends BaseRepository implements I{{repoName}}CrudRepository {
 
     use BaseTrait;
     public function __construct() {
@@ -97,7 +97,7 @@ class  {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudR
         $rowRef = [...$row->toArray()];
         $row->fill($request->all());
         if($row->isDirty()){
-            $validator = Validator::make($request->all(), (new ValidateUpdate{{model}}())->rules($request,$row));
+            $validator = Validator::make($request->all(), (new ValidateUpdate{{repoName}}())->rules($request,$row));
             if ($validator->fails()) {
                 return $this->response(['type' => 'validation','errors' => $validator->errors()]);
             }
