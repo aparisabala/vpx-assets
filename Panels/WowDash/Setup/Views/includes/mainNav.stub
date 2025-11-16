@@ -1,0 +1,31 @@
+
+<aside class="sidebar">
+  <button type="button" class="sidebar-close-btn">
+    <span icon="radix-icons:cross-2"></span>
+  </button>
+  <div>
+    <a href="index.html" class="sidebar-logo">
+      <img src="{{config('i.logo')}}" alt="site logo" class="light-logo">
+      <img src="{{config('i.logo')}}" alt="site logo" class="dark-logo">
+      <img src="{{config('i.favicon')}}" alt="site logo" class="logo-icon">
+    </a>
+  </div>
+  <div class="sidebar-menu-area">
+     <ul class="sidebar-menu" id="sidebar-menu">
+        <li class="sidebar-menu-group-title text-success">Business</li>
+        <li>
+            <a href="{{url('admin/sell-point')}}">
+                <iconify-icon icon="solar:reorder-linear" class="menu-icon"></iconify-icon>
+                <span> Sell Point </span>
+            </a>
+        </li>
+        <li class="sidebar-menu-group-title text-success">Summaries</li>
+        <li>
+            <a href="{{url('admin/dashboard')}}">
+                <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
+                <span>Dashboard</span>
+            </a>
+       </li>
+    </ul>
+  </div>
+</aside>

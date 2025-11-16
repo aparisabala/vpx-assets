@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" style="--primary-600: #dc2626;">
+<head>
+    @include('admin.includes.header-resource', ['tabTitle' => $tabTitle ?? 'Site Title'])
+</head>
+<body>
+    <div class="modal fade editmodal edimodalGlob" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-18 font-bold" id="exampleModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    @include('admin.includes.main-nav')
+    <main class="dashboard-main">
+        @include('admin.includes.header')
+        <div class="dashboard-main-body">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
+                @yield('breadCum')
+            </div>
+            @yield('page')
+        </div>
+        @include('admin.includes.footer')
+    </main>
+    @include('admin.includes.footer-resource', ['react' => $react ?? []])
+</body>
+</html>

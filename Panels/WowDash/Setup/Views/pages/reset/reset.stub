@@ -1,0 +1,33 @@
+@extends('admin.layouts.full-page-layout',["tabTitle" => config('i.service_name').' | '.pxLang($data['lang'],'breadCum.title') ])
+@section('page')
+<section class="auth bg-base d-flex flex-wrap">
+    <div class="auth-left d-lg-block d-none">
+        <div class="d-flex align-items-center flex-column h-100 justify-content-center">
+            <img src="{{config('i.auth_bg')}}" alt="Image" id="login_bgs">
+        </div>
+    </div>
+    <div class="auth-right py-32 px-24 d-flex flex-column justify-content-center">
+        @include('errors.fragments.error-view-bs5')
+        <div class="max-w-464-px mx-auto w-100">
+            <div>
+                <a href="{{url('admin/login')}}" class="mb-40 max-w-290-px">
+                    <img src="{{config('i.logo')}}" alt="Image">
+                </a>
+                <h4 class="mb-12">{{pxLang($data['lang'],'pageTitle')}} </h4>
+            </div>
+            <div id="resetBase">
+                <form id="frmSendAdminUserCode" class="mb-3" autocomplete="off" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label"><b> {{pxLang($data['lang'],'fields.email')}}  </b> <em class="required">*</em> <span id="email_error"> </span> </label>
+                        <input type="text" class="form-control" id="email" name="email" placeholder="{{pxLang($data['lang'],'fields.email_palceholder')}}">
+                    </div>
+                    <div class="mt-3 text-end">
+                        <button class="btn btn-primary w-100 waves-effect waves-light disBtn" disabled type="submit">{{pxLang($data['lang'],'btns.send_code')}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
+

@@ -1,0 +1,39 @@
+
+<style>
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    background-image: none;
+}
+
+.form-select:focus, .form-select:active, .form-control:focus, .form-control:active, textarea:focus, textarea:active {
+    border-color:gray !important;
+    background-color: transparent;
+    outline: 0 !important;
+    box-shadow: none !important;;
+}
+.p-link {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    color: gray;
+}
+
+.p-link.p-link-active {
+    color: #049410 !important;
+    border-top: 3px solid #049410;
+}
+
+
+.btn-primary {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+}
+
+.btn-primary:hover {
+    background-color: #5b24c0;
+}
+a {
+    color: #049410;
+}
+a:hover {
+    color: var(--danger-main);
+}
+</style>

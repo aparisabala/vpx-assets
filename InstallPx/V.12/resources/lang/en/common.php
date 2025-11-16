@@ -47,6 +47,7 @@ return [
 		'crud_action_update' => 'Update',
         'confirm' => 'Confirm',
 		'cancel' => 'Cancel',
+		'select_file' => 'Choose File',
 	],
 	'text' => [
 		'option_select' => 'Select'

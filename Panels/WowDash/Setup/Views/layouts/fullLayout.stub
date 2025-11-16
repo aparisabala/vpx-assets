@@ -1,0 +1,14 @@
+@php
+$r = \Route::getFacadeRoot()->current()->uri();
+$c = "nav-md";
+@endphp
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" style="--primary-600: #dc2626;">
+<head>
+    @include('admin.includes.header-resource',['tabTitle' => $tabTitle ?? "Site Title"])
+</head>
+<body>
+    @yield('page')
+    @include('admin.includes.footer-resource',["react"=>$react ?? []])
+</body>
+</html>

@@ -1,0 +1,1 @@
+<a href="{{ url('{{nameDown}}/{{uri}}/{{formTypeDown}}') }}" class="ps-2 pe-2 p-link"> {{pxLang($data['lang'],'nav.item1')}} </a>
