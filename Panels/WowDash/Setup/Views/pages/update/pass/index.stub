@@ -1,4 +1,4 @@
-@extends('admin.layouts.main-layout',["tabTitle" => config('i.service_name')." | ".pxLang($data['lang'],'breadCum.title') ])
+@extends('{{nameDown}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | ".pxLang($data['lang'],'breadCum.title') ])
 @section('page')
 @section('breadCum')
     <h6 class="fw-semibold mb-0">{{pxLang($data['lang'],'breadCum.title')}}</h6>
@@ -15,14 +15,14 @@
 @endsection
 <div id="pageSideBar" class="pageSideBar">
     <a href="javascript:void(0)" class="closebtn closeNav">×</a>
-    @include('admin.pages.setup.navs.user-navs')
+    @include('{{nameDown}}.pages.setup.navs.user-navs')
 </div>
 <div class="thepage">
 	<div id="defaultPage" class="pages">
 		<div class="data-summary">
 			<div class="card">
                 <div class="d-none d-md-block mb-4">
-                    @include('admin.pages.setup.navs.user-navs')
+                    @include('{{nameDown}}.pages.setup.navs.user-navs')
                 </div>
                 <div class="d-block d-md-none">
 					<div class="d-flex flex-row justify-content-end align-items-center p-2">
@@ -30,7 +30,7 @@
 					</div>
 				</div>
 				<div class="p-2">
-                    <form id="frmUpdateAdminUserPasssword" autocomplete="off">
+                    <form id="frmUpdate{{model}}Passsword" autocomplete="off">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card p-10 shadow-card card-border">

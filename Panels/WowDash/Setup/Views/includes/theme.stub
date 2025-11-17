@@ -36,4 +36,58 @@ a {
 a:hover {
     color: var(--danger-main);
 }
+.dataTables_length, .dtAdminUserRole_filter {
+    margin-bottom: 15px;
+}
+.dataTables_info, .dataTables_paginate  {
+    margin-top: 15px;
+}
+.btn {
+    padding: 3px 18px;
+    font-size: 14px;
+}
+html[data-theme="light"] .page-fragment-bar {
+  background-color: #046652 !important;
+}
+
+html[data-theme="dark"] .page-fragment-bar {
+  background-color: #046652 !important;
+}
+.shadow-card {
+    padding: 15px !important;
+    border: 1px solid rgb(180, 179, 179);
+}
+input[type=checkbox] {
+    border-radius: .25rem;
+    --bs-form-check-bg: var(--bs-body-bg);
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: .25em;
+    vertical-align: top;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--bs-form-check-bg);
+    background-image: var(--bs-form-check-bg-image);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    print-color-adjust: exact;
+}
+input[type="checkbox"]:checked {
+  border-color: #0d6efd; /* Customize border on check */
+  background-color: #0d6efd;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.btn.btn-sm {
+    padding: .2rem .48rem;
+    font-size: 0.875rem;
+}
 </style>

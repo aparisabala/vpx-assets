@@ -1,4 +1,4 @@
-@extends('admin.layouts.main-layout',["tabTitle" => config('i.service_name')." | Dashboard" ])
+@extends('{{nameDown}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | Dashboard" ])
 @section('page')
     @section('breadCum')
         <h6 class="fw-semibold mb-0">Dashboard</h6>

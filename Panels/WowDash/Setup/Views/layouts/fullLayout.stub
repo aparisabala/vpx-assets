@@ -5,10 +5,10 @@ $c = "nav-md";
 <!DOCTYPE html>
 <html lang="en" data-theme="dark" style="--primary-600: #dc2626;">
 <head>
-    @include('admin.includes.header-resource',['tabTitle' => $tabTitle ?? "Site Title"])
+    @include('{{nameDown}}.includes.header-resource',['tabTitle' => $tabTitle ?? "Site Title"])
 </head>
 <body>
     @yield('page')
-    @include('admin.includes.footer-resource',["react"=>$react ?? []])
+    @include('{{nameDown}}.includes.footer-resource',["react"=>$react ?? []])
 </body>
 </html>

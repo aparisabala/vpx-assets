@@ -1,4 +1,4 @@
-@extends('admin.layouts.full-page-layout',["tabTitle" => config('i.service_name').' | '.pxLang($data['lang'],'breadCum.title') ])
+@extends('{{nameDown}}.layouts.full-page-layout',["tabTitle" => config('i.service_name').' | '.pxLang($data['lang'],'breadCum.title') ])
 @section('page')
 <section class="auth bg-base d-flex flex-wrap">
     <div class="auth-left d-lg-block d-none">
@@ -10,13 +10,13 @@
         @include('errors.fragments.error-view-bs5')
         <div class="max-w-464-px mx-auto w-100">
             <div>
-                <a href="{{url('admin/login')}}" class="mb-40 max-w-290-px">
+                <a href="{{url('{{nameDown}}/login')}}" class="mb-40 max-w-290-px">
                     <img src="{{config('i.logo')}}" alt="Image">
                 </a>
                 <h4 class="mb-12">{{pxLang($data['lang'],'pageTitle')}} </h4>
             </div>
             <div id="resetBase">
-                <form id="frmSendAdminUserCode" class="mb-3" autocomplete="off" method="POST">
+                <form id="frmSend{{model}}Code" class="mb-3" autocomplete="off" method="POST">
                     <div class="mb-3">
                         <label class="form-label"><b> {{pxLang($data['lang'],'fields.email')}}  </b> <em class="required">*</em> <span id="email_error"> </span> </label>
                         <input type="text" class="form-control" id="email" name="email" placeholder="{{pxLang($data['lang'],'fields.email_palceholder')}}">

@@ -20,6 +20,7 @@ export class DataTable extends PxConfig {
         f.cache = (op.cache == undefined) ? false : op.cache;
         f.url = op.url || "";
         f.columns = op.columns || [];
+        f.checkClass = op.checkClass || 'form-check-input dt-checkboxes';
         f.body = op.body || {};
         f.language = {
             url: baseurl + "../resources/lang/" + $("#locale").val() + "/dt.json"
@@ -35,7 +36,7 @@ export class DataTable extends PxConfig {
                         if (row?.can_select == "no") {
                             return '';
                         }
-                        return '<input type="checkbox" class="dt-checkboxes">'
+                        return `<input type="checkbox" class="${f.checkClass}">`
                     }
                 }];
             }

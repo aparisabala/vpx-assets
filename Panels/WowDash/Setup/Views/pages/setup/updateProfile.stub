@@ -1,4 +1,4 @@
-@extends('admin.layouts.main-layout',["tabTitle" => config('i.service_name')." | ".pxLang($data['lang'],'breadCum.title') ])
+@extends('{{nameDown}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | ".pxLang($data['lang'],'breadCum.title') ])
 @section('page')
 @section('breadCum')
     <h6 class="fw-semibold mb-0">{{pxLang($data['lang'],'breadCum.title')}}</h6>
@@ -14,7 +14,7 @@
 	<div id="defaultPage" class="pages">
 		<div class="data-summary">
 			<div class="card p-2 pt-12">
-				<form id="frmUpdateAdminUserSetupProfile" autocomplete="off">
+				<form id="frmUpdate{{model}}SetupProfile" autocomplete="off">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">

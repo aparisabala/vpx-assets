@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark" style="--primary-600: #dc2626;">
 <head>
-    @include('admin.includes.header-resource', ['tabTitle' => $tabTitle ?? 'Site Title'])
+    @include('{{nameDown}}.includes.header-resource', ['tabTitle' => $tabTitle ?? 'Site Title'])
 </head>
 <body>
     <div class="modal fade editmodal edimodalGlob" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -16,17 +16,17 @@
             </div>
         </div>
     </div>
-    @include('admin.includes.main-nav')
+    @include('{{nameDown}}.includes.main-nav')
     <main class="dashboard-main">
-        @include('admin.includes.header')
+        @include('{{nameDown}}.includes.header')
         <div class="dashboard-main-body">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
                 @yield('breadCum')
             </div>
             @yield('page')
         </div>
-        @include('admin.includes.footer')
+        @include('{{nameDown}}.includes.footer')
     </main>
-    @include('admin.includes.footer-resource', ['react' => $react ?? []])
+    @include('{{nameDown}}.includes.footer-resource', ['react' => $react ?? []])
 </body>
 </html>

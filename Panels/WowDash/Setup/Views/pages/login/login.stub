@@ -1,4 +1,4 @@
-@extends('admin.layouts.full-page-layout',["tabTitle" => config('i.service_name').' | '.pxLang($data['lang'],'breadCum.title') ])
+@extends('{{nameDown}}.layouts.full-page-layout',["tabTitle" => config('i.service_name').' | '.pxLang($data['lang'],'breadCum.title') ])
 @section('page')
 <section class="auth bg-base d-flex flex-wrap">
     <div class="auth-left d-lg-block d-none">
@@ -16,7 +16,7 @@
                 <h4 class="mb-12">{{pxLang($data['lang'],'pageTitle')}} </h4>
                 <p class="mb-32 text-secondary-light text-lg">{{pxLang($data['lang'],'text.welcome_message')}}</p>
             </div>
-            <form id="frmAdminUserLogin" class="mb-3" autocomplete="off" method="POST">
+            <form id="frm{{model}}Login" class="mb-3" autocomplete="off" method="POST">
                 <div class="mb-3">
                     <label class="form-label"><b> {{pxLang($data['lang'],'fields.email')}} </b> <em class="required">*</em> <span id="email_error"> </span> </label>
                     <input type="text" class="form-control" id="email" name="email" placeholder="{{pxLang($data['lang'],'fields.email_palceholder')}}">
