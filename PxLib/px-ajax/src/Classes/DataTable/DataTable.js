@@ -2,7 +2,7 @@ import { PxConfig } from "../PxConfig";
 
 export class DataTable extends PxConfig {
 
-    makeAjaxDataTable(table, op = {}) {
+    makeAjaxDataTable(table, op = {},attach={}) {
         if(local){
             console.log(op);
         }
@@ -97,7 +97,8 @@ export class DataTable extends PxConfig {
                     if (typeof window[table] === 'function') {
                         window[table](table, api, op);
                     }
-                }
+                },
+                ...attach
             });
             this.selectAction(table, dt, op);
         }

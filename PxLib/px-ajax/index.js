@@ -82,9 +82,9 @@ class PX extends PxFactory {
      * @param {String} table 
      * @param {Object} op 
      */
-    renderDataTable(table,op){
+    renderDataTable(table,op,attach={}){
         let dt = new DataTable;
-        dt.makeAjaxDataTable(table,op);
+        dt.makeAjaxDataTable(table,op,attach);
     }
     
 
