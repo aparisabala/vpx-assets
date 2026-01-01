@@ -18,7 +18,7 @@ class PxCommandService
     * @param string $from
     * @return array
     */
-    public function generateScripts($panels,$panel,$from) : array
+    public function generateScripts($panels,$panel,$from,$src='public') : array
     {
         $data = [];
         if(env('HAS_SOCKET')) {
@@ -46,8 +46,8 @@ class PxCommandService
         }
         $data = [
             ...$data,
-            ...$this?->getLocal(panels: $panels, panel: $panel, getFrom: $from),
-            ...$this?->getLocal(panels: $panels, panel: $panel,  getFrom: $from, conditinal: 'yes'),
+            ...$this?->getLocal(panels: $panels, panel: $panel, getFrom: $from,src: $src),
+            ...$this?->getLocal(panels: $panels, panel: $panel,  getFrom: $from, conditinal: 'yes',src: $src),
         ];
         return $data;
     }
@@ -83,7 +83,7 @@ class PxCommandService
     * @param string $getFrom
     * @return array
     */
-    public function getLocal($panels,$panel,$getFrom,$conditinal="no") : array
+    public function getLocal($panels,$panel,$getFrom,$conditinal="no",$src="public") : array
     {
         $from = ($getFrom == 'scripts') ? 'js':'css';
         $data = [];
@@ -97,12 +97,13 @@ class PxCommandService
                         if(env('PX_DEBUG') && $folder == 'px') {
                             continue;
                         }
-                        $files = collect(File::files(public_path($dir)))
+                        $public_html = __DIR__ . '/../../../public_html/' .  $dir;
+                        $files = collect(File::files(($src == 'public_html') ?  $public_html : public_path($dir)))
                         ->filter(fn($file) => $file->getExtension() === $from)
                         ->map(fn($file) => $file->getFilename())
                         ->values();
                         foreach ($files as $key => $file) {
-                            $data[] = ($from == "js") ? '<script src="'.url("$dir/$file").'?v='.V.'"></script>' : '<link rel="stylesheet" href="'.url("$from/$folder/$file").'?v='.V.'"></link>';
+                            $data[] = ($from == "js") ? '<script src="'.url("$dir/$file").'?v='.V.'"></script>' : '<link rel="stylesheet" href="'.url("$from/$folder/$file").'?v='.V.'" />';
                         }
                     }
                 }
@@ -116,12 +117,13 @@ class PxCommandService
                     $dirs = ["$from/$panel/$r[1]","$from/$panel/$r[1]/calls"];
                     foreach ($dirs as $key => $dir) {
                          if(is_dir($dir)) {
-                            $files = collect(File::files(public_path($dir)))
+                            $public_html = __DIR__ . '/../../../public_html/' .  $dir;
+                            $files = collect(File::files(($src == 'public_html') ?  $public_html : public_path($dir)))
                             ->filter(fn($file) => $file->getExtension() === $from)
                             ->map(fn($file) => $file->getFilename())
                             ->values();
                             foreach ($files as $key => $file) {
-                                $data[] = ($from == "js") ? '<script src="'.url("$dir/$file").'?v='.V.'"></script>' : '<link rel="stylesheet" href="'.url("$dir/$file").'?v='.V.'"></link>';
+                                $data[] = ($from == "js") ? '<script src="'.url("$dir/$file").'?v='.V.'"></script>' : '<link rel="stylesheet" href="'.url("$dir/$file").'?v='.V.'" />';
                             }
                         }
                     }
