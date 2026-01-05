@@ -150,8 +150,12 @@ class PX extends PxFactory {
         document.getElementById(id).style.width = "0";
     }
 
-    inflatesuccess(msg) {
-        this?.errors?.inflatesuccess(msg);
+    inflatesuccess(msg,op={}) {
+        this?.errors?.inflatesuccess(msg,op);
+    }
+
+    inflaterequire(msg,op={}) {
+        this?.errors?.inflaterequire(msg,op);
     }
 
     #pageAction(){

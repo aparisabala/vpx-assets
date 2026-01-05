@@ -43,32 +43,40 @@ export class PxErrors extends PxConfig {
      * Show an alert when the server is not responding
      * @param {Object} xhr - The XMLHttpRequest object containing the error details
      */
-    inflatesuccess(msg, r = null) {
+    inflatesuccess(msg,op={}) {
+        let refresh = op?.refresh ?? 500;
         if(msg != null) {
             var d = '<div class="sufee-alert alert with-close alert-success alert-dismissible fade show">' + msg +'</div>';
+            if(op?.classes) {
+                $("#inflate").addClass(op?.classes);
+            }
             $("#inflate").append(d);
         }
         var t = setTimeout(function() {
             $("#inflate").html("");
             clearTimeout(t);
             $('#theGlobalLoader').removeClass("activeGlobalLoader").css({ "display": "none" });
-        }, 500);
+        }, refresh);
     }
 
     /**
      * Show an alert when the server is not responding
      * @param {string} msg - The message to display in the alert
      */
-    inflaterequire(msg) {
+    inflaterequire(msg,op={}) {
+        let refresh = op?.refresh ?? 500;
         if(msg != null) {
             var d = '<div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">' + msg +'</div>';
+            if(op?.classes) {
+                $("#inflate").addClass(op?.classes);
+            }
             $("#inflate").append(d);
         }
         var t = setTimeout(function() {
             $("#inflate").html("");
             clearTimeout(t);
             $('#theGlobalLoader').removeClass("activeGlobalLoader").css({ "display": "none" });
-        }, 500);
+        }, refresh);
     }
 
     /**
