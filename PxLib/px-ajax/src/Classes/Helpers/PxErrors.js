@@ -104,7 +104,7 @@ export class PxErrors extends PxConfig {
                 ele += '<li>' + response.bigErrors[i] + '</li>';
             }
             ele += '</ul>';
-            inflaterequire(this?.G?.mgs.action_error);
+            this?.inflaterequire(this?.G?.mgs.action_error);
             $("#showErros").html(ele);
             $("#errorBase").addClass("activateErrors").fadeIn(500);
             $('#theGlobalLoader').removeClass("activeGlobalLoader").css({ "display": "none" });
