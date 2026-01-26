@@ -84,7 +84,9 @@ export class PxFactory extends PxConfig {
         const config = this.#getAjaxReqConfig(op);
         $("."+error_view).html('');
         $.ajax(config).done(function (response) {
-            console.log(response);
+            if(local) {
+                console.log(response);
+            }
             callback({...op,response});
             return false;
         }).fail(function (xhr, status, error, req) {
@@ -113,10 +115,10 @@ export class PxFactory extends PxConfig {
      * @private
      */
     #getAjaxReqConfig(op){
-        const { script='/', body={}, method='POST', dataType='formData',bearer=''} = op;
+        const { script='/', body={}, method='POST', dataType='formData',bearer='',fullUri=false} = op;
         let config  = {
             method: method,
-            url: baseurl + script,
+            url: (!fullUri) ? baseurl + script  : fullUri,
             data: body,
             contentType: false,
             cache: true,
