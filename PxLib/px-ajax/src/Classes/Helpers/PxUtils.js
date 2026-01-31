@@ -1,4 +1,6 @@
-export class PxUtils {
+import { PxConfig } from "../PxConfig";
+
+export class PxUtils extends PxConfig {
 
     dynamicDom(op) {
         let { clickId = "", domId = "", cloneId = "", addRemoveclass = "", replaceClass = [] } = op;
@@ -50,8 +52,8 @@ export class PxUtils {
     }
 
     dp(op = {}) {
-        const {element='dp'} = op;
-        $('.'+element).datetimepicker({
+        const { element = 'dp' } = op;
+        $('.' + element).datetimepicker({
             timepicker: false,
             format: 'Y-m-d',
             scrollMonth: false,
@@ -60,13 +62,14 @@ export class PxUtils {
         });
     }
 
-    fReset(f){
+    fReset(f) {
         $("#" + f)[0].reset();
     }
 
-    summerNote(ele,op={}) {
+    summerNote(ele, op = {}) {
 
         let context = this;
+        let id = op?.id ?? '';
         $('#' + ele).summernote({
             placeholder: 'Type your content...',
             tabsize: 2,
@@ -75,15 +78,15 @@ export class PxUtils {
             disableDragAndDrop: true,
             tabDisable: false,
             followingToolbar: false,
-            fontSizes: ['5','6','6.5','7','8','9','10','11','12','13','14','15','16','18','20','22','24','28','32','36','40','48'],
+            fontSizes: ['5', '6', '6.5', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '18', '20', '22', '24', '28', '32', '36', '40', '48'],
             toolbar: [
-                ['style', ['style','bold', 'italic', 'underline', 'clear']],
+                ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
                 ['fontsize', ['fontsize']],
                 ['fontname', ['fontname']],
                 ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
                 ['height', ['height']],
-                ['insert', ['picture', 'hr','code','bootstrapLayout']],
+                ['insert', ['picture', 'hr', 'code', 'bootstrapLayout', 'link']],
                 ['table', ['table']],
                 ['view', ['fullscreen', 'codeview', 'help']],
             ],
@@ -137,8 +140,8 @@ export class PxUtils {
         $sn.summernote('editor.focus');
     }
 
-    ensureEditableEnd($sn){
-       const editable = $sn.next('.note-editor').find('.note-editable')[0];
+    ensureEditableEnd($sn) {
+        const editable = $sn.next('.note-editor').find('.note-editable')[0];
         if (!editable) return;
 
         const lastChild = editable.lastChild;
@@ -164,9 +167,9 @@ export class PxUtils {
     }
 
     sendFile(file, editor, welEditable, ul = 3, id = '') {
-        data = new FormData();
+        let data = new FormData();
         data.append("file", file);
-        data.append("_token", csrf_token)
+        data.append("_token", this?.G?.csrf_token)
         data.append("uploadurl", $("#service_domain").val() + "/summernote/");
         data.append("ul", ul)
         $.ajax({
@@ -184,14 +187,14 @@ export class PxUtils {
                 } else if (sdata === "type") {
                     alert("jpg, png or gif accepted only");
                 } else {
-                    let image = $('<img>').attr('src', baseurl + 'uploads/app/' + uploadurl + sdata);
+                    let image = $('<img>').attr('src', baseurl + 'uploads/' + uploadurl + sdata);
                     $('#' + id).summernote("insertNode", image[0]);
                 }
             }
         })
-        .fail(function (xhr, status, error, req) {
-            console.log(xhr.responseText);
-        });
+            .fail(function (xhr, status, error, req) {
+                console.log(xhr.responseText);
+            });
     }
 
     deleteMeia(img) {
@@ -206,9 +209,9 @@ export class PxUtils {
                 }
             }
         })
-        .fail(function (xhr, status, error, req) {
-            console.log(xhr.responseText);
-        });
+            .fail(function (xhr, status, error, req) {
+                console.log(xhr.responseText);
+            });
     }
 
     fixHeight(c, a, less = 0, add = 0) {
