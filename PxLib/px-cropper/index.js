@@ -7,7 +7,7 @@
  * - Downscales/compresses if final blob > maxFileSize
  * - Returns { blob, dataURL, fileName, mimeType, width, height } via onComplete
  */
-(function($){
+(function ($) {
   const defaults = {
     outputWidth: 800,
     outputHeight: 600,
@@ -23,7 +23,7 @@
     boundingBox: null
   };
 
-  function dataURLToBlob(dataURL){
+  function dataURLToBlob(dataURL) {
     const parts = dataURL.split(',');
     const meta = parts[0].match(/:(.*?);/);
     const mime = meta ? meta[1] : '';
@@ -33,9 +33,9 @@
     for (let i = 0; i < len; i++) u8[i] = binary.charCodeAt(i);
     return new Blob([u8], { type: mime });
   }
-  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
-  $.fn.imageCropper = function(opts){
+  $.fn.imageCropper = function (opts) {
     const settings = $.extend({}, defaults, opts || {});
     if (!settings.outputWidth || !settings.outputHeight) {
       console.error('imageCropper: outputWidth and outputHeight must be specified.');
@@ -44,7 +44,7 @@
 
     let modal = null, state = null;
 
-    function createModal(){
+    function createModal() {
       if (modal) return modal;
       const $overlay = $('<div class="icp-overlay" style="display:none"></div>');
       const $modal = $(`
@@ -104,9 +104,9 @@
       return modal;
     }
 
-    function openModal(file, fileName, $triggerInput){
+    function openModal(file, fileName, $triggerInput) {
       const m = createModal();
-      m.$modal.data('triggerInput', $triggerInput); // ✅ store original input reference
+      m.$modal.data('triggerInputId', $triggerInput.attr('id'));
       const canvas = m.$canvas[0];
       const ctx = canvas.getContext('2d');
       const previewCanvas = m.$previewCanvas[0];
@@ -125,8 +125,8 @@
       m.$outputSize.text(`${settings.outputWidth}px × ${settings.outputHeight}px`);
 
       const reader = new FileReader();
-      reader.onload = function(ev){
-        state.img.onload = function(){
+      reader.onload = function (ev) {
+        state.img.onload = function () {
           let naturalW = state.img.naturalWidth;
           let naturalH = state.img.naturalHeight;
           if (settings.maxDimension && Math.max(naturalW, naturalH) > settings.maxDimension) {
@@ -145,7 +145,7 @@
             onImageReady();
           }
 
-          function onImageReady(){
+          function onImageReady() {
             state.imgNaturalWidth = state.img.naturalWidth || naturalW;
             state.imgNaturalHeight = state.img.naturalHeight || naturalH;
             const wrapRect = m.$canvas.parent()[0].getBoundingClientRect();
@@ -157,7 +157,7 @@
             canvas.height = availH * dpr;
             canvas.style.width = availW + 'px';
             canvas.style.height = availH + 'px';
-            ctx.setTransform(dpr,0,0,dpr,0,0);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             ctx.imageSmoothingQuality = 'high';
             const scaleFit = Math.min(availW / state.imgNaturalWidth, availH / state.imgNaturalHeight, 1.0);
             state.scale = scaleFit;
@@ -194,7 +194,7 @@
       reader.readAsDataURL(file);
       m.$overlay.fadeIn(100);
       if (typeof settings.onOpen === 'function') settings.onOpen();
-      async function produceResult(){
+      async function produceResult() {
         if (!state || !state.img) return null;
         const mapping = getCropMapping();
         let sx = Math.max(0, mapping.srcX);
@@ -209,7 +209,7 @@
         off.height = outH;
         const octx = off.getContext('2d');
         octx.fillStyle = settings.mimeType === 'image/png' ? 'rgba(0,0,0,0)' : '#fff';
-        octx.fillRect(0,0,outW,outH);
+        octx.fillRect(0, 0, outW, outH);
         octx.drawImage(state.img, sx, sy, sw, sh, 0, 0, outW, outH);
 
         let q = settings.quality;
@@ -229,20 +229,23 @@
         return {
           blob, dataURL, mimeType: settings.mimeType,
           width: outW, height: outH,
-          fileName: fileName || ('cropped.' + (settings.mimeType==='image/png'?'png':'jpg'))
+          fileName: fileName || ('cropped.' + (settings.mimeType === 'image/png' ? 'png' : 'jpg'))
         };
       }
 
-      m.$confirm.off('click').on('click', async function(){
+      m.$confirm.off('click').on('click', async function () {
         m.$confirm.prop('disabled', true).text('Processing...');
         try {
           const result = await produceResult();
-          const $input = m.$modal.data('triggerInput');
-          if ($input && $input.attr('type') === 'file' && result && result.blob) {
+          const inputId = m.$modal.data('triggerInputId');
+          const $input = $('#' + inputId);
+          if ($input.length && $input.attr('type') === 'file' && result?.blob) {
             const file = new File([result.blob], result.fileName, { type: result.mimeType });
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            $input[0].files = dataTransfer.files;
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            setTimeout(() => {
+              $input[0].files = dt.files;
+            }, 50);
           }
           if (typeof settings.onComplete === 'function') settings.onComplete(result);
         } catch (err) {
@@ -255,23 +258,23 @@
 
       m.$cancel.off('click').on('click', closeModal);
 
-      function closeModal(){
+      function closeModal() {
         m.$overlay.fadeOut(120);
         state = null;
         if (typeof settings.onClose === 'function') settings.onClose();
       }
 
-      m.$overlay.off('click').on('click', function(e){
+      m.$overlay.off('click').on('click', function (e) {
         if (e.target === m.$overlay[0]) closeModal();
       });
     }
-    this.each(function(){
+    this.each(function () {
       const $input = $(this);
       if ($input.attr('type') !== 'file') {
         console.warn('imageCropper: target is not a file input.');
         return;
       }
-      $input.off('change.icp').on('change.icp', function(e){
+      $input.off('change.icp').on('change.icp', function (e) {
         const files = e.target.files;
         if (!files || !files.length) return;
         const file = files[0];
@@ -281,7 +284,7 @@
           return;
         }
         openModal(file, file.name, $input);
-        setTimeout(()=> $input.val(''), 0);
+        setTimeout(() => $input.val(''), 0);
       });
     });
 
