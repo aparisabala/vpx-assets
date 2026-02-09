@@ -167,10 +167,11 @@ export class PxUtils extends PxConfig {
     }
 
     sendFile(file, editor, welEditable, ul = 3, id = '') {
+        let uploadurl = 'uploads/app/' + $("#service_domain").val() + "/summernote/";
         let data = new FormData();
         data.append("file", file);
         data.append("_token", this?.G?.csrf_token)
-        data.append("uploadurl", $("#service_domain").val() + "/summernote/");
+        data.append("uploadurl", uploadurl);
         data.append("ul", ul)
         $.ajax({
             data: data,
@@ -187,7 +188,7 @@ export class PxUtils extends PxConfig {
                 } else if (sdata === "type") {
                     alert("jpg, png or gif accepted only");
                 } else {
-                    let image = $('<img>').attr('src', baseurl + 'uploads/' + uploadurl + sdata);
+                    let image = $('<img>').attr('src', baseurl + uploadurl + sdata);
                     $('#' + id).summernote("insertNode", image[0]);
                 }
             }
