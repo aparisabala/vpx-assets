@@ -1,0 +1,35 @@
+<?php
+
+namespace {{nameSpace}}\DataView\{{dataViewUp}};
+use App\Http\Controllers\Controller;
+use {{repositoryNameSpace}}\DataView\{{dataViewUp}}\I{{dataViewUp}}DataViewRepository;
+use App\Traits\BaseTrait;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+class {{dataViewUp}}DataViewController extends Controller {
+
+    use BaseTrait;
+    public function __construct(private I{{dataViewUp}}DataViewRepository $i{{dataViewUp}}DataViewRepo) {
+        $this->middleware(['auth:{{baseAuth}}','Has{{authModel}}Password','Has{{authModel}}Auth']);
+        $this->lang= '{{langKey}}';
+        $this->middleware(function ($request, $next) {
+            $request->merge(['lang' => $this->lang]);
+            return $next($request);
+        });
+
+    }
+
+    /**
+     * Index page for {{dataViewDown}} crud
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function index(Request $request) : View
+    {
+        $data = $this->i{{dataViewUp}}DataViewRepo->index($request);
+        $data['lang'] = $this->lang;
+        return view('{{bladeRoute}}.data-view.{{dataViewKebab}}.index',compact('data'));
+    }
+}

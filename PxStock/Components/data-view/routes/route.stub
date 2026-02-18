@@ -1,0 +1,9 @@
+<?php
+
+use {{nameSpace}}\DataView\{{dataViewUp}}\{{dataViewUp}}DataViewController;
+use Illuminate\Support\Facades\Route;
+//vpx_imports
+Route::prefix('{{nameDown}}')->group(function(){
+    Route::get('{{uri}}/{{dataViewKebab}}/display',[{{dataViewUp}}DataViewController::class,'index']);
+    //vpx_attach
+});

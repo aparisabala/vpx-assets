@@ -1,0 +1,10 @@
+<?php
+
+namespace {{repositoryNameSpace}}\DataView\{{dataViewUp}};
+
+use Illuminate\Http\JsonResponse;
+
+interface I{{dataViewUp}}DataViewRepository {
+
+    public function index($request) : array;
+}

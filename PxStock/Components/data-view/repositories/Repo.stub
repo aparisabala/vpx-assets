@@ -1,0 +1,27 @@
+<?php
+
+namespace {{repositoryNameSpace}}\DataView\{{dataViewUp}};
+
+use App\Repositories\BaseRepository;
+use App\Traits\BaseTrait;
+use Carbon\Carbon;
+use DataTables;
+use Illuminate\Http\JsonResponse;
+class {{dataViewUp}}DataViewRepository extends BaseRepository implements I{{dataViewUp}}DataViewRepository {
+
+    use BaseTrait;
+    public function __construct() {
+    }
+
+    /**
+     * Get the page default resource
+     *
+     * @param Request $request
+     * @param integer|string $id
+     * @return array
+     */
+    public function index($request) : array
+    {
+       return [];
+    }
+}
