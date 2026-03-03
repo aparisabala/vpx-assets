@@ -11,8 +11,8 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="text-uppercase mt-4">No items yet ! </h4>
-                <p class="text-muted">You can ad items by clicking add new button </p>
+                <h4 class="text-uppercase mt-4">{{pxLang('','','common.text.no_items.text')}} </h4>
+                <p class="text-muted">{{pxLang('','','common.text.no_items.mgs')}} </p>
             </div>
         </div>
     </div>

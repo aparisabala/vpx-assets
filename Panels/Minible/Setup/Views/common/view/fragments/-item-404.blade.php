@@ -11,8 +11,8 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="text-uppercase mt-4">Sorry, page not found -   404  </h4>
-                <p class="text-muted">Your requested resource wan not found, either deleted or removed ny the user </p>
+                <h4 class="text-uppercase mt-4">{{pxLang('','','common.text.404.text')}}   -   404  </h4>
+                <p class="text-muted"> {{pxLang('','','common.text.404.mgs')}} </p>
             </div>
         </div>
     </div>

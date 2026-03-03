@@ -50,6 +50,18 @@ return [
 		'select_file' => 'Choose File',
 	],
 	'text' => [
-		'option_select' => 'Select'
+		'option_select' => 'Select',
+        'no_items' => [
+            'text' => 'No items yet ! ',
+            'mgs' => 'You can ad items by clicking add new button'
+        ],
+        '403' => [
+            'text' => 'Sorry, permission denied',
+            'mgs' => 'You are unable to view this page due to lack of permission'
+        ],
+        '404' => [
+            'text' => 'Sorry, page not found',
+            'mgs' => 'Your requested resource was not found, either deleted or removed by the user'
+        ]
 	]
 ];
