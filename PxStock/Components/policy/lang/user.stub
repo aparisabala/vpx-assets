@@ -16,6 +16,7 @@ return [
         'email' => 'Email',
         'mobile_number' => 'Mobile Number',
         'avatar' => 'User Avatar',
+        'admin_user_role_id' => 'Default User Access', 
         'user_access' => 'User Access', 
         'status' => 'Status'
     ],

@@ -2,8 +2,8 @@
 
 return [
     'dashboard' => 'Dashboard',
-    'system.core' => 'System Core',
-    'system.core.user_role' => 'User Roles',
-    'system.core.user' => 'Users',
-    'system.core.user_policy' => 'User Policies'
+    'hrm.menu' => 'Human Resources',
+    'hrm.menu.user_role' => 'User Roles',
+    'hrm.menu.user' => 'Users',
+    'hrm.menu.user_policy' => 'User Policies'
 ];

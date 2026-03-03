@@ -20,12 +20,15 @@ $(document).ready(function(){
             },
             image: {
                 required: true,
-            }
+            },
+            admin_user_role_id: {
+                required: true
+            },
         };
         PX.ajaxRequest({
             element: 'frmStore{{model}}',
             validation: true,
-            script: '{{nameDown}}/system/user',
+            script: '{{nameDown}}/hrm/user',
             rules,
             afterSuccess: {
                 type: 'inflate_reset_response_data',
@@ -51,6 +54,9 @@ $(document).ready(function(){
                 required: true,
                 maxlength: 253
             },
+            admin_user_role_id: {
+                required: true
+            },
             status: {
                 required: true,
             }
@@ -58,7 +64,7 @@ $(document).ready(function(){
         PX.ajaxRequest({
             element: 'frmUpdate{{model}}',
             validation: true,
-            script: '{{nameDown}}/system/user/'+$("#patch_id").val(),
+            script: '{{nameDown}}/hrm/user/'+$("#patch_id").val(),
             rules,
             afterSuccess: {
                 type: 'inflate_response_data',
@@ -106,7 +112,7 @@ $(document).ready(function(){
                 render: function (data, type, row) {
                     let str = ``;
                     if(policy?.{{allowKey}}_edit) {
-                        str +=  `<a href="${baseurl}{{nameDown}}/system/user/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit" title="Edit">
+                        str +=  `<a href="${baseurl}{{nameDown}}/hrm/user/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit" title="Edit">
                             <i class="fas fa-pencil-alt"></i>
                         </a>`
                     }
@@ -116,7 +122,7 @@ $(document).ready(function(){
         ];
         PX.renderDataTable('dt{{model}}', {
             select: true,
-            url: '{{nameDown}}/system/user/list',
+            url: '{{nameDown}}/hrm/user/list',
             columns: col_draft,
             pdf: [2,3,4,5]
         });
@@ -126,13 +132,13 @@ $(document).ready(function(){
 function dt{{model}}(table, api, op) {
     PX.deleteAll({
         element: "deleteAll{{model}}",
-        script: "{{nameDown}}/system/user/delete-list",
+        script: "{{nameDown}}/hrm/user/delete-list",
         confirm: true,
         api,
     });
     PX.updateAll({
         element: "updateAll{{model}}",
-        script: "{{nameDown}}/system/user/update-list",
+        script: "{{nameDown}}/hrm/user/update-list",
         confirm: true,
         dataCols: {
             key: "ids",

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\{{nameUp}}\System\User\Crud;
+namespace App\Http\Controllers\{{nameUp}}\Hrm\User\Crud;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\{{nameUp}}\System\User\Crud\ValidateStore{{model}};
-use App\Repositories\{{nameUp}}\System\User\Crud\I{{model}}CrudRepository;
+use App\Http\Requests\{{nameUp}}\Hrm\User\Crud\ValidateStore{{model}};
+use App\Repositories\{{nameUp}}\Hrm\User\Crud\I{{model}}CrudRepository;
 use App\Traits\BaseTrait;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -14,7 +14,7 @@ class {{model}}CrudController  extends Controller {
     use BaseTrait;
     public function __construct(private I{{model}}CrudRepository $i{{model}}CrudRepo) {
         $this->middleware(['auth:{{nameDown}}','Has{{model}}Password','Has{{model}}Auth']);
-        $this->lang= '{{nameDown}}.system.user';
+        $this->lang= '{{nameDown}}.hrm.user';
     }
 
      /**
@@ -28,7 +28,7 @@ class {{model}}CrudController  extends Controller {
         $data = $this->i{{model}}CrudRepo->index($request);
         $data['lang'] = $this->lang;
         $data['userRoles'] = {{model}}Role::select(['id','name','code'])->get();
-        return view('{{nameDown}}.pages.system.user.crud.index',compact('data'));
+        return view('{{nameDown}}.pages.hrm.user.crud.index',compact('data'));
     }
 
     /**
@@ -65,7 +65,7 @@ class {{model}}CrudController  extends Controller {
         $data = $this->i{{model}}CrudRepo->index($request,$id);
         $data['lang'] = $this->lang;
         $data['userRoles'] = {{model}}Role::select(['id','name','code'])->get();
-        return view('{{nameDown}}.pages.system.user.crud.index', compact('data'));
+        return view('{{nameDown}}.pages.hrm.user.crud.index', compact('data'));
     }
 
     /**

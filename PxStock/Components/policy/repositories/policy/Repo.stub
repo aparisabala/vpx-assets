@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\{{nameUp}}\System\User\Policy;
+namespace App\Repositories\{{nameUp}}\Hrm\User\Policy;
 
 use App\Models\{{model}};
 use App\Models\{{model}}Permission;
@@ -21,7 +21,7 @@ class {{model}}PolicyRepository extends BaseRepository implements I{{model}}Poli
     public function index($request) : array
     {
         $data['availableUser'] = {{model}}Role::select(['code','name'])->whereNotIn('code',['SA'])->get();
-        $data['systePolicies'] = $this->systemPolicies();
+        $data['systePolicies'] = $this->hrmPolicies();
         $this->firstOrCreate($this->getFirstOrCreate($data['systePolicies'],$data['availableUser']));
         $data['permissions'] = {{model}}Permission::select(['id','slug','user_access'])->get();
         return $data;

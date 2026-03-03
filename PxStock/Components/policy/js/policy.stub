@@ -6,7 +6,7 @@ $(document).ready(function(){
         PX?.ajaxRequest({
             element: 'frmUpdate{{model}}Permission',
             validation: true,
-            script: '{{nameDown}}/system/user/user-policy',
+            script: '{{nameDown}}/hrm/user/user-policy',
             rules,
             afterSuccess: {
                 type: 'inflate_redirect_response_data',

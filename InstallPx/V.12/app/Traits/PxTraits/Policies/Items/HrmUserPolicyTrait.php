@@ -2,22 +2,22 @@
 
 namespace App\Traits\PxTraits\Policies\Items;
 
-trait SytemUserPolicyTrait {
+trait HrmUserPolicyTrait {
 
-    public function systemUserPolicies(){
+    public function hrmUserPolicies(){
         return [
-            'name' => 'System Core',
+            'name' => 'Hrm Management',
             'policies' => [
                 [
-                    'name' => 'System User Roles',
+                    'name' => 'Hrm User Roles',
                     'keys' => ['view','store','bulk_update','delete','pdf','excel','edit']
                 ],
                 [
-                    'name' => 'System User',
+                    'name' => 'Hrm User',
                     'keys' => ['view','store','bulk_update','delete','pdf','excel','edit','pass_change']
                 ],
                 [
-                    'name' => 'System User Policies',
+                    'name' => 'Hrm User Policies',
                     'keys' => ['view','edit']
                 ]
             ]

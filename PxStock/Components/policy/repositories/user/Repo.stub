@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\{{nameUp}}\System\User\Crud;
+namespace App\Repositories\{{nameUp}}\Hrm\User\Crud;
 
-use App\Http\Requests\{{nameUp}}\System\User\Crud\ValidateUpdate{{model}};
+use App\Http\Requests\{{nameUp}}\Hrm\User\Crud\ValidateUpdate{{model}};
 use App\Models\{{model}};
 use App\Repositories\BaseRepository;
 use App\Traits\BaseTrait;

@@ -15,7 +15,7 @@ $(document).ready(function(){
         PX.ajaxRequest({
             element: 'frmStore{{model}}Role',
             validation: true,
-            script: '{{nameDown}}/system/user/user-role',
+            script: '{{nameDown}}/hrm/user/user-role',
             rules,
             afterSuccess: {
                 type: 'inflate_reset_response_data',
@@ -38,7 +38,7 @@ $(document).ready(function(){
         PX.ajaxRequest({
             element: 'frmUpdate{{model}}Role',
             validation: true,
-            script: '{{nameDown}}/system/user/user-role/'+$("#patch_id").val(),
+            script: '{{nameDown}}/hrm/user/user-role/'+$("#patch_id").val(),
             rules,
             afterSuccess: {
                 type: 'inflate_response_data',
@@ -76,7 +76,7 @@ $(document).ready(function(){
                 render: function (data, type, row) {
                     let str = ``;
                     if(policy?.{{allowKey}}_edit) {
-                        str += `<a href="${baseurl}{{nameDown}}/system/user/user-role/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit" title="Edit">
+                        str += `<a href="${baseurl}{{nameDown}}/hrm/user/user-role/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit" title="Edit">
                             <i class="fas fa-pencil-alt"></i>
                         </a>`;
                     }
@@ -86,7 +86,7 @@ $(document).ready(function(){
         ];
         PX.renderDataTable('dt{{model}}Role', {
             select: true,
-            url: '{{nameDown}}/system/user/user-role/list',
+            url: '{{nameDown}}/hrm/user/user-role/list',
             columns: col_draft,
             pdf: [1, 2]
         });
@@ -96,13 +96,13 @@ $(document).ready(function(){
 function dt{{model}}Role(table, api, op) {
     PX.deleteAll({
         element: "deleteAll{{model}}Role",
-        script: "{{nameDown}}/system/user/user-role/delete-list",
+        script: "{{nameDown}}/hrm/user/user-role/delete-list",
         confirm: true,
         api,
     });
     PX.updateAll({
         element: "updateAll{{model}}Role",
-        script: "{{nameDown}}/system/user/user-role/update-list",
+        script: "{{nameDown}}/hrm/user/user-role/update-list",
         confirm: true,
         dataCols: {
             key: "ids",

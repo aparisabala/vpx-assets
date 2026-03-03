@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\{{nameUp}}\System\User\Policy;
+namespace App\Http\Controllers\{{nameUp}}\Hrm\User\Policy;
 
 use App\Http\Controllers\Controller;
 use App\Models\{{model}}Role;
-use App\Repositories\{{nameUp}}\System\User\Policy\I{{model}}PolicyRepository;
+use App\Repositories\{{nameUp}}\Hrm\User\Policy\I{{model}}PolicyRepository;
 use App\Traits\BaseTrait;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class {{model}}PolicyController extends Controller {
     use BaseTrait;
     public function __construct(private I{{model}}PolicyRepository $i{{model}}Policy) {
         $this->middleware(['auth:{{nameDown}}','Has{{model}}Password','Has{{model}}Auth']);
-        $this->lang= '{{nameDown}}.system.user.policy';
+        $this->lang= '{{nameDown}}.hrm.user.policy';
     }
 
     /**
@@ -27,11 +27,11 @@ class {{model}}PolicyController extends Controller {
     {
         $data = $this->i{{model}}Policy->index($request);
         $data['lang'] = $this->lang;
-        return view('{{nameDown}}.pages.system.user.policy.index')->with('data',$data);
+        return view('{{nameDown}}.pages.hrm.user.policy.index')->with('data',$data);
     }
 
     /**
-     * Update system policies
+     * Update hrm policies
      *
      * @param Request $request
      * @return void

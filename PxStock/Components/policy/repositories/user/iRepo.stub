@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\{{nameUp}}\System\User\Crud;
+namespace App\Repositories\{{nameUp}}\Hrm\User\Crud;
 
 use Illuminate\Http\JsonResponse;
 
