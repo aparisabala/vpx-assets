@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 //vpx_imports
 Route::prefix('{{nameDown}}')->group(function(){
     Route::resource('hrm/user',{{model}}CrudController::class)->except(['destroy', 'show']);
+    Route::get('hrm/user/user-list/{admin_user_role_id}',[AdminUserCrudController::class,'index']);
     Route::post('hrm/user/list',[{{model}}CrudController::class,'list']);
     Route::post('hrm/user/delete-list',[{{model}}CrudController::class,'deleteList']);
     Route::post('hrm/user/update-list',[{{model}}CrudController::class,'updateList']);

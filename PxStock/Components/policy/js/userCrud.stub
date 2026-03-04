@@ -54,9 +54,6 @@ $(document).ready(function(){
                 required: true,
                 maxlength: 253
             },
-            admin_user_role_id: {
-                required: true
-            },
             status: {
                 required: true,
             }
@@ -123,6 +120,7 @@ $(document).ready(function(){
         PX.renderDataTable('dt{{model}}', {
             select: true,
             url: '{{nameDown}}/hrm/user/list',
+            body: {admin_user_role_id: $("#admin_user_role_id").val()},
             columns: col_draft,
             pdf: [2,3,4,5]
         });

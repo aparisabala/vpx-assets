@@ -39,7 +39,7 @@
                             <a href="{{url('{{nameDown}}/hrm/user/user-role')}}">{{pxLang('{{nameDown}}.main-nav','hrm.menu.user_role')}}</a>
                         </li>
                         <li>
-                            <a href="{{url('{{nameDown}}/hrm/user')}}">{{pxLang('{{nameDown}}.main-nav','hrm.menu.user')}}</a>
+                            <a href="{{url('{{nameDown}}/hrm/user/user-list/1')}}">{{pxLang('{{nameDown}}.main-nav','hrm.menu.user')}}</a>
                         </li>
                         <li>
                             <a href="{{url('{{nameDown}}/hrm/user/user-policy')}}">{{pxLang('{{nameDown}}.main-nav','hrm.menu.user_policy')}}</a>

@@ -48,9 +48,18 @@ class {{model}} extends Authenticatable
         'user_access' => 'array'
     ];
 
-    public function hasPermission($permissions)
+     public function hasPermission($permissions)
     {
-        return (in_array('SA',$this->user_access)) ? true : count(array_intersect($this->user_access, $permissions)) > 0;
+        $access = [$this->role->code];
+        if($this->user_access != null) {
+            $access = [...$access,...$this->user_access];
+        }
+        return (in_array('SA',$access)) ? true : count(array_intersect($access, $permissions)) > 0;
+    }
+
+    public function role()
+    {
+        return $this->hasOne(AdminUserRole::class,'id','admin_user_role_id');
     }
 
     //vpx_attach

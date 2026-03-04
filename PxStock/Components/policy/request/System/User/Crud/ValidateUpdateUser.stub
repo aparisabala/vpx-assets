@@ -30,7 +30,6 @@ class ValidateUpdate{{model}} extends FormRequest
     {
         $rules =  [
             'name' => 'required|string|max:253',
-            'user_access' => 'required|array'
         ];
         if($row->isDirty('name')) {
             $rules['mobile_number'] = 'required|string|max:253|unique:{{tableName}},mobile_number';

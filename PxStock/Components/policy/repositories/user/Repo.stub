@@ -23,6 +23,7 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
             ['width'=> 80, 'height'=> 80,'com'=> 10],
         ];
         $this->baseCondition = [['is_secret','=','no'],['admin_type','=','system_user']];
+        $this->LoadModels(['AdminUser']);
     }
 
     /**
@@ -34,8 +35,8 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
      */
     public function index($request,$id=null) : array
     {
-       $query = {{model}}::query();
-       return $this->getPageDefault(model: $query, id: $id,where: $this->baseCondition);
+       $where = ($id == null) ? [...$this->baseCondition,['admin_user_role_id','=',$request->admin_user_role_id]] : [];
+       return $this->getPageDefault(model: $this->AdminUser, id: $id,where: $where);
     }
 
 
@@ -47,7 +48,7 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
      */
     public function list($request) : JsonResponse
     {
-        $model = {{model}}::where($this->baseCondition);
+        $model = AdminUser::where([...$this->baseCondition,['admin_user_role_id','=',$request->admin_user_role_id]]);
         $this->saveTractAction(
             $this->getTrackData(
                 title: '{{model}} was viewed by '.$request?->auth?->name.' at '.Carbon::now()->format('d M Y H:i:s A'),
@@ -87,7 +88,7 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
             $m->email = $request->email;
             $m->admin_type = $request->admin_type;
             $m->password = Hash::make('123456789');
-            $m->user_access = $request->user_access;
+            $m->admin_user_role_id = $request->admin_user_role_id;
             $path = imagePaths()['dyn_image'];
             $image = $request->file('image');
             if ($request->hasFile('image')) {
@@ -131,7 +132,6 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
         $row->mobile_number = $request->mobile_number;
         $row->email = $request->email;
         $row->status = $request->status;
-        $row->user_access = $request->user_access;
         $path = imagePaths()['dyn_image'];
         $image = $request->file('image');
         if ($request->hasFile('image')) {
