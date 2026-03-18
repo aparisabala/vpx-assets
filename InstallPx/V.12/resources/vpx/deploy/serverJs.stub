@@ -1,0 +1,3 @@
+local = false;
+baseurl = document.location.protocol+'//'+window.location.hostname+'/';
+{{socket}}
