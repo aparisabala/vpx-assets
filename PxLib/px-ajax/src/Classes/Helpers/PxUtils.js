@@ -238,14 +238,28 @@ export class PxUtils extends PxConfig {
     DirectPrintElem(elem) {
         this?.Print(elem);
     }
-    Print(elem) {
+
+    Print(elem, styles = "") {
         var divToPrint = document.getElementById(elem);
         var newWin = window.open('', 'Print-Window');
         newWin.document.open();
-        newWin.document.write('<html><head>');
-        newWin.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css" integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA==" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" />');
-        // newWin.document.write('<link rel="stylesheet" href="' + baseurl + 'px_assets/css/system/print/print.css" type="text/css" media="print"/>');
-        newWin.document.write('</head><body onload="window.print()" class="printDivClass">' + divToPrint.innerHTML + '</body></html>');
+        newWin.document.write(`
+            <html>
+            <head>
+                <link rel="stylesheet"
+                    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
+                    crossorigin="anonymous"
+                    referrerpolicy="no-referrer"
+                />
+                <style>
+                    ${styles}
+                </style>
+            </head>
+            <body onload="window.print()" class="printDivClass">
+                ${divToPrint.innerHTML}
+            </body>
+            </html>
+        `);
         newWin.document.close();
     }
 
