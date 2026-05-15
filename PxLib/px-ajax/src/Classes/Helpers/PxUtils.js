@@ -235,6 +235,10 @@ export class PxUtils extends PxConfig {
         }
     }
 
+    capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
     DirectPrintElem(elem) {
         this?.Print(elem);
     }

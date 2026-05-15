@@ -42,10 +42,6 @@ export class DataTable extends PxConfig {
             }
         }
         f.selected = op.selected || [];
-        let post_data = { _token: this?.G?.csrf_token, auth_uuid: $("#auth_uuid").val() };
-        for (let key in f.body) {
-            post_data[key] = f.body[key]
-        }
         if ($("#" + table).length > 0) {
             let dt = $("#" + table).DataTable({
                 paging: f.paging,
@@ -71,8 +67,37 @@ export class DataTable extends PxConfig {
                 ajax: {
                     type: "POST",
                     url: baseurl + f.url,
-                    data: post_data,
+                    data: function (d) {
+                        d._token = PX?.G?.csrf_token;
+                        d.auth_uuid = $("#auth_uuid").val();
+                        if (typeof f.body === 'function') {
+                            let bodyData = f.body();
+                            for (let key in bodyData) {
+                                d[key] = bodyData[key];
+                            }
+                        } else if (op?.filters?.length > 0) {
+                            let bodyData = {};
+                            op?.filters.forEach(function (item) {
+                                 let key = item.key;
+                                let value = $("#" + key).val();
+                                if (value !== '' && value !== null && value !== undefined) {
+                                    bodyData[key] = value;
+                                }
+                            });
+                            for (let key in bodyData) {
+                                d[key] = bodyData[key];
+                            }
+                        } else {
+                            for (let key in f.body) {
+                                d[key] = f.body[key];
+                            }
+                        }
+                        return d;
+                    },
                     dataSrc: function (data) {
+                        if (typeof op.onDataLoad === 'function') {
+                            op.onDataLoad(data);
+                        }
                         op = { ...op, data: data, dataSrc: data.data }
                         if (local) {
                             console.log(data.data);
@@ -80,6 +105,9 @@ export class DataTable extends PxConfig {
                         return data.data;
                     },
                     error: function (response) {
+                        if (typeof op.onError === 'function') {
+                            op.onError(response);
+                        }
                         if (local) {
                             console.log(response);
                         }
@@ -101,7 +129,23 @@ export class DataTable extends PxConfig {
                 ...attach
             });
             this.selectAction(table, dt, op);
+            op?.filters.forEach(function (item) {
+                let key = item.key;
+                $('#search' + PX?.utils?.capitalize(key)).on('click', function () {
+                    if ($("#" + key).val() !== '') {
+                        dt.draw();
+                    }
+                });
+                $('#clear' + PX?.utils?.capitalize(key)).on('click', function () {
+                    if($("#" + key).val() != '') {
+                        $("#" + key).val('');
+                        dt.draw();
+                    }
+                });
+            });
+            return dt;
         }
+        return undefined
 
     }
     selectAction(table, dt, op) {
