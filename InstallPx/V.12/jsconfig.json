@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./resources/js/app/",
+    "paths": {
+      "@app/*": ["*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

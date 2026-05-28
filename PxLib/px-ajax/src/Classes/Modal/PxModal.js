@@ -52,17 +52,27 @@ export class PxModal extends PxConfig {
             modalSizeClass = `modal-dialog modal-${modalSize}`;
             $(".modal-dialog").removeClass().addClass(modalSizeClass);
         }
-        ajaxRequest({
-            ...op,
-            element,
-            script,
-            body,
-            dataType: "json",
-            afterSuccess: {type: 'modal'},
-            type: "request",
-            target: element,
-            title,
-            noLoaderImg: true
-        });
+        if(op?.html) {
+            $(".modal-title").html(op?.title);
+            $(".modal-body").html(op?.html);
+            if(op?.modalCallback) {
+                if(window[op?.modalCallback]) {
+                    window[op?.modalCallback]();
+                }
+            }
+        } else {
+            ajaxRequest({
+                ...op,
+                element,
+                script,
+                body,
+                dataType: "json",
+                afterSuccess: {type: 'modal'},
+                type: "request",
+                target: element,
+                title,
+                noLoaderImg: true
+            });
+        }
     }
 }

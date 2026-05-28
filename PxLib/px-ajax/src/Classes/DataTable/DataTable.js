@@ -13,6 +13,7 @@ export class DataTable extends PxConfig {
         f.ordering = (op.ordering == undefined) ? false : op.ordering;
         f.paging = (op.paging == undefined) ? true : op.paging;
         f.info = (op.info == undefined) ? true : op.info;
+        f.filters = (op.filters == undefined) ? [] : op.filters;
         f.pageLength = (op.pageLength === undefined) ? defaultDtSize : op.pageLength;
         f.responsive = (op.responsive == undefined) ? true : op.responsive;
         f.bLengthChange = (op.bLengthChange == undefined) ? true : op.bLengthChange;
@@ -75,9 +76,9 @@ export class DataTable extends PxConfig {
                             for (let key in bodyData) {
                                 d[key] = bodyData[key];
                             }
-                        } else if (op?.filters?.length > 0) {
+                        } else if (f?.filters?.length > 0) {
                             let bodyData = {};
-                            op?.filters.forEach(function (item) {
+                             f?.filters?.forEach(function (item) {
                                  let key = item.key;
                                 let value = $("#" + key).val();
                                 if (value !== '' && value !== null && value !== undefined) {
@@ -129,7 +130,7 @@ export class DataTable extends PxConfig {
                 ...attach
             });
             this.selectAction(table, dt, op);
-            op?.filters.forEach(function (item) {
+            f?.filters?.forEach(function (item) {
                 let key = item.key;
                 $('#search' + PX?.utils?.capitalize(key)).on('click', function () {
                     if ($("#" + key).val() !== '') {
