@@ -17,5 +17,5 @@
     ]
 }
 5. composer install
-6. php artisan px:deploy --for=local --baseUrl=http://IP/revital-church/public/ --name=revital_church --user=root --pass= --smtp=default
+6. php artisan px:deploy --for=local --baseUrl=http://IP/project-name/public/ --name=database_name --user=root --pass= --smtp=default
 7. php artisan migrate:fresh --seed
