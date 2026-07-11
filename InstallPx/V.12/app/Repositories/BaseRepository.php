@@ -16,7 +16,7 @@ class BaseRepository implements IBaseRepository
      *
      * @param Elequent $model
      * @param integer|string|null $id
-     * @return void
+     * @return array
      */
     public function getPageDefault($model,$id,$where=[]) : array
     {
