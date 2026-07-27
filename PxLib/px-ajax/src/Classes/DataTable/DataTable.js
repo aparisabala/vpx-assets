@@ -2,8 +2,8 @@ import { PxConfig } from "../PxConfig";
 
 export class DataTable extends PxConfig {
 
-    makeAjaxDataTable(table, op = {},attach={}) {
-        if(local){
+    makeAjaxDataTable(table, op = {}, attach = {}) {
+        if (local) {
             console.log(op);
         }
         let f = {};
@@ -72,27 +72,20 @@ export class DataTable extends PxConfig {
                         d._token = PX?.G?.csrf_token;
                         d.auth_uuid = $("#auth_uuid").val();
                         if (typeof f.body === 'function') {
-                            let bodyData = f.body();
-                            for (let key in bodyData) {
-                                d[key] = bodyData[key];
-                            }
-                        } else if (f?.filters?.length > 0) {
-                            let bodyData = {};
-                             f?.filters?.forEach(function (item) {
-                                 let key = item.key;
-                                let value = $("#" + key).val();
+                            Object.assign(d, f.body());
+                        } else if (f.body && typeof f.body === 'object') {
+                            Object.assign(d, f.body);
+                        }
+                        if (f?.filters?.length > 0) {
+                            f.filters.forEach(function (item) {
+                                let value = $("#" + item.key).val();
+
                                 if (value !== '' && value !== null && value !== undefined) {
-                                    bodyData[key] = value;
+                                    d[item.key] = value;
                                 }
                             });
-                            for (let key in bodyData) {
-                                d[key] = bodyData[key];
-                            }
-                        } else {
-                            for (let key in f.body) {
-                                d[key] = f.body[key];
-                            }
                         }
+
                         return d;
                     },
                     dataSrc: function (data) {
@@ -138,7 +131,7 @@ export class DataTable extends PxConfig {
                     }
                 });
                 $('#clear' + PX?.utils?.capitalize(key)).on('click', function () {
-                    if($("#" + key).val() != '') {
+                    if ($("#" + key).val() != '') {
                         $("#" + key).val('');
                         dt.draw();
                     }
@@ -171,11 +164,11 @@ export class DataTable extends PxConfig {
                 cb.prop('checked', false);
                 cb.parent().parent().removeClass('selected');
             }
-            context.showSelected(dt,op);
+            context.showSelected(dt, op);
             e.stopPropagation();
         });
     }
-    showSelected(dt,op={}) {
+    showSelected(dt, op = {}) {
         let count = dt.rows('.selected').data().length;
         if (count == "0") {
             $("#show_selected").html('');
@@ -185,7 +178,7 @@ export class DataTable extends PxConfig {
             $("#show_selected").html('Selected: ' + count)
         }
         if (op?.onSelectRows) {
-            op?.onSelectRows(dt,op);
+            op?.onSelectRows(dt, op);
         }
     }
     getDtData(type, dt, col, c) {

@@ -192,19 +192,19 @@ export class PxErrors extends PxConfig {
         }, t);
     }
 
-    timeoutReload(url, t = 1200) {
+    timeoutReload(url, targetType, t = 1200) {
         let context = this;
         var p = setTimeout(function() {
             clearTimeout(p);
-            context?.reload(url);
+            context?.reload(url,targetType);
         }, t);
     }
 
-    reload(url = null) {
+    reload(url = null,targetType) {
         if (url == null) {
             window.location.href = window.location.href;
         } else {
-            window.location.href = baseurl + url;
+            window.open(baseurl + url,targetType)
         }
     }
 

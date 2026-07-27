@@ -46,7 +46,8 @@ export class PxSuccess extends PxConfig {
                             if(showInflate) {
                                 this.#pxErros?.inflatesuccess(extraData?.inflate);
                             }
-                            this.#pxErros?.timeoutReload(extraData.redirect, 400);
+                            let targetType = op?.afterSuccess?.targetType ?? '_self';
+                            this.#pxErros?.timeoutReload(extraData.redirect, targetType, 400);
                             break;
                         case "load_html":
                             if(showInflate) {
