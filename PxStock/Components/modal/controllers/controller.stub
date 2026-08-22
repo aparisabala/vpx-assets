@@ -36,6 +36,7 @@ class {{modalNameUp}}ModalController extends Controller {
         $response = ['extraData' => ['inflate' => pxLang($data['lang'],'','common.response_success')],'view' => $view];
         return $this->response(['type' => 'success', 'data' => $response]);
     }
+    {{moreControllerMethod}}
     //vpx_attach
 
 }
