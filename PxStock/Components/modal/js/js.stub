@@ -3,5 +3,6 @@ $(document).ready(function(){
 });
 function {{modalNameCamel}}(op){
     console.log("modal loaded");
+    {{morejs}}
     //vpx_attach
 }

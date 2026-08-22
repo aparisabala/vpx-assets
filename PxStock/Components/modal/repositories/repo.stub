@@ -3,14 +3,20 @@
 namespace {{repositoryNameSpace}}\Modal\{{modalNameUp}};
 
 use App\Repositories\BaseRepository;
-
+use App\Traits\BaseTrait;
+use Carbon\Carbon;
+use DataTables;
+use DB;
+use Illuminate\Http\JsonResponse;
+{{moreRepoImports}}
 class {{modalNameUp}}Repository extends BaseRepository implements I{{modalNameUp}}Repository
 {
 
+    use BaseTrait;
     /**
      * Modal  data
      *
-     * @param Request $request
+     * @param Request $request`
      * @return array
      */
     public function display($request) : array
@@ -18,4 +24,5 @@ class {{modalNameUp}}Repository extends BaseRepository implements I{{modalNameUp
         $data['item'] = null;
         return $data;
     }
+    {{moreRepository}}
 }

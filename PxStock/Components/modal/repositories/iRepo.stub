@@ -7,4 +7,5 @@ use Illuminate\Http\JsonResponse;
 interface I{{modalNameUp}}Repository {
 
     public function display($request) : array;
+    {{moreInterface}}
 }

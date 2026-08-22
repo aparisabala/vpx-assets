@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use View;
 use Illuminate\Http\Request;
 use {{repositoryNameSpace}}\Modal\{{modalNameUp}}\I{{modalNameUp}}Repository;
+ {{moreControllerImports}}
 //vpx_imports
 
 class {{modalNameUp}}ModalController extends Controller {
