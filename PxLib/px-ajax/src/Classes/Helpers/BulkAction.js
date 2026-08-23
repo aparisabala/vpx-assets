@@ -8,7 +8,7 @@ export class BulkAction  {
         this.factory = new PxFactory;
     }
 
-       deleteAll(op,ajaxRequest) {
+    deleteAll(op,ajaxRequest) {
         const context = this;
         const { element = "N/A", script = "/", extra = {}, api = [], dataType = "json", type = "request", afterSuccess = { type: "inflate_redirect_response_data" }, tableLoadType="ajax" } = op;
         $("." + element).unbind("click");
@@ -35,13 +35,13 @@ export class BulkAction  {
                 }
                 d["ids"] = ids;
                 ajaxRequest({
-                    ...op,
                     element,
                     script,
                     body: d,
                     dataType,
                     type,
-                    afterSuccess
+                    afterSuccess,
+                    ...op
                 });
 
             } else {

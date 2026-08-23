@@ -6,3 +6,4 @@ function {{modalNameCamel}}(op){
     {{morejs}}
     //vpx_attach
 }
+{{moreOutScopeJs}}
