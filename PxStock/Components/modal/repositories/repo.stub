@@ -21,7 +21,7 @@ class {{modalNameUp}}Repository extends BaseRepository implements I{{modalNameUp
      */
     public function display($request) : array
     {
-        $data['module'] = null;
+        $data['module'] = {{moduleString}};
         return $data;
     }
     {{moreRepository}}

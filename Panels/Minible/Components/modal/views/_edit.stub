@@ -1,6 +1,6 @@
 <div class="p-1">
     <div class="d-flex flex-row justify-content-end">
-        <span class="badge bg-secondary resetModalForm"><i class="fa fa-times"></i></span>
+        <span class="badge bg-secondary resetModalForm cursor-pointer"><i class="fa fa-times"></i></span>
     </div>
 </div> 
 @if($data['item'] != null)

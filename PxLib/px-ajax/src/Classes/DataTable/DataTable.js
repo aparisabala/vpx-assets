@@ -172,7 +172,7 @@ export class DataTable extends PxConfig {
         let count = dt.rows('.selected').data().length;
         if (count == "0") {
             $("#show_selected").html('');
-            $("#show_selected_base").css({ marginLeft: "-500px" });
+            $("#show_selected_base").css({ marginLeft: "-1500px" });
         } else {
             $("#show_selected_base").css({ marginLeft: 8 });
             $("#show_selected").html('Selected: ' + count)
