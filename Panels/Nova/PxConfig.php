@@ -1,0 +1,11 @@
+<?php
+
+/*
+ * Extra CDN assets of the Nova layout, merged into config/pxcommands.php by px:panel
+ */
+return [
+    'css' => [
+        'font_nova' => '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />',
+    ],
+    'js' => [],
+];

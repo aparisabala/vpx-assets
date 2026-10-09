@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="168" height="36" viewBox="0 0 168 36" fill="none">
+  <defs>
+    <mask id="px-p">
+      <rect x="2" y="2" width="32" height="32" rx="9" fill="#fff"/>
+      <path d="M11 25V11h7.2a5 5 0 0 1 0 10H15" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <rect x="2" y="2" width="32" height="32" rx="9" fill="#4F46E5" mask="url(#px-p)"/>
+  <text x="44" y="25" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#4F46E5">Px Admin</text>
+</svg>

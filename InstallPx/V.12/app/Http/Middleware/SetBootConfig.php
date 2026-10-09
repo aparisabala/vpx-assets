@@ -27,8 +27,8 @@ class SetBootConfig
                     "address"=>"Address",
                     "mobile_number" =>"01XXX0017454",
                     "service_email" =>"email@domain.com",
-                    'logo'=>url('images/system/logo.png'),
-                    'favicon'=>url('images/system/favicon.png'),
+                    'logo'=>url('images/system/logo.svg'),
+                    'favicon'=>url('images/system/favicon.svg'),
                 ]
             ]);
             foreach (uploadsDir() as $key => $path) {

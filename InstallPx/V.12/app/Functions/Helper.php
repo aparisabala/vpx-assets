@@ -26,7 +26,7 @@ function imageExists($row,$ext='80X80'){
 
 function getRowImage($row,$ext='80X80'){
     $path = imagePaths()['dyn_image'].'/'.$row?->image.'_'.$ext.'.'.$row?->extension;
-    $img = ($row?->image == "" || !file_exists($path)) ? url('images/system/img.jpg') : url($path);
+    $img = ($row?->image == "" || !file_exists($path)) ? url('images/system/avatar.svg') : url($path);
     return $img;
 }
 

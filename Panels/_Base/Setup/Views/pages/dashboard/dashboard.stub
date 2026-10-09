@@ -1,0 +1,35 @@
+@extends('{{nameDown}}.layouts.main-layout',["tabTitle" => config('i.service_name')." | Dashboard" ])
+@section('page')
+	@section('breadCum')
+		<h4 class="mb-0">Dashboard</h4>
+		<div class="page-title-right">
+			<ol class="breadcrumb m-0">
+				<li class="breadcrumb-item active">Welcome back, {{ Auth::user()->name }}</li>
+			</ol>
+		</div>
+	@endsection
+	{{-- Starter widgets, replace the numbers with real data from the dashboard controller --}}
+	<div class="row g-3">
+		@foreach ([['Users', 'fa-users', '—'], ['Orders', 'fa-cart-shopping', '—'], ['Revenue', 'fa-chart-line', '—'], ['Tickets', 'fa-life-ring', '—']] as [$label, $icon, $value])
+			<div class="col-sm-6 col-xl-3">
+				<div class="card px-stat">
+					<div class="card-body">
+						<span class="px-stat-icon"><i class="fa {{ $icon }}"></i></span>
+						<div>
+							<div class="px-stat-label">{{ $label }}</div>
+							<div class="px-stat-value">{{ $value }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		@endforeach
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">Getting started</h5>
+					<p class="px-muted mb-0">Generate pages with <code>php artisan px:module --name={{nameDown}} --nameSpace=hrm/employee --model=Employee</code> and link them in <code>resources/views/{{nameDown}}/includes/main-nav.blade.php</code>.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+@endsection

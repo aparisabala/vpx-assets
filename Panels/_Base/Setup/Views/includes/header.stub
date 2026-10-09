@@ -1,0 +1,45 @@
+<header class="px-topbar">
+    <div class="px-topbar-start">
+        <button type="button" class="px-icon-btn px-sidebar-toggle" data-px-toggle="sidebar" aria-label="Toggle menu">
+            <i class="fa fa-bars"></i>
+        </button>
+        <a href="{{ url('{{nameDown}}/dashboard') }}" class="px-brand px-brand-top">
+            <img src="{{ config('i.logo') }}" alt="{{ config('i.service_name') }}" class="px-logo">
+        </a>
+    </div>
+    <div class="px-topbar-end">
+        <button type="button" class="px-icon-btn px-mode-toggle" data-px-toggle="mode" aria-label="Toggle dark mode">
+            <i class="fa fa-moon px-mode-dark-icon"></i>
+            <i class="fa fa-sun px-mode-light-icon"></i>
+        </button>
+        <div class="dropdown">
+            <button type="button" class="px-icon-btn position-relative" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
+                <i class="fa fa-bell"></i>
+                <span class="px-badge" id="notiCount">0</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end px-dropdown px-dropdown-lg p-0" aria-labelledby="page-header-notifications-dropdown">
+                <div class="px-dropdown-head">
+                    <span class="fw-semibold">Notifications</span>
+                    <a href="javascript:void(0)" class="small">Mark all as read</a>
+                </div>
+                <div id="notificationBar" class="px-dropdown-body">
+                    <div class="notification-item px-muted p-3">No notification yet</div>
+                </div>
+                <a class="px-dropdown-foot" href="javascript:void(0)">View more <i class="fa fa-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button type="button" class="px-user" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <img class="px-avatar" src="{{ getRowImage(Auth::user(),'80X80') }}" alt="">
+                <span class="px-user-name">{{ Auth::user()->name }}</span>
+                <i class="fa fa-chevron-down px-user-caret"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end px-dropdown" aria-labelledby="page-header-user-dropdown">
+                <a class="dropdown-item" href="{{ url('{{nameDown}}/setup/profile-update') }}"><i class="fa fa-user me-2"></i> My Profile</a>
+                <a class="dropdown-item" href="{{ url('{{nameDown}}/setup/password-update') }}"><i class="fa fa-lock me-2"></i> Change Password</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-danger" href="{{ url('{{nameDown}}/logout') }}"><i class="fa fa-right-from-bracket me-2"></i> Sign out</a>
+            </div>
+        </div>
+    </div>
+</header>

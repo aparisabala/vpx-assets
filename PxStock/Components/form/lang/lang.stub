@@ -1,13 +1,13 @@
 <?php
 return [
-    'pageTitle' => '',
+    'pageTitle' => '{{lastNameSpace}}',
     'pageSubTitle' => '',
-    'add' => '',
-    'update' => '',
+    'add' => 'Add New',
+    'update' => 'Update',
     'breadCum' => [
-        'title' => '',
-        'b1' => '',
-        'b2' => '',
+        'title' => '{{lastNameSpace}}',
+        'b1' => '{{nameUp}}',
+        'b2' => '{{lastNameSpace}}',
         'b3' => ''
     ],
     'nav' => [

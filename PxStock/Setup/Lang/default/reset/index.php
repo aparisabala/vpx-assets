@@ -25,6 +25,7 @@ return [
         'send_code' => 'Send Code',
         'change_pass' => 'Change Password',
         'vfcode' => 'Verify Code',
+        'back_login' => 'Back to login',
     ],
     'fields' => [
         'email' => 'Email',

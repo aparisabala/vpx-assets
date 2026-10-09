@@ -1,0 +1,30 @@
+<aside class="px-sidebar" id="pxSidebar">
+    <a href="{{ url('{{nameDown}}/dashboard') }}" class="px-brand">
+        <img src="{{ config('i.logo') }}" alt="{{ config('i.service_name') }}" class="px-logo">
+        <img src="{{ config('i.favicon') }}" alt="" class="px-logo-sm">
+    </a>
+    <nav class="px-nav" id="sidebar-menu">
+        <ul class="px-menu" id="side-menu">
+            <li class="px-menu-title">Main</li>
+            <li class="px-menu-item">
+                <a href="{{ url('{{nameDown}}/dashboard') }}" class="px-menu-link">
+                    <i class="bx bxs-dashboard"></i>
+                    <span>{{ pxLang('{{nameDown}}.main-nav','dashboard') }}</span>
+                </a>
+            </li>
+            {{--
+                Add pages generated with px:crud, px:form ... here. A group with a sub menu:
+                <li class="px-menu-item">
+                    <a href="javascript:void(0)" class="px-menu-link" data-px-submenu>
+                        <i class="fa fa-users"></i>
+                        <span>Group</span>
+                        <i class="fa fa-chevron-down px-caret"></i>
+                    </a>
+                    <ul class="px-submenu">
+                        <li><a href="{{ url('{{nameDown}}/hrm/employee') }}" class="px-submenu-link">Employees</a></li>
+                    </ul>
+                </li>
+            --}}
+        </ul>
+    </nav>
+</aside>

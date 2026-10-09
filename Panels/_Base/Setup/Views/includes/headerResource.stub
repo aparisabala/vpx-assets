@@ -1,0 +1,22 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<meta name="_token" content="{{ csrf_token() }}">
+<title>{!! $tabTitle ?? 'Site Title' !!}</title>
+<link rel="icon" href="{{ config('i.favicon') }}" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+{!! $appStyles ?? '' !!}
+@include('{{nameDown}}.includes.theme')
+{{-- Apply the saved (or theme default) light/dark mode and sidebar state before paint --}}
+<script>
+    (function () {
+        var root = document.documentElement, saved = null, sidebar = null;
+        try { saved = localStorage.getItem('px.mode'); sidebar = localStorage.getItem('px.sidebar'); } catch (e) {}
+        var css = getComputedStyle(root);
+        var mode = saved || css.getPropertyValue('--px-default-mode').trim() || 'light';
+        root.setAttribute('data-px-mode', mode);
+        root.setAttribute('data-bs-theme', mode);
+        if ((sidebar || css.getPropertyValue('--px-default-sidebar').trim()) === 'collapsed') { root.classList.add('px-collapsed'); }
+    })();
+</script>

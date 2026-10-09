@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" data-px-layout="{{layout}}">
+<head>
+    @include('{{nameDown}}.includes.header-resource', ['tabTitle' => $tabTitle ?? 'Site Title'])
+</head>
+<body class="px-shell px-full-page">
+    @yield('page')
+    @include('{{nameDown}}.includes.footer-resource', ['react' => $react ?? []])
+</body>
+</html>

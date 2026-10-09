@@ -1,0 +1,7 @@
+{{-- Panel level overrides. Theme styles live in public/css/panel/<layout>, change colors with the --px-* variables --}}
+<style>
+    /* :root {
+        --px-accent: #4f46e5;
+        --px-accent-rgb: 79, 70, 229;
+    } */
+</style>

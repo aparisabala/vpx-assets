@@ -1,0 +1,87 @@
+/*
+ * Horizon: top navigation layout. The menu becomes a horizontal bar under the topbar with hover dropdowns,
+ * the content sits in a centered container. Phones fall back to the off canvas menu.
+ */
+:root {
+    --px-font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --px-accent: #0d9488;
+    --px-accent-rgb: 13, 148, 136;
+    --px-accent-hover: #0f766e;
+    --px-bg: #f2f7f7;
+    --px-radius: 14px;
+    --px-nav-h: 54px;
+    --px-container: 1320px;
+
+    --px-topbar-bg: #0f3d3e;
+    --px-topbar-text: #e6f4f3;
+    --px-topbar-border: #0f3d3e;
+}
+:root[data-px-mode="dark"] {
+    --px-topbar-bg: #0a2526;
+    --px-topbar-border: #0a2526;
+}
+
+.px-topbar .px-icon-btn:hover, .px-topbar .px-user:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+.px-brand-top .px-logo { filter: brightness(0) invert(1); }
+
+@media (min-width: 992px) {
+    .px-main, .px-collapsed .px-main { margin-left: 0; }
+    .px-sidebar-toggle { display: none; }
+    .px-brand-top { display: flex; }
+
+    .px-sidebar, .px-collapsed .px-sidebar, .px-collapsed .px-sidebar:hover {
+        inset: var(--px-topbar-h) 0 auto 0;
+        width: auto;
+        height: var(--px-nav-h);
+        flex-direction: row;
+        justify-content: center;
+        border-right: 0;
+        border-bottom: 1px solid var(--px-border);
+        background: var(--px-surface);
+        box-shadow: 0 6px 18px rgba(15, 61, 62, .06);
+        z-index: 1020;
+    }
+    .px-sidebar .px-brand { display: none; }
+    .px-nav { flex: 0 1 var(--px-container); overflow: visible; padding: 0 var(--px-page-pad); }
+    .px-menu { display: flex; align-items: center; gap: 4px; height: 100%; }
+    .px-menu-title { display: none; }
+    .px-menu-item { position: relative; }
+    .px-menu-link, .px-collapsed .px-menu-link {
+        justify-content: flex-start;
+        padding: 9px 14px;
+        margin: 0;
+        color: var(--px-text);
+    }
+    .px-collapsed .px-menu-link > span, .px-collapsed .px-caret { display: inline; }
+    .px-menu-link.active, .px-menu-item.open > .px-menu-link, .px-menu-item:hover > .px-menu-link {
+        background: rgba(var(--px-accent-rgb), .1);
+        color: var(--px-accent);
+    }
+    .px-submenu, .px-collapsed .px-submenu {
+        display: none !important;
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        min-width: 220px;
+        padding: 8px;
+        background: var(--px-surface);
+        border: 1px solid var(--px-border);
+        border-radius: var(--px-radius);
+        box-shadow: var(--px-shadow-lg);
+    }
+    .px-submenu::before { content: ""; position: absolute; inset: -8px 0 auto; height: 8px; }
+    .px-menu-item:hover > .px-submenu, .px-menu-item.open > .px-submenu { display: block !important; }
+    .px-submenu-link { color: var(--px-text); padding: 8px 12px 8px 26px; }
+    .px-submenu-link::before { left: 12px; }
+    .px-submenu-link:hover, .px-submenu-link.active { background: rgba(var(--px-accent-rgb), .08); }
+
+    .px-page { margin-top: var(--px-nav-h); }
+    .px-page, .px-footer-inner { max-width: var(--px-container); margin-left: auto; margin-right: auto; }
+    .px-footer { border-top: 0; padding-left: 0; padding-right: 0; }
+    .px-footer-inner { padding: 0 var(--px-page-pad); }
+}
+
+/* login: centered card on a teal backdrop */
+.px-auth { background: linear-gradient(135deg, #0f3d3e 0%, #0d9488 60%, #5eead4 130%); }
+.px-auth-aside { display: none; }
+.px-auth-card { border: 0; }

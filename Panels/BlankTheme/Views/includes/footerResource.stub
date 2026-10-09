@@ -8,7 +8,7 @@
 <div  id="theGlobalLoader" class="theGlobalLoader">
     <div class="theGlobalLoaderImg">
       <div class="unselectable">
-        <img src="{{ url('images/system/loader6.gif') }}" style="height: 100px;width: 100px">
+        <div class="px-spinner" role="status" aria-label="Loading"></div>
       </div>
     </div>
 </div>
@@ -27,7 +27,7 @@
       <div class="unselectable">
 
         <div style="color: white;font-size: 22px;">
-        	<img src="{{ url('images/system/loader6.gif') }}" style="height: 40px;width: 40px">
+        	<div class="px-spinner px-spinner-sm" role="status" aria-label="Loading"></div>
         	Creating Document, Do not close this window...
         </div>
       </div>

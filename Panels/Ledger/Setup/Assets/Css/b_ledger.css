@@ -1,0 +1,99 @@
+/*
+ * Ledger: calm, boxed back office. Paper tones, serif headings, hairline borders instead of shadows,
+ * the whole app sits in a centered frame on wide screens.
+ */
+:root {
+    --px-font: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --px-font-head: "Lora", Georgia, serif;
+    --px-font-size: 15px;
+    --px-accent: #b45309;
+    --px-accent-rgb: 180, 83, 9;
+    --px-accent-hover: #92400e;
+    --px-bg: #faf7f2;
+    --px-surface: #fffdf9;
+    --px-surface-2: #f4efe6;
+    --px-border: #e6dccb;
+    --px-text: #2b2620;
+    --px-muted: #7c7262;
+    --px-radius: 6px;
+    --px-radius-sm: 4px;
+    --px-shadow: none;
+    --px-box: 1320px;
+
+    --px-sidebar-bg: #f4efe6;
+    --px-sidebar-text: #4a4237;
+    --px-sidebar-muted: #a1957f;
+    --px-sidebar-hover: rgba(180, 83, 9, .06);
+    --px-sidebar-active-bg: #fffdf9;
+    --px-sidebar-active-text: #92400e;
+    --px-sidebar-border: #e6dccb;
+    --px-topbar-bg: #fffdf9;
+    --px-topbar-border: #e6dccb;
+}
+:root[data-px-mode="dark"] {
+    --px-accent: #f59e0b;
+    --px-accent-rgb: 245, 158, 11;
+    --px-accent-hover: #d97706;
+    --px-accent-contrast: #1c1408;
+    --px-bg: #15120e;
+    --px-surface: #1d1914;
+    --px-surface-2: #241f18;
+    --px-border: #362e23;
+    --px-text: #ece4d6;
+    --px-muted: #a39783;
+    --px-sidebar-bg: #1a1611;
+    --px-sidebar-text: #d5cab6;
+    --px-sidebar-active-bg: #241f18;
+    --px-sidebar-active-text: #f59e0b;
+    --px-sidebar-border: #362e23;
+    --px-topbar-bg: #1d1914;
+    --px-topbar-border: #362e23;
+}
+
+.px-menu-link.active, .px-menu-item.open > .px-menu-link {
+    border: 1px solid var(--px-sidebar-border);
+    box-shadow: inset 3px 0 0 var(--px-accent);
+}
+.px-menu-title { font-family: var(--px-font-head); text-transform: none; letter-spacing: 0; font-size: .85rem; font-style: italic; }
+.px-page-head h4 { font-weight: 600; font-size: 1.6rem; }
+.px-topbar { backdrop-filter: none; }
+.page-fragment-bar { background: var(--px-surface-2) !important; border-bottom: 1px solid var(--px-border); }
+.page-fragment-bar *, .page-fragment-bar a { color: var(--px-text) !important; }
+.page-fragment-bar .badge { background: var(--px-surface) !important; border: 1px solid var(--px-border); }
+.card-border { border-top: 2px solid var(--px-accent) !important; }
+table.dataTable thead th { font-family: var(--px-font); letter-spacing: .06em; }
+
+@media (min-width: 992px) {
+    body.px-shell {
+        background:
+            repeating-linear-gradient(0deg, transparent 0 27px, rgba(180, 83, 9, .04) 27px 28px),
+            #efe8dc;
+    }
+    [data-px-mode="dark"] body.px-shell { background: #0e0c09; }
+    .px-app {
+        position: relative;
+        max-width: var(--px-box);
+        margin: 0 auto;
+        background: var(--px-bg);
+        border-left: 1px solid var(--px-border);
+        border-right: 1px solid var(--px-border);
+    }
+    /* the fixed sidebar follows the left edge of the frame */
+    .px-sidebar { left: max(0px, calc((100vw - var(--px-box)) / 2)); }
+}
+
+/* login: two pages of an open ledger */
+.px-auth { background: var(--px-bg); }
+.px-auth-aside {
+    background:
+        repeating-linear-gradient(0deg, transparent 0 31px, rgba(180, 83, 9, .12) 31px 32px),
+        linear-gradient(90deg, transparent 56px, rgba(220, 38, 38, .25) 56px 57px, transparent 57px),
+        #f4efe6;
+    color: var(--px-text);
+    border-right: 1px solid var(--px-border);
+}
+.px-auth-aside-logo { filter: none; }
+.px-auth-aside-title { color: var(--px-text); font-family: var(--px-font-head); font-weight: 600; font-style: italic; }
+.px-auth-art { display: none; }
+.px-auth-card { box-shadow: none; }
+[data-px-mode="dark"] .px-auth-aside { background: #1a1611; }

@@ -1,0 +1,37 @@
+/*
+ * Nova: classic admin, deep navy sidebar with an indigo accent, bright content area.
+ */
+:root {
+    --px-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --px-accent: #6366f1;
+    --px-accent-rgb: 99, 102, 241;
+    --px-accent-hover: #4f46e5;
+    --px-bg: #f3f4f8;
+
+    --px-sidebar-bg: #111827;
+    --px-sidebar-text: #c3c8d6;
+    --px-sidebar-muted: #6b7280;
+    --px-sidebar-hover: rgba(255, 255, 255, .06);
+    --px-sidebar-active-bg: linear-gradient(90deg, rgba(99, 102, 241, .9), rgba(129, 140, 248, .75));
+    --px-sidebar-active-text: #ffffff;
+    --px-sidebar-border: #111827;
+}
+:root[data-px-mode="dark"] {
+    --px-sidebar-bg: #0b0f1c;
+    --px-sidebar-border: #0b0f1c;
+}
+
+.px-sidebar .px-logo { filter: brightness(0) invert(1); }
+.px-menu-link.active,
+.px-menu-item.open > .px-menu-link {
+    background: var(--px-sidebar-active-bg);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, .35);
+}
+.px-submenu-link { color: #aab0c2; }
+.px-submenu-link:hover, .px-submenu-link.active { color: #ffffff; }
+
+.px-topbar { box-shadow: 0 1px 0 var(--px-border); }
+.px-page-head h4 { letter-spacing: -.01em; }
+
+/* login: split screen with an indigo panel */
+.px-auth-aside { background: radial-gradient(circle at 20% 20%, #818cf8 0, transparent 45%), linear-gradient(160deg, #312e81, #6366f1); }

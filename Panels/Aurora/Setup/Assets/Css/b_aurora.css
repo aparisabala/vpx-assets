@@ -1,0 +1,79 @@
+/*
+ * Aurora: floating, rounded sidebar and topbar over a soft violet and pink gradient, frosted glass cards.
+ */
+:root {
+    --px-font: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --px-font-size: 13.5px;
+    --px-accent: #8b5cf6;
+    --px-accent-rgb: 139, 92, 246;
+    --px-accent-hover: #7c3aed;
+    --px-bg: #f6f3ff;
+    --px-surface: rgba(255, 255, 255, .78);
+    --px-surface-2: rgba(245, 240, 255, .9);
+    --px-border: rgba(139, 92, 246, .14);
+    --px-radius: 18px;
+    --px-radius-sm: 10px;
+    --px-gap: 16px;
+
+    --px-sidebar-bg: rgba(255, 255, 255, .7);
+    --px-sidebar-active-bg: linear-gradient(135deg, #8b5cf6, #ec4899);
+    --px-sidebar-active-text: #ffffff;
+    --px-sidebar-border: rgba(255, 255, 255, .6);
+    --px-topbar-bg: rgba(255, 255, 255, .7);
+    --px-topbar-border: rgba(255, 255, 255, .6);
+}
+:root[data-px-mode="dark"] {
+    --px-bg: #120d24;
+    --px-surface: rgba(30, 24, 56, .72);
+    --px-surface-2: rgba(40, 32, 72, .8);
+    --px-border: rgba(167, 139, 250, .16);
+    --px-sidebar-bg: rgba(30, 24, 56, .72);
+    --px-sidebar-border: rgba(167, 139, 250, .16);
+    --px-topbar-bg: rgba(30, 24, 56, .72);
+    --px-topbar-border: rgba(167, 139, 250, .16);
+}
+
+body.px-shell {
+    background:
+        radial-gradient(40vw 40vw at 0% 0%, rgba(139, 92, 246, .22), transparent 70%),
+        radial-gradient(35vw 35vw at 100% 10%, rgba(236, 72, 153, .16), transparent 70%),
+        radial-gradient(40vw 40vw at 60% 100%, rgba(56, 189, 248, .14), transparent 70%),
+        var(--px-bg);
+    background-attachment: fixed;
+}
+.card, .px-sidebar, .px-topbar, .px-auth-card { backdrop-filter: blur(16px) saturate(160%); }
+.px-menu-link.active, .px-menu-item.open > .px-menu-link { background: var(--px-sidebar-active-bg); box-shadow: 0 8px 20px rgba(139, 92, 246, .35); }
+.page-fragment-bar { background: linear-gradient(135deg, #8b5cf6, #ec4899) !important; }
+.btn-primary { background-image: linear-gradient(135deg, #8b5cf6, #a855f7); border: 0; }
+
+@media (min-width: 992px) {
+    .px-sidebar {
+        inset: var(--px-gap) auto var(--px-gap) var(--px-gap);
+        border: 1px solid var(--px-sidebar-border);
+        border-radius: 24px;
+        box-shadow: var(--px-shadow);
+    }
+    .px-main { margin-left: calc(var(--px-sidebar-w) + var(--px-gap) * 2); padding-right: var(--px-gap); }
+    .px-collapsed .px-main { margin-left: calc(var(--px-sidebar-w-collapsed) + var(--px-gap) * 2); }
+    .px-topbar {
+        top: var(--px-gap);
+        margin-top: var(--px-gap);
+        border: 1px solid var(--px-topbar-border);
+        border-radius: 18px;
+        box-shadow: var(--px-shadow);
+    }
+    .px-page { padding-left: 0; padding-right: 0; }
+    .px-footer { border-top: 0; padding-left: 0; padding-right: 0; }
+}
+
+/* login: frosted card on the gradient */
+.px-auth {
+    background:
+        radial-gradient(50vw 50vw at 10% 10%, rgba(139, 92, 246, .45), transparent 70%),
+        radial-gradient(45vw 45vw at 90% 30%, rgba(236, 72, 153, .35), transparent 70%),
+        radial-gradient(50vw 50vw at 50% 100%, rgba(56, 189, 248, .3), transparent 70%),
+        #f6f3ff;
+}
+[data-px-mode="dark"] .px-auth { background-color: #120d24; }
+.px-auth-aside { display: none; }
+.px-auth-card { border-radius: 26px; }

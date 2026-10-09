@@ -1,0 +1,39 @@
+@extends('{{nameDown}}.layouts.full-page-layout',["tabTitle" => config('i.service_name').' | '.pxLang($data['lang'],'breadCum.title') ])
+@section('page')
+<div class="px-auth">
+    <div class="px-auth-aside" aria-hidden="true">
+        <div class="px-auth-aside-inner">
+            <img src="{{ config('i.logo') }}" alt="" class="px-auth-aside-logo">
+            <h2 class="px-auth-aside-title">{{ config('i.service_name') }}</h2>
+            <div class="px-auth-art"><span></span><span></span><span></span></div>
+        </div>
+    </div>
+    <div class="px-auth-main">
+        <div class="px-auth-card">
+            <a href="{{ url('{{authDown}}/login') }}" class="px-auth-logo">
+                <img src="{{ config('i.logo') }}" alt="{{ config('i.service_name') }}">
+            </a>
+            <h1 class="px-auth-title">{{ pxLang($data['lang'],'pageTitle') }}</h1>
+            @include('errors.fragments.error-view-bs5')
+            <form id="frm{{model}}Login" autocomplete="off" method="POST">
+                <div class="mb-3">
+                    <label class="form-label" for="email">{{ pxLang($data['lang'],'fields.email') }} <em class="required">*</em> <span id="email_error"></span></label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="{{ pxLang($data['lang'],'fields.email_palceholder') }}">
+                </div>
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <label class="form-label" for="password">{{ pxLang($data['lang'],'fields.password') }} <em class="required">*</em> <span id="password_error"></span></label>
+                        <a href="{{ url('{{nameDown}}/reset') }}" class="small">{{ pxLang($data['lang'],'fields.forgot_password') }}</a>
+                    </div>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="{{ pxLang($data['lang'],'fields.password_palceholder') }}">
+                </div>
+                <div class="form-check mb-4">
+                    <input type="checkbox" class="form-check-input" id="auth-remember-check">
+                    <label class="form-check-label" for="auth-remember-check">{{ pxLang($data['lang'],'fields.remember') }}</label>
+                </div>
+                <button class="btn btn-primary w-100 disBtn" disabled type="submit">{{ pxLang($data['lang'],'fields.btn_login') }}</button>
+            </form>
+        </div>
+    </div>
+</div>
+@endsection

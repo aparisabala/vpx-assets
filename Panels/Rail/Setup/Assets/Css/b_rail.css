@@ -1,0 +1,49 @@
+/*
+ * Rail: a slim icon rail that opens on hover, maximum room for data heavy pages.
+ * The menu button pins the full sidebar open.
+ */
+:root {
+    --px-default-sidebar: collapsed;
+    --px-font: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --px-accent: #059669;
+    --px-accent-rgb: 5, 150, 105;
+    --px-accent-hover: #047857;
+    --px-bg: #f5f7f6;
+    --px-sidebar-w: 248px;
+    --px-sidebar-w-collapsed: 72px;
+    --px-radius: 10px;
+
+    --px-sidebar-bg: #052e22;
+    --px-sidebar-text: #b9d6cb;
+    --px-sidebar-muted: #5f8f7e;
+    --px-sidebar-hover: rgba(255, 255, 255, .07);
+    --px-sidebar-active-bg: #10b981;
+    --px-sidebar-active-text: #ffffff;
+    --px-sidebar-border: #052e22;
+}
+:root[data-px-mode="dark"] {
+    --px-sidebar-bg: #031b14;
+    --px-sidebar-border: #031b14;
+}
+
+.px-sidebar .px-logo { filter: brightness(0) invert(1); }
+.px-menu-link { border-radius: 12px; }
+.px-menu-link.active, .px-menu-item.open > .px-menu-link { box-shadow: 0 6px 14px rgba(16, 185, 129, .35); }
+.px-submenu-link { color: #b9d6cb; }
+.px-submenu-link:hover, .px-submenu-link.active { color: #ffffff; }
+.px-topbar { background: var(--px-surface); }
+
+@media (min-width: 992px) {
+    /* rail icons are bigger and centered */
+    .px-collapsed .px-menu-link > i:first-child { font-size: 1.25rem; }
+    .px-collapsed .px-menu-link { margin: 4px 12px; }
+    .px-collapsed .px-sidebar:hover .px-menu-link { margin: 2px 0; }
+    .px-collapsed .px-menu-title::after { background: rgba(255, 255, 255, .08); }
+}
+
+/* login: minimal, green rail on the left edge */
+.px-auth-aside { flex: 0 0 72px; padding: 0; background: #052e22; }
+.px-auth-aside-inner { display: none; }
+.px-auth-main { background: radial-gradient(circle at 80% 10%, rgba(16, 185, 129, .12), transparent 40%); }
+.px-auth-card { box-shadow: none; }
+@media (max-width: 991.98px) { .px-auth-aside { display: none; } }

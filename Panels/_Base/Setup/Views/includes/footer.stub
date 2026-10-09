@@ -1,0 +1,6 @@
+<div class="px-footer-inner">
+    <span>{{ date('Y') }} &copy; {{ config('i.service_name') }}</span>
+    <span class="d-none d-sm-inline">
+        <a href="{{ config('i.service_domain') }}" target="_blank" rel="noopener" class="text-reset">{{ config('i.service_name') }}</a>
+    </span>
+</div>

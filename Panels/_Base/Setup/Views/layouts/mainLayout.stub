@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr" data-px-layout="{{layout}}">
+<head>
+    @include('{{nameDown}}.includes.header-resource', ['tabTitle' => $tabTitle ?? 'Site Title'])
+</head>
+<body class="px-shell">
+    {{-- Global modal used by px.js (PX.modal), keep the id and classes --}}
+    <div class="modal fade editmodal edimodalGlob" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-18 fw-bold" id="exampleModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="px-app" id="layout-wrapper">
+        @include('{{nameDown}}.includes.main-nav')
+        <div class="px-main">
+            @include('{{nameDown}}.includes.header')
+            <main class="px-page">
+                <div class="px-page-head">
+                    @yield('breadCum')
+                </div>
+                @yield('page')
+            </main>
+            <footer class="px-footer">
+                @include('{{nameDown}}.includes.footer')
+            </footer>
+        </div>
+        <div class="px-backdrop" data-px-toggle="sidebar"></div>
+    </div>
+    @include('{{nameDown}}.includes.footer-resource', ['react' => $react ?? []])
+</body>
+</html>

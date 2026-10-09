@@ -1,0 +1,36 @@
+<input type="hidden" id="language-pack" value="{{ json_encode(array_merge(Lang::get('common'),Lang::get('validation'))) }}" />
+<input type="hidden" id="digits" value="{{ json_encode(Lang::get('digits')) }}" />
+<input type="hidden" id="attributes" value="{{ json_encode(Lang::get('validation.attributes')) }}" />
+<input type="hidden" id="locale" value="{{ app()->getLocale() }}" />
+<input type="hidden" id="systemPolicies" value="{{ json_encode($systemPolicies) }}" />
+@if(Auth::check())
+    <input type="hidden" value="{{ Auth::user()->uuid }}" id="auth_uuid">
+@endif
+{{-- Containers driven by px.js, keep the ids --}}
+<div id="inflate" class="px-inflate"></div>
+<div id="theGlobalLoader" class="theGlobalLoader">
+    <div class="theGlobalLoaderImg">
+        <div class="unselectable">
+            <div class="px-spinner" role="status" aria-label="Loading"></div>
+        </div>
+    </div>
+</div>
+<div id="errorBase" class="errorBase">
+    <div id="errorHeader">
+        <i class="fa fa-times p-3 cursor-pointer" aria-hidden="true" id="closeError"></i>
+    </div>
+    <div id="showErros" class="showErros">
+    </div>
+</div>
+<div class="theDownloadLoader" id="theDownloadLoader">
+    <div>
+        <i class="fa fa-times p-3 cursor-pointer" aria-hidden="true" id="closeDownload"></i>
+    </div>
+    <div class="theDownloadLoaderContent">
+        <div class="unselectable d-flex align-items-center gap-3 text-white fs-5">
+            <div class="px-spinner px-spinner-sm" role="status" aria-label="Loading"></div>
+            Creating Document, Do not close this window...
+        </div>
+    </div>
+</div>
+{!! $appScripts ?? '' !!}
