@@ -26,9 +26,9 @@ class {{model}}CrudController  extends Controller {
      */
     public function index(Request $request) : View | RedirectResponse
     {
-        $data = $this->iAdminUserCrudRepo->index($request);
+        $data = $this->i{{model}}CrudRepo->index($request);
         $data['lang'] = $this->lang;
-        if(empty(AdminUserRole::select(['id','name','code'])->find($request->admin_user_role_id))) {
+        if(empty({{model}}Role::select(['id','name','code'])->find($request->admin_user_role_id))) {
             return redirect()->route('admin.dashboard.index');
         }
         $data['admin_user_role_id'] = $request->admin_user_role_id;

@@ -59,7 +59,7 @@ class {{model}} extends Authenticatable
 
     public function role()
     {
-        return $this->hasOne(AdminUserRole::class,'id','admin_user_role_id');
+        return $this->hasOne({{model}}Role::class,'id','admin_user_role_id');
     }
 
     //vpx_attach

@@ -80,8 +80,9 @@ class DeployPXProject extends Command
     private function getSmtpValues(): string
     {
         $options = $this->userOptions();
+        //--smtp=host|email|password, "default" writes placeholders to fill in .env (never commit real credentials here)
         $emailOptions = explode("|", $options['smtp']);
-        list($host, $email, $password) = ["parameter-x.com", "oriansoft@parameter-x.com", "b%kgCmM5eTx7"];
+        list($host, $email, $password) = ["smtp.example.com", "no-reply@example.com", ""];
         if (count($emailOptions) == 3) {
             $host = $emailOptions[0];
             $email = $emailOptions[1];
@@ -157,7 +158,7 @@ class DeployPXProject extends Command
     */
     private function procssHtaccess(): void
     {
-        ($this->userOptions() == "live") ? File::copy($this->getAssetDir() . '.htaccess', public_path('.htaccess')) : File::copy($this->getAssetDir() . '.htaccessLocal', public_path('.htaccess'));
+        ($this->userOptions()['for'] == "server") ? File::copy($this->getAssetDir() . '.htaccess', public_path('.htaccess')) : File::copy($this->getAssetDir() . '.htaccessLocal', public_path('.htaccess'));
         $this->info("File created: " . public_path('.htaccess'));
     }
 

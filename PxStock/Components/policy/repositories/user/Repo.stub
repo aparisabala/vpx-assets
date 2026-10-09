@@ -23,7 +23,7 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
             ['width'=> 80, 'height'=> 80,'com'=> 10],
         ];
         $this->baseCondition = [['is_secret','=','no'],['admin_type','=','system_user']];
-        $this->LoadModels(['AdminUser']);
+        $this->LoadModels(['{{model}}']);
     }
 
     /**
@@ -36,7 +36,7 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
     public function index($request,$id=null) : array
     {
        $where = ($id == null) ? [...$this->baseCondition,['admin_user_role_id','=',$request->admin_user_role_id]] : [];
-       return $this->getPageDefault(model: $this->AdminUser, id: $id,where: $where);
+       return $this->getPageDefault(model: $this->{{model}}, id: $id,where: $where);
     }
 
 
@@ -48,7 +48,7 @@ class {{model}}CrudRepository extends BaseRepository implements I{{model}}CrudRe
      */
     public function list($request) : JsonResponse
     {
-        $model = AdminUser::where([...$this->baseCondition,['admin_user_role_id','=',$request->admin_user_role_id]]);
+        $model = {{model}}::where([...$this->baseCondition,['admin_user_role_id','=',$request->admin_user_role_id]]);
         $this->saveTractAction(
             $this->getTrackData(
                 title: '{{model}} was viewed by '.$request?->auth?->name.' at '.Carbon::now()->format('d M Y H:i:s A'),

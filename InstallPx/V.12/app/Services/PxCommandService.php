@@ -94,7 +94,7 @@ class PxCommandService
 
                 foreach ($panels[$getFrom]['local'] as $key => $folder) {
                     $dir = "$from/$folder";
-                    if (is_dir($dir)) {
+                    if (is_dir(public_path($dir))) {
                         if (env('PX_DEBUG') && $folder == 'px') {
                             continue;
                         }
@@ -115,7 +115,7 @@ class PxCommandService
                 if (isset($r[1]) && in_array($r[1], $panels[$getFrom]['conditional'])) {
                     $dirs = ["$from/$panel/$r[1]", "$from/$panel/$r[1]/calls"];
                     foreach ($dirs as $key => $dir) {
-                        if (is_dir($dir)) {
+                        if (is_dir(public_path($dir))) {
                             $files = collect(File::files(public_path($dir)))
                                 ->filter(fn($file) => $file->getExtension() === $from)
                                 ->map(fn($file) => $file->getFilename())
