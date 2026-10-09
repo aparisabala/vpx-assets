@@ -1,11 +1,9 @@
-import { PxFactory } from "../PxFactory";
 import { PxErrors } from "./PxErrors";
 
 export class BulkAction  {
 
     constructor(){
         this.errors = new PxErrors;
-        this.factory = new PxFactory;
     }
 
     deleteAll(op,ajaxRequest) {
@@ -13,6 +11,10 @@ export class BulkAction  {
         const { element = "N/A", script = "/", extra = {}, api = [], dataType = "json", type = "request", afterSuccess = { type: "inflate_redirect_response_data" }, tableLoadType="ajax" } = op;
         $("." + element).unbind("click");
         $("." + element).on("click", function () {
+            if (typeof api?.rows !== 'function') {
+                console.error('deleteAll: a DataTable api instance is required in op.api');
+                return;
+            }
             let rows_selected = api.rows('.selected').data().toArray();
             if (rows_selected.length > 0) {
                 let d = {};
@@ -59,15 +61,19 @@ export class BulkAction  {
             if (extra != "no") {
                 d["extra"] = extra;
             }
-            let colData = {};
-            dataCols.items.map((colValue, colKey) => {
+            const items = dataCols?.items ?? [];
+            if (items.length > 0 && typeof api?.column !== 'function') {
+                console.error('updateAll: a DataTable api instance is required in op.api');
+                return;
+            }
+            items.map((colValue, colKey) => {
                 colValue.data = context.#getDtData(colValue.type, api, colValue.index, colValue.name);
                 return colValue;
             });
-            let keyDataItem = dataCols.items.find((value) => { return value.name == dataCols.key });
+            let keyDataItem = items.find((value) => { return value.name == dataCols.key });
             if (keyDataItem) {
                 let keyData = keyDataItem.data;
-                dataCols.items.map((colValue, colKey) => {
+                items.map((colValue, colKey) => {
                     let dataArray = {};
                     colValue.data.map((value, key) => {
                         dataArray[keyData[key]] = value;

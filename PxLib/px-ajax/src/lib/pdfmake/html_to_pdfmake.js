@@ -15,7 +15,7 @@ export function html_to_pdfmake(op = {}) {
     if (parentElement) {
         switch (dataTable) {
             case "yes":
-                if(local) {
+                if(typeof local !== 'undefined' && local) {
                     console.log(dataSrc);
                 }
                 if(dataSrc.length == 0) {
@@ -118,7 +118,7 @@ export function html_to_pdfmake(op = {}) {
         }
 
     } else {
-        console.log(`Element with ID '${parentElement}' not found.`);
+        console.log(`Element with ID '${id}' not found.`);
     }
     return {
         content,

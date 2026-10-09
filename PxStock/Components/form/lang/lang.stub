@@ -8,7 +8,7 @@ return [
         'title' => '{{lastNameSpace}}',
         'b1' => '{{nameUp}}',
         'b2' => '{{lastNameSpace}}',
-        'b3' => ''
+        'b3' => '{{formTypeUp}}'
     ],
     'nav' => [
         'item1' => '{{model}} crud'

@@ -17,20 +17,19 @@ export class PxConfirm extends PxConfig {
             }
         } else {
             let buttons = {};
-            console.log(this?.G);
-            buttons[this?.G?.mgs?.btns?.confirm] = {
+            buttons[this?.G?.mgs?.btns?.confirm ?? 'Confirm'] = {
                 btnClass: 'btn btn-primary',
                 action: function () {
                     if(callBack) {
                         callBack(op);
                     } else {
-                        if(local) {
+                        if(typeof local !== 'undefined' && local) {
                             console.warn("No callback defined for confrm in "+element)
                         }
                     }
                 },
             };
-            buttons[this?.G?.mgs?.btns?.cancel] =  {
+            buttons[this?.G?.mgs?.btns?.cancel ?? 'Cancel'] =  {
                 btnClass: 'btn btn-danger',
                 style: 'cancel',
                 action: function () { }

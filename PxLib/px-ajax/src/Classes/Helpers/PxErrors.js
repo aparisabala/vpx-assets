@@ -24,9 +24,9 @@ export class PxErrors extends PxConfig {
      * @param {Object} xhr - The XMLHttpRequest object containing the error details
      */
     scriptError(xhr) {
-        const {responseJSON} = xhr;
+        const {responseJSON} = xhr ?? {};
         $.confirm({
-            title: '<span style="font-size: 14px;color: #ff0101;"> <i class="fa fa-exclamation-circle"></i> '+this?.G?.mgs.server_wrong+' </span>',
+            title: '<span style="font-size: 14px;color: #ff0101;"> <i class="fa fa-exclamation-circle"></i> '+this?.G?.mgs?.server_wrong+' </span>',
             content: '<span style="font-size: 12px;color: black;"> <i class="fa fa-exclamation-circle"></i> '+responseJSON?.message+' </span>',
             buttons: {
                 confirm: {
@@ -92,19 +92,20 @@ export class PxErrors extends PxConfig {
     */
     displayAllErrors(op) {
         const {response={},page="addPage",server=false} = op;
-        var err = this?.G?.mgs.inflate_error;
-        var big_err = this?.G?.mgs.action_error;
+        var err = this?.G?.mgs?.inflate_error;
+        var big_err = this?.G?.mgs?.action_error;
         if(server) {
             $("#defaultPage").addClass('d-block').removeClass('d-none');
             $("#"+page).addClass('d-none').removeClass('d-block');
         }
         if (response.bigError) {
             var ele = '<div style="margin-bottom: 10px;font-size: 20px;"> </div> '+big_err+'<ul style="padding-left: 20px;">';
-            for (var i = 0; i < response.bigErrors.length; i++) {
-                ele += '<li>' + response.bigErrors[i] + '</li>';
+            const bigErrors = response.bigErrors ?? [];
+            for (var i = 0; i < bigErrors.length; i++) {
+                ele += '<li>' + bigErrors[i] + '</li>';
             }
             ele += '</ul>';
-            this?.inflaterequire(this?.G?.mgs.action_error);
+            this?.inflaterequire(big_err);
             $("#showErros").html(ele);
             $("#errorBase").addClass("activateErrors").fadeIn(500);
             $('#theGlobalLoader').removeClass("activeGlobalLoader").css({ "display": "none" });
@@ -139,25 +140,26 @@ export class PxErrors extends PxConfig {
         for (var k in errors) {
             if (errors.hasOwnProperty(k)) {
                 let hasAr = k.split('.');
+                const msg = Array.isArray(errors[k]) ? errors[k][0] : errors[k];
                 if(hasAr.length == 1) {
-                    $("#" + k + '_error').addClass("required").html(errors[k][0]);
+                    $("#" + k + '_error').addClass("required").html(msg);
                 } else {
-                    $("#" + hasAr[0] +'\\.'+hasAr[1]+'_error').addClass("required").html(errors[k][0]);
+                    $("#" + hasAr.join('\\.') + '_error').addClass("required").html(msg);
                 }
             }
         };
     }
 
     noUpdate(op) {
-        console.log(this?.G);
+        const context = this;
         const  {response={}} = op;
         let btns = {};
-        let name = this?.G?.mgs?.btns?.cancel;
+        let name = this?.G?.mgs?.btns?.cancel ?? 'Cancel';
         btns[name] = {
             btnClass: 'btn btn-primary text-white text-capitalize',
-            function() {
-                if (type == "expaired") {
-                    this?.timeoutReload(null, 200);
+            action: function() {
+                if (response?.type == "expaired") {
+                    context?.timeoutReload(null, '_self', 200);
                 }
             }
         };
@@ -172,10 +174,10 @@ export class PxErrors extends PxConfig {
 
     showAlert(title, content) {
         let btns = {};
-        let name = this?.G?.mgs.btns.ok;
+        let name = this?.G?.mgs?.btns?.ok ?? 'OK';
         btns[name] = {
             btnClass: 'btn btn-primary text-white text-capitalize',
-            function() {
+            action: function() {
             }
         };
         $.alert({
@@ -204,7 +206,7 @@ export class PxErrors extends PxConfig {
         if (url == null) {
             window.location.href = window.location.href;
         } else {
-            window.open(baseurl + url,targetType)
+            window.open((typeof baseurl !== 'undefined' ? baseurl : '') + url, targetType ?? '_self')
         }
     }
 

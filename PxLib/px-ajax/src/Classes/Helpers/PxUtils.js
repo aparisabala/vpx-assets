@@ -63,13 +63,13 @@ export class PxUtils extends PxConfig {
     }
 
     fReset(f) {
-        $("#" + f)[0].reset();
+        $("#" + f)[0]?.reset();
     }
 
     summerNote(ele, op = {}) {
 
         let context = this;
-        let id = op?.id ?? '';
+        let id = op?.id ?? ele;
         $('#' + ele).summernote({
             placeholder: 'Type your content...',
             tabsize: 2,
@@ -90,17 +90,19 @@ export class PxUtils extends PxConfig {
                 ['table', ['table']],
                 ['view', ['fullscreen', 'codeview', 'help']],
             ],
-            onPaste: function (e) {
-                var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
-                e.preventDefault();
-                document.execCommand('insertText', false, bufferText);
-            },
             callbacks: {
+                onPaste: function (e) {
+                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    e.preventDefault();
+                    document.execCommand('insertText', false, bufferText);
+                },
                 onImageUpload: function (files, editor, welEditable) {
                     context?.sendFile(files[0], editor, welEditable, 3, id);
                 },
                 onMediaDelete: function ($target, editor, $editable) {
-                    context?.deleteMeia($target[0].src); // img 
+                    if ($target?.[0]?.src) {
+                        context?.deleteMeia($target[0].src); // img
+                    }
                 }
             },
             ...op
@@ -176,7 +178,7 @@ export class PxUtils extends PxConfig {
         $.ajax({
             data: data,
             type: "POST",
-            url: baseurl + 'glob/uploadsummernote',
+            url: (typeof baseurl !== 'undefined' ? baseurl : '') + 'glob/uploadsummernote',
             cache: false,
             contentType: false,
             processData: false,
@@ -188,7 +190,7 @@ export class PxUtils extends PxConfig {
                 } else if (sdata === "type") {
                     alert("jpg, png or gif accepted only");
                 } else {
-                    let image = $('<img>').attr('src', baseurl + uploadurl + sdata);
+                    let image = $('<img>').attr('src', (typeof baseurl !== 'undefined' ? baseurl : '') + uploadurl + sdata);
                     $('#' + id).summernote("insertNode", image[0]);
                 }
             }
@@ -201,9 +203,9 @@ export class PxUtils extends PxConfig {
     deleteMeia(img) {
         let file = img.substr(img.lastIndexOf("/") + 1);
         $.ajax({
-            data: { img: file, _token: csrf_token },
+            data: { img: file, _token: this?.G?.csrf_token },
             type: "POST",
-            url: baseurl + 'glob/deletesummernote',
+            url: (typeof baseurl !== 'undefined' ? baseurl : '') + 'glob/deletesummernote',
             success: function (sdata) {
                 if (sdata === "error") {
                     alert("Img not found, try refresh");
@@ -222,7 +224,7 @@ export class PxUtils extends PxConfig {
         });
         if (arrayBlogdes.length > 0) {
             let largest = 0;
-            for (let i = 0; i <= largest; i++) {
+            for (let i = 0; i < arrayBlogdes.length; i++) {
                 if (arrayBlogdes[i] > largest) {
                     largest = arrayBlogdes[i];
                 }
@@ -235,7 +237,7 @@ export class PxUtils extends PxConfig {
         }
     }
 
-    capitalize(str) {
+    capitalize(str = '') {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
@@ -245,7 +247,14 @@ export class PxUtils extends PxConfig {
 
     Print(elem, styles = "") {
         var divToPrint = document.getElementById(elem);
+        if (!divToPrint) {
+            console.error(`Print: element with id '${elem}' not found.`);
+            return;
+        }
         var newWin = window.open('', 'Print-Window');
+        if (!newWin) {
+            return;
+        }
         newWin.document.open();
         newWin.document.write(`
             <html>

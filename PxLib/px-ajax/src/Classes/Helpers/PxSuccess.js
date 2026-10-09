@@ -21,13 +21,13 @@ export class PxSuccess extends PxConfig {
         const { prev = "load-data", response = null, element = "no", customHideLoader=true, showInflate=true} = op;
         $("#" + element + ' label span').html("").removeClass("required success");
         let type = typeof (response);
-        if (local) {
+        if (typeof local !== 'undefined' && local) {
             console.log(response);
         }
-        if (type === "object") {
+        if (type === "object" && response !== null) {
             if (response.success) {
-                let { extraData = { inflate: this?.G?.lang()?.no_message_return, redirect: window.location.href }, view = "" } = response.data;
-                const { afterLoad = undefined, target = "edit-view" } = op?.afterSuccess;
+                let { extraData = { inflate: this?.G?.lang()?.no_message_return, redirect: window.location.href }, view = "" } = response.data ?? {};
+                const { afterLoad = undefined, target = "edit-view" } = op?.afterSuccess ?? {};
                 let obj = { ...op, response };
                 if (op?.afterSuccess?.type) {
                     switch (op?.afterSuccess?.type) {
@@ -52,6 +52,8 @@ export class PxSuccess extends PxConfig {
                         case "load_html":
                             if(showInflate) {
                                 this.#pxErros?.inflatesuccess(extraData?.inflate);
+                            } else {
+                                this.#pxErros?.hideLoader();
                             }
                             $("#" + target).html(view);
                             break;
@@ -64,13 +66,13 @@ export class PxSuccess extends PxConfig {
                             this.#afterLoadModal(op);
                             break;
                         default:
-                            this.#pxErros?.inflatesuccess(this?.G.lang()?.action_success);
-                            this.#pxErros?.timeoutReload(extraData.redirect, 400);
+                            this.#pxErros?.inflatesuccess(this?.G?.lang()?.action_success);
+                            this.#pxErros?.timeoutReload(extraData?.redirect, '_self', 400);
                             break;
                     }
                 } else {
-                    this.#pxErros?.inflatesuccess(this?.G.lang()?.action_success);
-                    this.#pxErros?.timeoutReload(extraData.redirect, 400)
+                    this.#pxErros?.inflatesuccess(this?.G?.lang()?.action_success);
+                    this.#pxErros?.timeoutReload(extraData?.redirect, '_self', 400)
                 }
                 (afterLoad) ? afterLoad(obj,response?.data) : 0;
             } else {
@@ -78,22 +80,22 @@ export class PxSuccess extends PxConfig {
             }
         } else {
             $('#global-loader').removeClass("active-global-loader").css({ "display": "none" });
+            this.#pxErros?.hideLoader();
         }
     }
 
     #afterLoadModal(op) {
         let type = typeof(op);
-        if (local) {
+        if (typeof local !== 'undefined' && local) {
             console.log(op);
         }
         if (type === "object") {
             const {response,title,modalCallback = undefined,globLoader=true} = op;
-            if (response.success) {
-                let { extraData = { inflate: G?.lang()?.no_message_return, redirect: window.location.href},view="reached"} = response.data;
+            if (response?.success) {
+                let { extraData = { inflate: this?.G?.lang()?.no_message_return, redirect: window.location.href},view="reached"} = response.data ?? {};
                 if(globLoader) {
                    this.#pxErros?.inflatesuccess(extraData?.inflate);
                 }
-                console.log(view);
                 $(".modal-title").html(title);
                 $(".modal-body").html(view);
                 if(modalCallback) {

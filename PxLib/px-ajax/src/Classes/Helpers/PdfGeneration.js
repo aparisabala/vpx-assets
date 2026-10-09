@@ -7,7 +7,7 @@ export class PdfGeneration extends PxConfig {
         $("#" + btn).unbind('click');
         let context = this;
         $("#" + btn).on("click", function () {
-            if (local) {
+            if (typeof local !== 'undefined' && local) {
                 console.log(op);
             }
             let newOp = { ...op, ...JSON.parse($(this).attr('data-pdf-op') ?? '{"no":"no"}') };
@@ -16,13 +16,19 @@ export class PdfGeneration extends PxConfig {
     }
 
     MakePdf(op = {},ajaxRequest) {
+        if (typeof pdfMake === 'undefined') {
+            console.error('MakePdf requires the pdfMake library.');
+            return;
+        }
+        const base = (typeof baseurl !== 'undefined') ? baseurl : '';
+        const isLocal = typeof local !== 'undefined' && local;
 
         pdfMake.fonts = {
             Roboto: {
-                normal: baseurl + 'css/px/fonts/english/RobotoRegular.ttf',
-                bold: baseurl + 'css/px/fonts/english/RobotoBold.ttf',
-                italics: baseurl + 'css/px/fonts/english/RobotoItalic.ttf',
-                bolditalics: baseurl + 'css/px/fonts/english/RobotoBoldItalic.ttf',
+                normal: base + 'css/px/fonts/english/RobotoRegular.ttf',
+                bold: base + 'css/px/fonts/english/RobotoBold.ttf',
+                italics: base + 'css/px/fonts/english/RobotoItalic.ttf',
+                bolditalics: base + 'css/px/fonts/english/RobotoBoldItalic.ttf',
             }
         }
         pdfMake.tableLayouts = {
@@ -86,37 +92,31 @@ export class PdfGeneration extends PxConfig {
 
         const { file_name = "file_name", id = "pdf", dataTable = undefined, pdfFonts = [], tableLayouts = [] } = op;
         let docDefination = { defaultStyle: { font: 'Roboto' }, ...html_to_pdfmake(op) };
-        if (local) {
+        if (isLocal) {
             console.log(docDefination);
         }
-        pdfFonts.map((font) => {
-            pdfMake = {
-                ...pdfMake,
-                fonts: {
-                    ...pdfMake?.fonts,
-                    [font?.name]: {
-                        normal: font?.n,
-                        bold: font?.n,
-                        italics: font?.i,
-                        bolditalics: font?.bi,
-                    }
+        pdfFonts.forEach((font) => {
+            pdfMake.fonts = {
+                ...pdfMake?.fonts,
+                [font?.name]: {
+                    normal: font?.n,
+                    bold: font?.b ?? font?.n,
+                    italics: font?.i,
+                    bolditalics: font?.bi,
                 }
-            }
+            };
         });
-        tableLayouts.map((layout) => {
-            pdfMake = {
-                ...pdfMake,
-                tableLayouts: {
-                    ...pdfMake?.tableLayouts,
-                    [layout?.name]: layout?.value
-                }
-            }
+        tableLayouts.forEach((layout) => {
+            pdfMake.tableLayouts = {
+                ...pdfMake?.tableLayouts,
+                [layout?.name]: layout?.value
+            };
         });
         $("#theDownloadLoader").show();
         pdfMake.createPdf(docDefination).download(file_name + ".pdf", function () {
             const { script, body = {} } = op;
             $("#theDownloadLoader").hide();
-            if (script) {
+            if (script && typeof ajaxRequest === 'function') {
                 ajaxRequest({
                     element: id,
                     script,

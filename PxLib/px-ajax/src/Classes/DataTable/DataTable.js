@@ -3,6 +3,8 @@ import { PxConfig } from "../PxConfig";
 export class DataTable extends PxConfig {
 
     makeAjaxDataTable(table, op = {}, attach = {}) {
+        const local = typeof window.local !== 'undefined' && window.local;
+        const G = this?.G;
         if (local) {
             console.log(op);
         }
@@ -14,7 +16,7 @@ export class DataTable extends PxConfig {
         f.paging = (op.paging == undefined) ? true : op.paging;
         f.info = (op.info == undefined) ? true : op.info;
         f.filters = (op.filters == undefined) ? [] : op.filters;
-        f.pageLength = (op.pageLength === undefined) ? defaultDtSize : op.pageLength;
+        f.pageLength = (op.pageLength === undefined) ? (typeof defaultDtSize !== 'undefined' ? defaultDtSize : 10) : op.pageLength;
         f.responsive = (op.responsive == undefined) ? true : op.responsive;
         f.bLengthChange = (op.bLengthChange == undefined) ? true : op.bLengthChange;
         f.stateSave = (op.stateSave == undefined) ? false : op.stateSave;
@@ -23,8 +25,9 @@ export class DataTable extends PxConfig {
         f.columns = op.columns || [];
         f.checkClass = op.checkClass || 'form-check-input dt-checkboxes';
         f.body = op.body || {};
+        const base = (typeof baseurl !== 'undefined') ? baseurl : '';
         f.language = {
-            url: baseurl + "../resources/lang/" + $("#locale").val() + "/dt.json"
+            url: base + "../resources/lang/" + $("#locale").val() + "/dt.json"
         }
         if (op.select != undefined) {
             if (op.select) {
@@ -67,9 +70,9 @@ export class DataTable extends PxConfig {
                 ],
                 ajax: {
                     type: "POST",
-                    url: baseurl + f.url,
+                    url: base + f.url,
                     data: function (d) {
-                        d._token = PX?.G?.csrf_token;
+                        d._token = G?.csrf_token ?? $('meta[name="_token"]').attr('content');
                         d.auth_uuid = $("#auth_uuid").val();
                         if (typeof f.body === 'function') {
                             Object.assign(d, f.body());
@@ -123,14 +126,15 @@ export class DataTable extends PxConfig {
                 ...attach
             });
             this.selectAction(table, dt, op);
+            const capitalize = (str = '') => str.charAt(0).toUpperCase() + str.slice(1);
             f?.filters?.forEach(function (item) {
                 let key = item.key;
-                $('#search' + PX?.utils?.capitalize(key)).on('click', function () {
+                $('#search' + capitalize(key)).on('click', function () {
                     if ($("#" + key).val() !== '') {
                         dt.draw();
                     }
                 });
-                $('#clear' + PX?.utils?.capitalize(key)).on('click', function () {
+                $('#clear' + capitalize(key)).on('click', function () {
                     if ($("#" + key).val() != '') {
                         $("#" + key).val('');
                         dt.draw();
@@ -170,7 +174,7 @@ export class DataTable extends PxConfig {
     }
     showSelected(dt, op = {}) {
         let count = dt.rows('.selected').data().length;
-        if (count == "0") {
+        if (count == 0) {
             $("#show_selected").html('');
             $("#show_selected_base").css({ marginLeft: "-1500px" });
         } else {

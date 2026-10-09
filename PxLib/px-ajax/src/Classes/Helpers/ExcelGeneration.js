@@ -9,18 +9,18 @@ export class ExcelGeneration extends PxConfig {
         let context = this;
         $("#" + btn).on("click", function () {
             let newOp = { ...op, ...JSON.parse($(this).attr('data-excel-op') ?? '{"no":"no"}') };
-            console.log(newOp);
             context?.MakeExcel(newOp);
         });
     }
 
     MakeExcel(op = {}) {
         const { file_name = "file_name", dataTable = undefined, dataSrc = [], columns = [], pdf = [] } = op;
-        if (dataSrc.length == 0) {
-            data = [];
-        }
         op['filterColumn'] = [...columns].filter((item, key) => { return pdf.includes(key); });
-        let { body = [], width = [] } = getExcelBody(dataSrc, op);
+        if (typeof XLSX === 'undefined') {
+            console.error('MakeExcel requires the XLSX (SheetJS) library.');
+            return;
+        }
+        let { body = [], width = [] } = getExcelBody(dataSrc ?? [], op);
         if (body.length > 0) {
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet(body);

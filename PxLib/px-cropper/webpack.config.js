@@ -16,11 +16,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "dist"),
-        library: "PX",
         filename: "px.js",
-        libraryTarget: "umd",
-        libraryExport: "default",
-        globalObject: "this",
         clean: true,
     },
     mode: "production",

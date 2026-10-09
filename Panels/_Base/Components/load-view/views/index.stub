@@ -6,6 +6,9 @@
                 <div class="">
                     @include('{{bladeRoute}}.load.{{loadViewKebab}}.fragments._breadcum')
                     {{navInc}}
+                    <div class="tool-box d-flex flex-row justify-content-end align-items-center bread-cum">
+                        {{-- vpx:buttons --}}
+                    </div>
                     <div class="page-block-body">
                         <div class="card rounded page-block">
                             {{navTrigger}}

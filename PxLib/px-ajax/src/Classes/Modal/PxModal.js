@@ -13,9 +13,9 @@ export class PxModal extends PxConfig {
             $(document).ready(function(){
                 $('.editmodal').on('show.bs.modal', function (e) {
                     var trig = $(e.relatedTarget);
-                    if (trig.attr("data-bs-target") === ".editmodal") {
+                    if (trig.attr("data-bs-target") === ".editmodal" && trig.attr("data-edit-prop")) {
                         var op = JSON.parse(trig.attr("data-edit-prop"));
-                        context?.actionModal({...op,context: parentContext},parentContext?.ajaxRequest);
+                        context?.actionModal({...op,context: parentContext},parentContext?.ajaxRequest?.bind(parentContext));
                     }
                 });
 
@@ -46,7 +46,7 @@ export class PxModal extends PxConfig {
     actionModal(op={},ajaxRequest) {
         const context = this;
         const {element="NA",script="/", body={},title="No title provided",modalSize=undefined} = op;
-        $(".modal-body, .modal-title").html('<img src="' + baseurl + 'images/system/loader6.gif" style="width: 20px;height:20px;"> Loading...');
+        $(".modal-body, .modal-title").html('<span class="px-spinner px-spinner-sm d-inline-block align-middle me-2"></span> Loading...');
         let modalSizeClass = "modal-dialog modal-xl";
         if(modalSize) {
             modalSizeClass = `modal-dialog modal-${modalSize}`;

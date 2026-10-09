@@ -1,5 +1,4 @@
 import './src/Css/App.css';
-import './src/Css/App.css';
 import { PxValidations } from '@app/Classes/Helpers/PxValidations';
 import { PxFactory } from './src/Classes/PxFactory';
 import { DataTable } from './src/Classes/DataTable/DataTable';
@@ -10,7 +9,6 @@ import { ExcelGeneration } from './src/Classes/Helpers/ExcelGeneration';
 import { PxErrors } from './src/Classes/Helpers/PxErrors';
 import { PxModal } from './src/Classes/Modal/PxModal';
 import { PxUtils } from './src/Classes/Helpers/PxUtils';
-import './src/Classes/Lib/PxCropper';
 import { PxCropper } from './src/Classes/Lib/PxCropper';
 class PX extends PxFactory {
     constructor(props){
@@ -37,18 +35,15 @@ class PX extends PxFactory {
      * @returns {number} - Returns 0 if no options are provided
      */
     ajaxRequest(op = {}, callBack = undefined) {
-        if (op == {}) {
+        if (!op || Object.keys(op).length === 0) {
             return 0;
         }
+        const context = op?.context ?? this;
         const {validation = undefined } = op;
         if(validation) {
-            this?.validation?.validate(op,(op)=>{this?.send(op,callBack)},callBack)
+            context?.validation?.validate(op,(op)=>{context?.send(op,callBack)},callBack)
         } else {
-            if(op?.context) {
-                op?.context?.requestGate(op);
-            } else {
-                this?.requestGate(op);
-            }
+            context?.requestGate(op, callBack);
         }
     }
 
@@ -61,11 +56,11 @@ class PX extends PxFactory {
     }
 
     deleteAll(op){
-        this?.bulk?.deleteAll({...op,context: this},this.ajaxRequest);
+        this?.bulk?.deleteAll({...op,context: this},this.ajaxRequest.bind(this));
     }
 
     dowloadPdf(op){
-        this?.pdf?.dowloadPdf({...op,context: this});
+        this?.pdf?.dowloadPdf({...op,context: this},this.ajaxRequest.bind(this));
     }
 
     dowloadExcel(op){
@@ -74,7 +69,7 @@ class PX extends PxFactory {
 
 
     updateAll(op){
-        this?.bulk?.updateAll({...op,context: this},this.ajaxRequest);
+        this?.bulk?.updateAll({...op,context: this},this.ajaxRequest.bind(this));
     }
 
     /**
@@ -93,9 +88,9 @@ class PX extends PxFactory {
     init(){
         const context =this;
         if(window) {
-            window.onload = function() {
+            window.addEventListener('load', function() {
                 $(".disBtn").attr('disabled',false);
-            };
+            });
             this.#pageAction();
             $(".p-link").each(function () {
                 if ($(this).attr("href") == window.location.href) {
@@ -145,11 +140,17 @@ class PX extends PxFactory {
     }
 
     openNav(id,width=250) {
-        document.getElementById(id).style.width = width+"px";
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.width = width+"px";
+        }
     }
 
     closeNav(id) {
-        document.getElementById(id).style.width = "0";
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.width = "0";
+        }
     }
 
     inflatesuccess(msg,op={}) {
@@ -164,7 +165,7 @@ class PX extends PxFactory {
         let context = this;
         $(".viewAction").unbind("click");
         $(".viewAction").on("click", function () {
-            const prop = JSON.parse($(this).attr('data-prop'));
+            const prop = JSON.parse($(this).attr('data-prop') ?? '{}');
             const { page = "addPage", server = "no", method = "post", type = "request", target = "loadEdit", afterSuccess = { type: "load_html" }, dataType = "json" } = prop;
             $(".pages").addClass('d-none').removeClass('d-block');
             $("#" + page).removeClass('d-none').addClass('d-block');

@@ -11,7 +11,7 @@ export class PxDataSetup extends PxConfig {
         if (status) {
             return true;
         } else {
-            $.alert('<span style="font-size: 13px;color: #ff0101;">'+this?.G.mgs.no_internet+'</span>');
+            $.alert('<span style="font-size: 13px;color: #ff0101;">'+(this?.G?.mgs?.no_internet ?? 'No internet connection')+'</span>');
             return false;
         }
     }
@@ -22,7 +22,7 @@ export class PxDataSetup extends PxConfig {
         let auth_uuid = $("#auth_uuid").val() ?? op?.auth_uuid;
         if(form != null) {
             let fData = new FormData(form);
-            fData.append("_token",csrf_token);
+            fData.append("_token",this?.G?.csrf_token);
             fData.append("client","w");
             fData.append('auth_uuid',auth_uuid)
             data = fData;
@@ -43,11 +43,11 @@ export class PxDataSetup extends PxConfig {
                 for (const mgsKey in element) {
                     if (Object.hasOwnProperty.call(element, mgsKey)) {
                         const mgsElement = element[mgsKey];
-                        let  digits = this?.G?.digits[mgsElement];
+                        let  digits = this?.G?.digits?.[mgsElement];
                         if (digits !== void 0) {
                             langOb['digits'] = digits;
                         }
-                        let  attributes = this?.G?.attributes[mgsElement];
+                        let  attributes = this?.G?.attributes?.[mgsElement];
                         if (attributes !== void 0) {
                             langOb['attributes'] = attributes;
                         }
@@ -64,6 +64,6 @@ export class PxDataSetup extends PxConfig {
     }
 
     fReset(f) {
-        $("#" + f)[0].reset();
+        $("#" + f)[0]?.reset();
     }
 }

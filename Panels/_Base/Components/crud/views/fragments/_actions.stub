@@ -18,5 +18,6 @@
             <button class="btn btn-warning btn-soft-warning d-flex justify-items-center align-items-center  fw-bold" id="download{{model}}Excel"  data-excel-op='{"file_name":"{{ config('i.service_domain').'_{{modelDown}}_list'  }}"}'><span class="bx bxs-file-export"></span> <span class="d-none d-md-block ms-1"> {{pxLang($data['lang'],'','common.btns.crud_excel')}}  </span> </button>
         @endcan
     @endif
+    {{-- vpx:buttons --}}
 </div>
 

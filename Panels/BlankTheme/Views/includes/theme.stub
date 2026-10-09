@@ -10,4 +10,5 @@
     }
     .px-spinner-sm { width: 28px; height: 28px; border-width: 3px; }
     @keyframes px-spin { to { transform: rotate(360deg); } }
+    .tool-box:not(:has(> *)) { display: none !important; }
 </style>

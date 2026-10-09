@@ -17,6 +17,7 @@ export class PxCropper {
     };
     this.modal = null;
     this.state = null;
+    this.unbindEvents = null;
   }
 
   dataURLToBlob(dataURL) {
@@ -171,6 +172,9 @@ export class PxCropper {
     const self = this;
     let dragging = false;
 
+    // Remove listeners from a previous open so they do not stack up.
+    if (typeof this.unbindEvents === "function") this.unbindEvents();
+
     const getPointer = (e) => e.touches && e.touches.length ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : { x: e.clientX, y: e.clientY };
     const toCanvasCoords = (x, y) => {
       const rect = canvas.getBoundingClientRect();
@@ -185,7 +189,7 @@ export class PxCropper {
     };
 
     const drag = (e) => {
-      if (!dragging) return;
+      if (!dragging || !self.state) return;
       e.preventDefault();
       const p = getPointer(e);
       const cur = toCanvasCoords(p.x, p.y);
@@ -202,6 +206,7 @@ export class PxCropper {
 
     const zoomWheel = (e) => {
       e.preventDefault();
+      if (!self.state || !self.state.img.naturalWidth) return;
 
       const factor = e.deltaY < 0 ? 1.08 : 0.92; // scroll up = zoom in, scroll down = zoom out
       const pointer = toCanvasCoords(e.clientX, e.clientY);
@@ -242,7 +247,9 @@ export class PxCropper {
     };
 
     const zoomInput = () => {
+      if (!self.state || !self.state.img.naturalWidth) return;
       const val = parseFloat(m.$zoom.val());
+      if (!val || val <= 0) return;
       const box = m.$cropBox[0].getBoundingClientRect();
       const rect = canvas.getBoundingClientRect();
       const cx = (box.left + box.right) / 2 - rect.left;
@@ -264,9 +271,22 @@ export class PxCropper {
     window.addEventListener("mouseup", endDrag);
     window.addEventListener("touchend", endDrag);
     canvas.addEventListener("wheel", zoomWheel, { passive: false });
-    m.$zoom.on("input change", zoomInput);
+    m.$zoom.off("input.icp change.icp").on("input.icp change.icp", zoomInput);
+
+    this.unbindEvents = () => {
+      canvas.removeEventListener("mousedown", startDrag);
+      canvas.removeEventListener("touchstart", startDrag);
+      window.removeEventListener("mousemove", drag);
+      window.removeEventListener("touchmove", drag);
+      window.removeEventListener("mouseup", endDrag);
+      window.removeEventListener("touchend", endDrag);
+      canvas.removeEventListener("wheel", zoomWheel);
+      m.$zoom.off("input.icp change.icp");
+      self.unbindEvents = null;
+    };
 
     const closeModal = () => {
+      if (typeof self.unbindEvents === "function") self.unbindEvents();
       m.$overlay.fadeOut(120);
       self.state = null;
       if (typeof settings.onClose === "function") settings.onClose();
@@ -304,6 +324,7 @@ export class PxCropper {
   }
 
   onImageLoad(m, settings) {
+    if (!this.state) return;
     const canvas = m.$canvas[0];
     const ctx = canvas.getContext("2d");
     const parentRect = m.$canvas.parent()[0].getBoundingClientRect();
@@ -353,6 +374,7 @@ export class PxCropper {
   }
 
   renderCanvas(m) {
+    if (!this.state) return;
     const canvas = m.$canvas[0];
     const ctx = canvas.getContext("2d");
     const dpr = window.devicePixelRatio || 1;
@@ -384,6 +406,7 @@ export class PxCropper {
   }
 
   renderPreview(m) {
+    if (!this.state) return;
     const canvas = m.$canvas[0];
     const cropBox = m.$cropBox[0].getBoundingClientRect();
     const canvasRect = canvas.getBoundingClientRect();
@@ -404,7 +427,7 @@ export class PxCropper {
   }
 
   async produceResult(m, settings,fileName='cropped') {
-    if (!this.state || !this.state.img) return null;
+    if (!this.state || !this.state.img || !this.state.img.naturalWidth) return null;
 
     const cropBox = m.$cropBox[0].getBoundingClientRect();
     const canvasRect = m.$canvas[0].getBoundingClientRect();
@@ -442,7 +465,17 @@ export class PxCropper {
       mimeType: settings.mimeType,
       width: outW,
       height: outH,
-      fileName,
+      fileName: this.matchExtension(fileName, settings.mimeType),
     };
+  }
+
+  // Keep the file extension in line with the encoded output type.
+  matchExtension(fileName, mimeType) {
+    const extMap = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
+    const ext = extMap[mimeType];
+    const name = fileName || "cropped";
+    if (!ext) return name;
+    const base = name.includes(".") ? name.slice(0, name.lastIndexOf(".")) : name;
+    return `${base}.${ext}`;
   }
 }

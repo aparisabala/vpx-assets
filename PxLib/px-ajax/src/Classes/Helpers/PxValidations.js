@@ -18,11 +18,11 @@ export class PxValidations extends PxConfig {
      */
     validate(op = {}, send, callBack) {
         const { element = "no", rules = {}, messages = {}, afterValidation = undefined } = op;
-        let common_message = this?.pxDataSetup?.getMessageBags(rules, this?.G.mgs);
+        let common_message = this?.pxDataSetup?.getMessageBags(rules, this?.G?.mgs);
         let context = this;
         $("#" + element).validate({
             rules: rules,
-            messages: (this?.G.isEmptyObjcet(messages)) ? common_message : messages,
+            messages: (this?.G?.isEmptyObjcet(messages)) ? common_message : messages,
             errorElement: "em",
             errorPlacement: function (error, element) {
                 error.addClass("invalid-feedback");

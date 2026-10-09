@@ -8,16 +8,28 @@ export class PxConfig {
      * @returns {Object} - The configuration object
      */
     getConfig(){
+        const parseValue = (id, fallback) => {
+            const el = document.getElementById(id);
+            if (!el || !el.value) {
+                return fallback;
+            }
+            try {
+                return JSON.parse(el.value);
+            } catch (e) {
+                console.error(`PX: invalid JSON in #${id}`, e);
+                return fallback;
+            }
+        };
         return {
             csrf_token : $('meta[name="_token"]').attr('content'),
             baseUrl : $("#base-url").val(),
             uploadUrl : $("#service-domain").val() + "/summernote/",
-            mgs:  (document.getElementById('language-pack')) ? JSON.parse(document.getElementById('language-pack').value) : {},
-            digits: (document.getElementById('digits')) ? JSON.parse(document.getElementById('digits').value) : {},
-            attributes: (document.getElementById('attributes')) ? JSON.parse(document.getElementById('attributes').value) : {},
-            pageLang: ($("#page-lang").length > 0) ? JSON.parse($("#page-lang").val()) : null,
-            policy: ($("#systemPolicies").length > 0) ? JSON.parse($("#systemPolicies").val()) : {},
-            user_access : ($("#user_access").length > 0) ? JSON.parse($("#user_access").val()) : {},
+            mgs: parseValue('language-pack', {}),
+            digits: parseValue('digits', {}),
+            attributes: parseValue('attributes', {}),
+            pageLang: parseValue('page-lang', null),
+            policy: parseValue('systemPolicies', {}),
+            user_access : parseValue('user_access', {}),
             local: 'en',
             lang: function (op = {}) {
                 let ob = {};
@@ -28,7 +40,7 @@ export class PxConfig {
                         if (typeof (langElement) == "object") {
                             for (const key in langElement) {
                                 if (Object.hasOwnProperty.call(langElement, key)) {
-                                    const element = langElement[key].toString();
+                                    const element = String(langElement[key] ?? '');
                                     ob[key] = this.getMatchedString(element, op);
                                 }
                             }

@@ -25,23 +25,23 @@ export class PxFactory extends PxConfig {
      *
      * @returns {number} - Returns 0 if no options are provided
      * */
-    requestGate(op) {
-        const { type = "n/a", element = "n/a",callBack=undefined} = op;
+    requestGate(op, callBackArg = undefined) {
+        const { type = "n/a", element = "n/a"} = op;
+        const callBack = callBackArg ?? op?.callBack;
+        const context = this;
         switch (type) {
             case "submit":
-                let context = this;
-                $("#" + element).on("submit", function (e) {
+                $("#" + element).off("submit.px").on("submit.px", function (e) {
                     e.preventDefault();
                     let formData = context.#pxDataSetup?.getRequestData({ ...op, form: this })
                     if (context.#pxDataSetup?.hasInternet()) {
-                        op.body = formData
-                        this?.send(op, callBack);
+                        context?.send({ ...op, body: formData, form: this }, callBack);
                     }
                 });
                 break;
             case "request":
                 if (this.#pxDataSetup?.hasInternet()) {
-                    this?.send({...op,body: this.#pxDataSetup?.getRequestData(op), callBack});
+                    this?.send({...op,body: this.#pxDataSetup?.getRequestData(op)}, callBack);
                 }
                 break;
             default:
@@ -56,7 +56,7 @@ export class PxFactory extends PxConfig {
      */
     send(op, callBack) {
         const { confirm = false, afterSuccess=undefined,beforeSend=undefined} = op;
-        if(afterSuccess?.type && afterSuccess?.type == "load_html" && afterSuccess?.reload || afterSuccess?.type == "api_response") {
+        if((afterSuccess?.type == "load_html" && afterSuccess?.reload) || afterSuccess?.type == "api_response") {
             const {target="none"} = afterSuccess;
             $("#"+target).html("");
         }
@@ -78,19 +78,23 @@ export class PxFactory extends PxConfig {
      */
     ajax(op={},callback=undefined) {
         const {globLoader=true,loaderId='theGlobalLoader',loaderActiveId='activeGlobalLoader',error_view='error_view'} = op;
+        const context = this;
+        const isLocal = typeof local !== 'undefined' && local;
         if(globLoader) {
             $('#'+loaderId).addClass(loaderActiveId).css({ "display": "block" });
         }
         const config = this.#getAjaxReqConfig(op);
         $("."+error_view).html('');
         $.ajax(config).done(function (response) {
-            if(local) {
+            if(isLocal) {
                 console.log(response);
             }
-            callback({...op,response});
+            if (callback) {
+                callback({...op,response});
+            }
             return false;
         }).fail(function (xhr, status, error, req) {
-            if (local) {
+            if (isLocal) {
                 console.log(status);
                 console.log(error);
                 console.log(req);
@@ -99,11 +103,11 @@ export class PxFactory extends PxConfig {
                 $('#'+loaderId).removeClass(loaderActiveId).css({ "display": "none" });
             }
             if (xhr.readyState == 0) {
-                this?.pxErros?.noServer();
+                context.#pxErrors?.noServer();
             } else {
-                if (local) {
+                if (isLocal) {
                     console.log(xhr.responseText);
-                    this?.pxErros?.scriptError(xhr);
+                    context.#pxErrors?.scriptError(xhr);
                 }
             }
         });
@@ -118,7 +122,7 @@ export class PxFactory extends PxConfig {
         const { script='/', body={}, method='POST', dataType='formData',bearer='',fullUri=false} = op;
         let config  = {
             method: method,
-            url: (!fullUri) ? baseurl + script  : fullUri,
+            url: (!fullUri) ? (typeof baseurl !== 'undefined' ? baseurl : '') + script  : fullUri,
             data: body,
             contentType: false,
             cache: true,

@@ -409,6 +409,7 @@ code { color: var(--px-accent); }
 .bread-cum { margin: 0 0 16px; }
 .tool-box { flex-wrap: wrap; gap: 8px; }
 .tool-box .btn { margin: 0 !important; }
+.tool-box:not(:has(> *)) { display: none !important; }
 .table-list hr { color: var(--px-border); }
 .p-link { display: inline-block; padding: 12px 6px; color: var(--px-muted); border-bottom: 2px solid transparent; font-weight: 600; }
 .p-link.p-link-active { color: var(--px-accent) !important; border-bottom-color: var(--px-accent); }

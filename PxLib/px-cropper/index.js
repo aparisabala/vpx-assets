@@ -44,6 +44,132 @@
 
     let modal = null, state = null;
 
+    function getCropMapping() {
+      const canvas = modal.$canvas[0];
+      const cropBox = modal.$cropBox[0].getBoundingClientRect();
+      const canvasRect = canvas.getBoundingClientRect();
+      return {
+        srcX: (cropBox.left - canvasRect.left - state.translate.x) / state.scale,
+        srcY: (cropBox.top - canvasRect.top - state.translate.y) / state.scale,
+        srcW: cropBox.width / state.scale,
+        srcH: cropBox.height / state.scale
+      };
+    }
+
+    function render() {
+      if (!modal || !state) return;
+      const canvas = modal.$canvas[0];
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const width = canvas.width / dpr;
+      const height = canvas.height / dpr;
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = '#222';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.save();
+      ctx.translate(state.translate.x, state.translate.y);
+      ctx.scale(state.scale, state.scale);
+      ctx.drawImage(state.img, 0, 0);
+      ctx.restore();
+
+      const cropBox = modal.$cropBox[0].getBoundingClientRect();
+      const canvasRect = canvas.getBoundingClientRect();
+      const x = cropBox.left - canvasRect.left;
+      const y = cropBox.top - canvasRect.top;
+      const w = cropBox.width;
+      const h = cropBox.height;
+
+      ctx.fillStyle = 'rgba(0,0,0,0.45)';
+      ctx.fillRect(0, 0, width, y);
+      ctx.fillRect(0, y, x, h);
+      ctx.fillRect(x + w, y, width - (x + w), h);
+      ctx.fillRect(0, y + h, width, height - (y + h));
+    }
+
+    function drawPreview() {
+      if (!modal || !state) return;
+      const mapping = getCropMapping();
+      const pcanvas = modal.$previewCanvas[0];
+      const pctx = pcanvas.getContext('2d');
+      pctx.clearRect(0, 0, pcanvas.width, pcanvas.height);
+      pctx.fillStyle = '#fff';
+      pctx.fillRect(0, 0, pcanvas.width, pcanvas.height);
+      pctx.drawImage(state.img, mapping.srcX, mapping.srcY, mapping.srcW, mapping.srcH, 0, 0, pcanvas.width, pcanvas.height);
+    }
+
+    function bindPanZoom(m) {
+      const canvas = m.$canvas[0];
+      let dragging = false;
+      let lastPointer = null;
+      const isReady = () => state && state.imgNaturalWidth;
+      const getPointer = (e) => (e.touches && e.touches.length)
+        ? { x: e.touches[0].clientX, y: e.touches[0].clientY }
+        : { x: e.clientX, y: e.clientY };
+      const toCanvasCoords = (x, y) => {
+        const rect = canvas.getBoundingClientRect();
+        return { x: x - rect.left, y: y - rect.top };
+      };
+      const zoomAt = (newScale, point) => {
+        const oldScale = state.scale;
+        const dx = (point.x - state.translate.x) / oldScale;
+        const dy = (point.y - state.translate.y) / oldScale;
+        state.scale = newScale;
+        state.translate.x = point.x - dx * newScale;
+        state.translate.y = point.y - dy * newScale;
+        render();
+        drawPreview();
+      };
+
+      canvas.addEventListener('mousedown', startDrag);
+      canvas.addEventListener('touchstart', startDrag, { passive: false });
+      window.addEventListener('mousemove', drag);
+      window.addEventListener('touchmove', drag, { passive: false });
+      window.addEventListener('mouseup', endDrag);
+      window.addEventListener('touchend', endDrag);
+      canvas.addEventListener('wheel', function (e) {
+        if (!isReady()) return;
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.08 : 0.92;
+        const min = parseFloat(m.$zoom.attr('min')) || 0.1;
+        const max = parseFloat(m.$zoom.attr('max')) || 10;
+        const newScale = clamp(state.scale * factor, min, max);
+        m.$zoom.val(newScale);
+        zoomAt(newScale, toCanvasCoords(e.clientX, e.clientY));
+      }, { passive: false });
+      m.$zoom.on('input change', function () {
+        if (!isReady()) return;
+        const val = parseFloat(m.$zoom.val());
+        if (!val || val <= 0) return;
+        const box = m.$cropBox[0].getBoundingClientRect();
+        const rect = canvas.getBoundingClientRect();
+        zoomAt(val, { x: (box.left + box.right) / 2 - rect.left, y: (box.top + box.bottom) / 2 - rect.top });
+      });
+
+      function startDrag(e) {
+        if (!isReady()) return;
+        e.preventDefault();
+        dragging = true;
+        const p = getPointer(e);
+        lastPointer = toCanvasCoords(p.x, p.y);
+      }
+      function drag(e) {
+        if (!dragging || !isReady()) return;
+        e.preventDefault();
+        const p = getPointer(e);
+        const cur = toCanvasCoords(p.x, p.y);
+        state.translate.x += cur.x - lastPointer.x;
+        state.translate.y += cur.y - lastPointer.y;
+        lastPointer = cur;
+        render();
+        drawPreview();
+      }
+      function endDrag() {
+        dragging = false;
+      }
+    }
+
     function createModal() {
       if (modal) return modal;
       const $overlay = $('<div class="icp-overlay" style="display:none"></div>');
@@ -101,6 +227,7 @@
         $confirm: $modal.find('.icp-confirm, .icp-confirm2'),
         $cancel: $modal.find('.icp-cancel, .icp-cancel2')
       };
+      bindPanZoom(modal);
       return modal;
     }
 
@@ -195,7 +322,7 @@
       m.$overlay.fadeIn(100);
       if (typeof settings.onOpen === 'function') settings.onOpen();
       async function produceResult() {
-        if (!state || !state.img) return null;
+        if (!state || !state.img || !state.imgNaturalWidth) return null;
         const mapping = getCropMapping();
         let sx = Math.max(0, mapping.srcX);
         let sy = Math.max(0, mapping.srcY);

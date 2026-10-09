@@ -168,7 +168,7 @@ export function getTableObject(element, op = {}) {
     let content = getTableBodyContent(nodes);
     let body = content.body;
     let headerWidth = content.headerWidth;
-    obj = {
+    let obj = {
         layout,
         table: {
             widths: headerWidth,
@@ -188,13 +188,13 @@ export function getTableBodyContent(nodes) {
             let TR = node.childNodes;
             TR.forEach((tr) => {
                 let columns = [];
-                let trStyles = JSON.parse(tr.getAttribute('data-style'));
                 if (tr.tagName === "TR") {
+                    let trStyles = JSON.parse(tr.getAttribute('data-style'));
                     let TD = tr.childNodes;
                     TD.forEach((td, index) => {
-                        if (td) {
+                        if (td && (td.tagName === "TH" || td.tagName === "TD")) {
                             let styles = JSON.parse(td.getAttribute('data-style'));
-                            if (td.tagName === "TH" || td.tagName === "TD") {
+                            {
                                 let moreNodes = td.childNodes;
                                 let rowSpanObject = (styles?.rowSpan) ? { rowSpan: styles?.rowSpan } : {};
                                 let colSpanObject = (styles?.colSpan) ? { colSpan: styles?.colSpan } : {};
@@ -341,7 +341,7 @@ export function cssToCamelCase(cssProp) {
 }
 
 export function getNestedValue(path, object) {
-    return path.split('.').reduce((o, i) => o[i], object)
+    return String(path ?? '').split('.').reduce((o, i) => o?.[i], object)
 }
 
 export function tableStack(rows, op) {
