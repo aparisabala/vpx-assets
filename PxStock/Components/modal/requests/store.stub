@@ -29,7 +29,8 @@ class Validate{{model}}Store extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:253|unique:{{tableName}},name'
+            'name' => 'required|string|max:253|unique:{{tableName}},name',
+            // vpx:rules
         ];
     }
 

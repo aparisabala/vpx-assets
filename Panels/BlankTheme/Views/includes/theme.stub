@@ -11,4 +11,6 @@
     .px-spinner-sm { width: 28px; height: 28px; border-width: 3px; }
     @keyframes px-spin { to { transform: rotate(360deg); } }
     .tool-box:not(:has(> *)) { display: none !important; }
+    .px-form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); column-gap: 20px; align-content: start; }
+    .px-form-grid > .form-group:has(textarea), .px-form-grid > .text-end, .px-form-grid > :not(.form-group) { grid-column: 1 / -1; }
 </style>

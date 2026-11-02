@@ -13,6 +13,10 @@ class {{model}} extends Model
     protected $fillable = [
         'name',
         //'serial'
+        // vpx:fillable
+    ];
+    protected $casts = [
+        // vpx:casts
     ];
     //vpx_attach
 }

@@ -32,6 +32,7 @@ class Validate{{model}}Update extends FormRequest
         if($row->isDirty('name')) {
             $rules['name'] = 'required|string|max:253|unique:{{tableName}},name';
         }
+        // vpx:rules
         return $rules;
     }
 

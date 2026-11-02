@@ -4,7 +4,8 @@ $(document).ready(function(){
             name: {
                 required: true,
                 maxlength: 253
-            }
+            },
+            // vpx:rules
         };
         PX.ajaxRequest({
             element: 'frm{{model}}{{lastNameSpace}}Store',

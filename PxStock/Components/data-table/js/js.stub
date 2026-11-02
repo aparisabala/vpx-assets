@@ -22,6 +22,7 @@ $(document).ready(function(){
                 title: table?.name
             },
 
+            // vpx:columns
             {
                 data: 'created_at',
                 title: table?.created

@@ -5,7 +5,8 @@ $(document).ready(function(){
             name: {
                 required: true,
                 maxlength: 253
-            }
+            },
+            // vpx:rules
         };
         PX.ajaxRequest({
             element: 'frmStore{{model}}',
@@ -23,7 +24,8 @@ $(document).ready(function(){
             name: {
                 required: true,
                 maxlength: 253
-            }
+            },
+            // vpx:rules
         };
         PX.ajaxRequest({
             element: 'frmUpdate{{model}}',
@@ -58,6 +60,7 @@ $(document).ready(function(){
                 title: table?.name
             },
 
+            // vpx:columns
             {
                 data: 'created_at',
                 title: table?.created

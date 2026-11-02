@@ -15,11 +15,16 @@ return [
     ],
     'fields' => [
         'name' => 'Name',
+        // vpx:lang-fields
+    ],
+    'options' => [
+        // vpx:lang-options
     ],
     'table' => [
         'id' => 'ID',
         'name' => 'Name',
         'created' => 'Created',
         'actions' => 'Actions',
-    ]
+        // vpx:lang-table
+    ],
 ];
