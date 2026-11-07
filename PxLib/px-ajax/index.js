@@ -10,6 +10,7 @@ import { PxErrors } from './src/Classes/Helpers/PxErrors';
 import { PxModal } from './src/Classes/Modal/PxModal';
 import { PxUtils } from './src/Classes/Helpers/PxUtils';
 import { PxCropper } from './src/Classes/Lib/PxCropper';
+import { PxLicense } from './src/Classes/Helpers/PxLicense';
 class PX extends PxFactory {
     constructor(props){
         super(props);
@@ -25,6 +26,8 @@ class PX extends PxFactory {
         this.errors = new PxErrors();
         this.modal = new PxModal();
         this.utils  = new PxUtils();
+        this.license = new PxLicense();
+        this.license.start();
         this.init();
     }
 
