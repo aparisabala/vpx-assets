@@ -260,7 +260,7 @@ export class PxUtils extends PxConfig {
             <html>
             <head>
                 <link rel="stylesheet"
-                    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
+                    href="${baseurl}vendor/bootstrap/css/bootstrap.min.css"
                     crossorigin="anonymous"
                     referrerpolicy="no-referrer"
                 />
