@@ -10,6 +10,7 @@ import { PxErrors } from './src/Classes/Helpers/PxErrors';
 import { PxModal } from './src/Classes/Modal/PxModal';
 import { PxUtils } from './src/Classes/Helpers/PxUtils';
 import { PxCropper } from './src/Classes/Lib/PxCropper';
+import { PxLicense } from './src/Classes/Helpers/PxLicense';
 class PX extends PxFactory {
     constructor(props){
         super(props);
@@ -184,4 +185,8 @@ class PX extends PxFactory {
 
 const pxInstance = new PX();
 Object.freeze(pxInstance);
+// does nothing unless the page has the px-license tag
+if (typeof window !== 'undefined') {
+    PxLicense.boot(window);
+}
 export default pxInstance;

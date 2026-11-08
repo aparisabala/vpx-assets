@@ -251,6 +251,9 @@ export class PxUtils extends PxConfig {
             console.error(`Print: element with id '${elem}' not found.`);
             return;
         }
+        // the Bootstrap this page already uses, so printing works where the page works, even with no internet
+        const pageBootstrap = document.querySelector('link[rel="stylesheet"][href*="bootstrap.min.css"]')?.href;
+        const bootstrapHref = pageBootstrap || "https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css";
         var newWin = window.open('', 'Print-Window');
         if (!newWin) {
             return;
@@ -260,7 +263,7 @@ export class PxUtils extends PxConfig {
             <html>
             <head>
                 <link rel="stylesheet"
-                    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
+                    href="${bootstrapHref}"
                     crossorigin="anonymous"
                     referrerpolicy="no-referrer"
                 />

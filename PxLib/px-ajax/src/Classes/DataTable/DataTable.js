@@ -1,5 +1,30 @@
 import { PxConfig } from "../PxConfig";
 
+// the same words as resources/lang/en/dt.json
+const DT_ENGLISH = {
+    sEmptyTable: "No data available in table",
+    sInfo: "_START_ - _END_ of _TOTAL_",
+    sInfoEmpty: "Showing 0 to 0 of 0 entries",
+    sInfoFiltered: "(filtered from _MAX_ total entries)",
+    sInfoPostFix: "",
+    sInfoThousands: ",",
+    sLengthMenu: "Show _MENU_ entries",
+    sLoadingRecords: "Loading...",
+    sProcessing: "Processing...",
+    sSearch: "Search:",
+    sZeroRecords: "No matching records found",
+    oPaginate: {
+        sFirst: "First",
+        sLast: "Last",
+        sNext: " &#8594; ",
+        sPrevious: " &#8592; "
+    },
+    oAria: {
+        sSortAscending: ": activate to sort column ascending",
+        sSortDescending: ": activate to sort column descending"
+    }
+};
+
 export class DataTable extends PxConfig {
 
     makeAjaxDataTable(table, op = {}, attach = {}) {
@@ -25,9 +50,11 @@ export class DataTable extends PxConfig {
         f.columns = op.columns || [];
         f.checkClass = op.checkClass || 'form-check-input dt-checkboxes';
         f.body = op.body || {};
+        // English needs no file, so no request that can miss. Other languages come from resources/lang/{locale}/dt.json
+        const locale = $("#locale").val();
         const base = (typeof baseurl !== 'undefined') ? baseurl : '';
-        f.language = {
-            url: base + "../resources/lang/" + $("#locale").val() + "/dt.json"
+        f.language = (!locale || locale === 'en') ? DT_ENGLISH : {
+            url: base + "../resources/lang/" + locale + "/dt.json"
         }
         if (op.select != undefined) {
             if (op.select) {
