@@ -253,7 +253,8 @@ export class PxUtils extends PxConfig {
         }
         // the Bootstrap this page already uses, so printing works where the page works, even with no internet
         const pageBootstrap = document.querySelector('link[rel="stylesheet"][href*="bootstrap.min.css"]')?.href;
-        const bootstrapHref = pageBootstrap || "https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css";
+        const bootstrapHref = pageBootstrap
+            || (typeof baseurl !== 'undefined' ? baseurl + "vendor/bootstrap/css/bootstrap.min.css" : "https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css");
         var newWin = window.open('', 'Print-Window');
         if (!newWin) {
             return;
